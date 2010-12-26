@@ -43,6 +43,6 @@ public class Problem061 extends Problem<Long> {
 			}
 		}
 
-		return 0l;
+		return null;
 	}
 }

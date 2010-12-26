@@ -9,7 +9,7 @@ public class Pair<T, V> {
 
 	private final V second;
 
-	private Pair(T first, V second) {
+	public Pair(T first, V second) {
 		this.first = first;
 		this.second = second;
 	}

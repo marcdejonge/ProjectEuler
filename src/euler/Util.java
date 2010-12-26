@@ -229,7 +229,7 @@ public class Util {
 		return true;
 	}
 
-	private static long lastNumbersFact(long until, int mod) {
+	public static long lastNumbersFact(long until, int mod) {
 		long value = 1;
 		for (long i = 1; i <= until; i++) {
 			long m = i;
