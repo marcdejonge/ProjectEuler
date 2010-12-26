@@ -67,9 +67,7 @@ public class Problem060 extends Problem<Integer> {
 							}
 
 							// Found a possible combo!
-							//return sum;
-							System.out.println(toString(biggerSet));
-							System.out.println(sum);
+							return sum;
 						}
 					}
 				}
@@ -100,17 +98,5 @@ public class Problem060 extends Problem<Integer> {
 			total += x;
 		}
 		return total;
-	}
-
-	private String toString(BitSet bs) {
-		StringBuilder sb = new StringBuilder();
-		sb.append('[');
-		for (int x = bs.nextSetBit(0); x >= 0; x = bs.nextSetBit(x + 1)) {
-			sb.append(x);
-			sb.append(',');
-		}
-		sb.setLength(sb.length() - 1);
-		sb.append(']');
-		return sb.toString();
 	}
 }
