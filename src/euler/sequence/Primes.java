@@ -29,11 +29,49 @@ public class Primes extends AbstractSequence {
 			return result;
 		}
 	}
+	
+	private static class NumbersCalculator extends Thread {
+		private volatile Numbers numbers; 
 
-	public static class Numbers {
+		NumbersCalculator() {
+			super("NumbersCalculator");
+		}
+		
+		void setNext(Numbers next) {
+			synchronized(this) {
+				if(this.numbers == null && next.next == null) {
+					this.numbers = next;
+					this.notify();
+				}
+			}
+		}
+		
+		@Override
+		public void run() {
+			while(true) {
+				try {
+					synchronized(this) {
+						while(numbers == null) {
+							this.wait();
+						}
+						numbers.next = new Numbers(numbers);
+						currentMax = numbers.next.endNr;
+						numbers = null;
+					}
+				} catch (InterruptedException e) {
+					// Accept and continue
+					interrupted();
+				}
+			}
+		}
+	}
+	
+	private static final NumbersCalculator NUMBERS_CALCULATOR = new NumbersCalculator();
+
+	private static class Numbers {
 		private final long[] bits;
 
-		private Numbers next;
+		volatile Numbers next;
 
 		final long startNr, endNr;
 
@@ -43,6 +81,8 @@ public class Primes extends AbstractSequence {
 			};
 			startNr = 1;
 			endNr = startNr + bits.length * 128;
+			
+			NUMBERS_CALCULATOR.start();
 		}
 
 		private Numbers(Numbers last) {
@@ -72,14 +112,17 @@ public class Primes extends AbstractSequence {
 		}
 
 		synchronized Numbers getNext() {
-			if (next == null) {
-				next = new Numbers(this);
-				currentMax = next.endNr;
+			while (next == null) {
+				NUMBERS_CALCULATOR.setNext(this);
 			}
 			return next;
 		}
 
 		boolean isPrime(long nr) {
+			if(next == null) {
+				NUMBERS_CALCULATOR.setNext(this);
+			}
+			
 			if ((nr & 1) == 0) {
 				return nr == 2;
 			} else if (nr < startNr) {
@@ -95,13 +138,9 @@ public class Primes extends AbstractSequence {
 		}
 	}
 
-	public final static Numbers numbers = new Numbers();
+	private final static Numbers numbers = new Numbers();
 
-	private static long currentMax = numbers.endNr;
-
-	public final static Numbers getNumbers() {
-		return Primes.numbers;
-	}
+	static long currentMax = numbers.endNr;
 
 	public final static boolean isPrime(long nr) {
 		if (nr < currentMax) {
@@ -262,16 +301,14 @@ public class Primes extends AbstractSequence {
 		} else if (nr == 3) {
 			nr = 5;
 		} else {
-			nr += add;
-			add ^= 6;
 			while (true) {
+				nr += add;
+				add ^= 6;
 				if (nr >= current.endNr) {
 					current = current.getNext();
-				} else if (current.isPrime(nr)) {
+				} 
+				if (current.isPrime(nr)) {
 					break;
-				} else {
-					nr += add;
-					add ^= 6;
 				}
 			}
 		}
