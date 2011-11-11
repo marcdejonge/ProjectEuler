@@ -1,6 +1,6 @@
 package euler.sequence;
 
-public class AbundantNumbers extends Sequence {
+public class AbundantNumbers extends AbstractSequence {
 	public static void main(String[] args) {
 		System.out.println(new AbundantNumbers().toString(62));
 	}

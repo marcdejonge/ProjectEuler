@@ -1,6 +1,6 @@
 package euler.sequence;
 
-public class Primes extends Sequence {
+public class Primes extends AbstractSequence {
 	public static class FactorCalculator {
 		private static long[] factors = new long[128];
 

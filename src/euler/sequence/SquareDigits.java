@@ -4,7 +4,7 @@
 package euler.sequence;
 
 
-public class SquareDigits extends Sequence {
+public class SquareDigits extends AbstractSequence {
 	private final int n;
 
 	private int sqN, a, num, den, pos;

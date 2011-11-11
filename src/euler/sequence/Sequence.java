@@ -1,108 +1,42 @@
 package euler.sequence;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.math.BigInteger;
 
-public abstract class Sequence implements Iterable<Long> {
-	public static abstract interface Test {
-		public boolean test(long value);
-	}
+import euler.numberic.Number;
 
-	public Sequence() {
-		reset();
-	}
-
-	public abstract long current();
-
-	public void dropWhile(Test test) {
-		reset();
-		long nr = next();
-		while (test.test(nr)) {
-			nr = next();
-		}
-	}
-
-	public long get(int ix) {
-		for (int i = 1; i < ix; i++) {
-			next();
-		}
-		return next();
-	}
-
-	public long[] head(long until) {
-		ArrayList<Long> list = new ArrayList<Long>();
-		for (long nr = next(); nr < until; nr = next()) {
-			list.add(nr);
-		}
-
-		long[] result = new long[list.size()];
-		for (int i = 0; i < result.length; i++) {
-			result[i] = list.get(i).longValue();
-		}
-
-		return result;
-	}
-	
-	public int[] head(int until) {
-		ArrayList<Integer> list = new ArrayList<Integer>();
-		for (long nr = next(); nr < until; nr = next()) {
-			list.add((int) nr);
-		}
-		
-		int[] result = new int[list.size()];
-		for (int i = 0; i < result.length; i++) {
-			result[i] = list.get(i).intValue();
-		}
-		
-		return result;
-	}
-
-	public abstract long next();
-
-	public abstract int position();
-
-	public void reset() {
-		throw new UnsupportedOperationException();
-	}
+/**
+ * A {@link Sequence} is a series of number that can be read one at a time. The
+ * {@link Sequence} does not have to have a memory, so only the next number can
+ * be queries each time using the {@link #next()} method. The type of
+ * {@link java.lang.Number} can differ.
+ * 
+ * @author Marc de Jonge
+ * 
+ * @param <T>
+ *            The type of number that this method will return. Many will just
+ *            use longs for speed, but the {@link BigInteger} or {@link Number}
+ *            can also be used when in need of very large results.
+ */
+public interface Sequence<T extends java.lang.Number> {
+	/**
+	 * Returns the next number in this sequence. Depending on the type of
+	 * sequence, this probably needs some calculating and there are no
+	 * guarantees this will return within a certain amount of time. This method
+	 * may return <code>null</code> when the sequence is finished, but some
+	 * sequences may never end (e.g. prime numbers).
+	 * 
+	 * @return The next number in this sequence or <code>null</code> when there
+	 *         are no more numbers.
+	 */
+	T next();
 
 	/**
-	 * This returns the first 100 numbers and ends with three dots. Remember that this tries to call
-	 * {@link #next()} 100 times from the current point.
-	 * @see java.lang.Object#toString()
+	 * Should always return the number of times the {@link #next()} method has
+	 * been called. When more than {@link Integer#MAX_VALUE} call have been
+	 * made, this method can overflow and negative numbers may be returned. This
+	 * method should not be used for such long sequences.
+	 * 
+	 * @return The index of the current number in the sequence.
 	 */
-	@Override
-	public String toString() {
-		return toString(100);
-	}
-
-	public String toString(int max) {
-		StringBuilder sb = new StringBuilder();
-		sb.append('[');
-		for (int i = 0; i < max; i++) {
-			sb.append(next());
-			sb.append(", ");
-		}
-		sb.append("...");
-		return sb.toString();
-	}
-	
-	@Override
-	public Iterator<Long> iterator() {
-		return new Iterator<Long>() {
-			@Override
-			public boolean hasNext() {
-				return true; // There is always a next
-			}
-			
-			@Override
-			public Long next() {
-				return Sequence.this.next();
-			}
-			
-			@Override
-			public void remove() {
-				throw new UnsupportedOperationException();
-			}
-		};
-	}
+	int position();
 }

@@ -2,7 +2,7 @@ package euler.sequence;
 
 import java.util.Arrays;
 
-public class AmicableNumbers extends Sequence {
+public class AmicableNumbers extends AbstractSequence {
 	private long[] futureNrs;
 
 	private long n;

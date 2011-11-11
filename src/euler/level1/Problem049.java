@@ -9,7 +9,7 @@ import java.util.TreeSet;
 import euler.Problem;
 import euler.numberic.Number;
 import euler.sequence.Primes;
-import euler.sequence.Sequence.Test;
+import euler.sequence.AbstractSequence.Test;
 
 public class Problem049 extends Problem<Number> {
 

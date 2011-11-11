@@ -4,11 +4,11 @@ import euler.Pair;
 import euler.numberic.Number;
 
 public class ContinuedFraction {
-	private Sequence seq;
+	private AbstractSequence seq;
 	
 	private int length;
 	
-	public ContinuedFraction(Sequence sd) {
+	public ContinuedFraction(AbstractSequence sd) {
 		this.seq = sd;
 		length = 1;
 	}

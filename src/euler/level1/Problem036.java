@@ -2,9 +2,9 @@ package euler.level1;
 
 import euler.Problem;
 import euler.numberic.Number;
-import euler.sequence.Sequence;
+import euler.sequence.AbstractSequence;
 
-class Base2Palindromes extends Sequence {
+class Base2Palindromes extends AbstractSequence {
 	private long nr, last;
 
 	private boolean odd;

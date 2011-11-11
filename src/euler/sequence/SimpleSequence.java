@@ -1,7 +1,7 @@
 
 package euler.sequence;
 
-public abstract class SimpleSequence extends Sequence {
+public abstract class SimpleSequence extends AbstractSequence {
 	private int n;
 
 	public long getN() {

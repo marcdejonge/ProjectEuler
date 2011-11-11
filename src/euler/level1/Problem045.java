@@ -3,15 +3,15 @@ package euler.level1;
 import euler.Problem;
 import euler.sequence.HexagonalNumbers;
 import euler.sequence.PentagonalNumbers;
-import euler.sequence.Sequence;
+import euler.sequence.AbstractSequence;
 import euler.sequence.TriangleNumbers;
 
 public class Problem045 extends Problem<Long> {
 	@Override
 	public Long solve() {
-		Sequence tria = new TriangleNumbers();
-		Sequence pent = new PentagonalNumbers();
-		Sequence hexa = new HexagonalNumbers();
+		AbstractSequence tria = new TriangleNumbers();
+		AbstractSequence pent = new PentagonalNumbers();
+		AbstractSequence hexa = new HexagonalNumbers();
 
 		long t = tria.next();
 		long p = pent.next();
