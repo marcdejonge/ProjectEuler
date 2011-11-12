@@ -44,7 +44,7 @@ public class Problem079 extends Problem<Number> {
 		}
 		
 		// Now we have all the pairs loaded
-		System.out.println(pairs);
+//		System.out.println(pairs);
 		
 		Map<Byte, Pair<Set<Byte>, Set<Byte>>> splits = new HashMap<Byte, Pair<Set<Byte>,Set<Byte>>>();
 		for(byte center = 0; center <= 9; center++) {
