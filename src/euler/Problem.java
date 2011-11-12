@@ -119,6 +119,7 @@ public abstract class Problem<T> {
 		knownSolutions.put(164, Number.valueOf(378158756814587l));
 		knownSolutions.put(204, Number.valueOf(2944730));
 		knownSolutions.put(206, Number.valueOf(1389019170));
+		knownSolutions.put(357, Number.valueOf(1739023853137l));
 	}
 	
 	private static final <T> long execute(Problem<T> problem, java.lang.Number knownSolution) {
@@ -164,7 +165,7 @@ public abstract class Problem<T> {
 
 	public static void main(String[] args) {
 		if (args.length == 0) {
-			final int MAX = 250;
+			int MAX = 400;
 
 			System.out.println("Executing all problems...");
 			int found = 0, executed = 0, missing = 0;
