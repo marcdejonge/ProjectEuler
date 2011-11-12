@@ -3,7 +3,7 @@ package euler.level2;
 import euler.Problem;
 
 public class Problem073 extends Problem<Integer> {
-	private final static int MAX = 10000;
+	private final static int MAX = 12000;
 
 	@Override
 	public Integer solve() {
