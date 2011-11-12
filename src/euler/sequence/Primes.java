@@ -1,6 +1,14 @@
 package euler.sequence;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ForkJoinTask;
+import java.util.concurrent.RecursiveAction;
+
 public class Primes extends AbstractSequence {
+	public static final int NR_OF_PROCESSORS = Runtime.getRuntime().availableProcessors();
+
 	public static class FactorCalculator {
 		private static long[] factors = new long[128];
 
@@ -24,105 +32,97 @@ public class Primes extends AbstractSequence {
 			}
 
 			long[] result = new long[FactorCalculator.filled];
-			System.arraycopy(FactorCalculator.factors, 0, FactorCalculator.factors, 0,
-				FactorCalculator.filled);
+			System.arraycopy(FactorCalculator.factors, 0,
+					FactorCalculator.factors, 0, FactorCalculator.filled);
 			return result;
 		}
 	}
-	
-	private static class NumbersCalculator extends Thread {
-		private volatile Numbers numbers; 
 
-		NumbersCalculator() {
-			super("NumbersCalculator");
-		}
-		
-		void setNext(Numbers next) {
-			synchronized(this) {
-				if(this.numbers == null && next.next == null) {
-					this.numbers = next;
-					this.notify();
-				}
-			}
-		}
-		
-		@Override
-		public void run() {
-			while(true) {
-				try {
-					synchronized(this) {
-						while(numbers == null) {
-							this.wait();
-						}
-						numbers.next = new Numbers(numbers);
-						currentMax = numbers.next.endNr;
-						numbers = null;
-					}
-				} catch (InterruptedException e) {
-					// Accept and continue
-					interrupted();
-				}
-			}
-		}
-	}
-	
-	private static final NumbersCalculator NUMBERS_CALCULATOR = new NumbersCalculator();
+	private static final ForkJoinPool FORK_JOIN_POOL = new ForkJoinPool();
 
 	private static class Numbers {
 		private final long[] bits;
 
-		volatile Numbers next;
+		private Numbers next;
 
-		final long startNr, endNr;
+		private final long startNr, endNr;
 
 		private Numbers() {
-			bits = new long[] {
-				0x816d129a64b4cb6eL
-			};
+			bits = new long[] { 0x816d129a64b4cb6eL, 0x2196820d864a4c32L, 0xa48961205a0434c9L, 0x4a2882d129861144L, 0x834992132424030L, 0x148a48844225064bL, 0xb40b4086c304205L, 0x65048928125108a0L };
 			startNr = 1;
 			endNr = startNr + bits.length * 128;
-			
-			NUMBERS_CALCULATOR.start();
 		}
 
 		private Numbers(Numbers last) {
 			startNr = last.endNr;
-			bits = new long[Math.min(last.bits.length * 2, 131072)];
+			bits = new long[Math.min(last.bits.length * 2, 131072)
+					* NR_OF_PROCESSORS];
+			final long blocksize = bits.length / NR_OF_PROCESSORS;
 			for (int i = 0; i < bits.length; i++) {
 				bits[i] = 0xffffffffffffffffl;
 			}
 			endNr = startNr + bits.length * 128;
 
-			//System.out.print("Calculating primes until " + endNr + "...");
-			Primes primes = new Primes();
-			long prime = primes.next(); // Skip the 2
-			while ((prime = primes.next()) * prime < endNr) {
-				long mult = prime;
-				long add = prime + prime;
-				while (mult < endNr) {
-					if (mult >= startNr) {
-						int ix = (int) (mult - startNr);
-						ix >>>= 1;
-						bits[ix >>> 6] &= 0xffffffffffffffffL ^ (1L << ix);
+//			System.out.print("Calculating primes until " + endNr + "...");
+
+			List<ForkJoinTask<Void>> tasks = new ArrayList<ForkJoinTask<Void>>(
+					NR_OF_PROCESSORS);
+			for (int tix = 0; tix < NR_OF_PROCESSORS; tix++) {
+				final long startNr = this.startNr;
+				final long[] bits = this.bits;
+				final long start = startNr + blocksize * 128 * tix;
+				final long end = start + blocksize * 128;
+				ForkJoinTask<Void> task = new RecursiveAction() {
+					private static final long serialVersionUID = 554787616622609351L;
+
+					@Override
+					protected void compute() {
+
+						Primes primes = new Primes();
+						long prime = primes.next(); // Skip the 2
+						while ((prime = primes.next()) * prime < end) {
+							long add = prime * 2;
+							long mult = start / add * add + prime;
+							while (mult < end) {
+								if (mult >= start) {
+									int ix = (int) (mult - startNr);
+									ix >>>= 1;
+									bits[ix >>> 6] &= 0xffffffffffffffffL ^ (1L << ix);
+								}
+								mult += add;
+							}
+						}
 					}
-					mult += add;
-				}
+				};
+				FORK_JOIN_POOL.execute(task);
+				tasks.add(task);
 			}
-			//System.out.println("done");
+
+			for (ForkJoinTask<Void> task : tasks) {
+				task.join();
+			}
+//			System.out.println("done");
+
+			last.next = this;
+			currentMax = endNr;
+
+			if (endNr < 1000000l) {
+				new Numbers(this);
+			}
 		}
 
-		synchronized Numbers getNext() {
+		Numbers getNext() {
 			while (next == null) {
-				NUMBERS_CALCULATOR.setNext(this);
+				synchronized (this) {
+					if (next == null) {
+						new Numbers(this);
+					}
+				}
 			}
 			return next;
 		}
 
 		boolean isPrime(long nr) {
-			if(next == null) {
-				NUMBERS_CALCULATOR.setNext(this);
-			}
-			
 			if ((nr & 1) == 0) {
 				return nr == 2;
 			} else if (nr < startNr) {
@@ -155,26 +155,26 @@ public class Primes extends AbstractSequence {
 			return true;
 		}
 	}
-	
+
 	public final static int nrOfPrimeFactors(long nr, boolean distinct) {
 		Primes p = new Primes();
 
 		int cnt = 0;
 		for (long prime = p.next(); prime * prime < nr; prime = p.next()) {
-			if(nr % prime == 0) {
+			if (nr % prime == 0) {
 				cnt++;
 				nr /= prime;
-				
-				while(nr % prime == 0) {
-					if(!distinct) {
+
+				while (nr % prime == 0) {
+					if (!distinct) {
 						cnt++;
 					}
 					nr /= prime;
 				}
 			}
 		}
-		
-		if(nr > 1) {
+
+		if (nr > 1) {
 			cnt++;
 		}
 
@@ -198,13 +198,14 @@ public class Primes extends AbstractSequence {
 
 		return cnt;
 	}
-	
+
 	public final static long phi(final long nr) {
 		Primes primes = new Primes();
 
 		long left = nr;
 		long result = nr;
-		for (long prime = primes.next(); prime * prime <= left; prime = primes.next()) {
+		for (long prime = primes.next(); prime * prime <= left; prime = primes
+				.next()) {
 			if (left % prime == 0) {
 				result -= result / prime;
 				left /= prime;
@@ -222,34 +223,26 @@ public class Primes extends AbstractSequence {
 		return result;
 	}
 
-	/*public final static int phi(final int nr) {
-		Primes p = new Primes();
-
-		int left = nr;
-		int result = nr;
-		for (int prime = (int) p.next(); prime * prime < left; prime = (int) p.next()) {
-			if (left % prime == 0) {
-				result = (result - (result / prime));
-				left /= prime;
-
-				while (left % prime == 0) {
-					left /= prime;
-				}
-			}
-		}
-
-		if (left > 1) {
-			result = result - (result / left);
-		}
-
-		return result;
-	}*/
+	/*
+	 * public final static int phi(final int nr) { Primes p = new Primes();
+	 * 
+	 * int left = nr; int result = nr; for (int prime = (int) p.next(); prime *
+	 * prime < left; prime = (int) p.next()) { if (left % prime == 0) { result =
+	 * (result - (result / prime)); left /= prime;
+	 * 
+	 * while (left % prime == 0) { left /= prime; } } }
+	 * 
+	 * if (left > 1) { result = result - (result / left); }
+	 * 
+	 * return result; }
+	 */
 
 	public final static long sumOfDivisors(long nr) {
 		Primes p = new Primes();
 
 		long sum = 1;
-		for (long prime = p.next(); nr > 1 && prime * prime <= nr; prime = p.next()) {
+		for (long prime = p.next(); nr > 1 && prime * prime <= nr; prime = p
+				.next()) {
 			if (nr % prime == 0) {
 				long j = prime;
 				while (nr % prime == 0) {
@@ -294,10 +287,8 @@ public class Primes extends AbstractSequence {
 
 	@Override
 	public long next() {
-		if (nr == 1) {
-			nr = 2;
-		} else if (nr == 2) {
-			nr = 3;
+		if (nr == 1 || nr == 2) {
+			nr++;
 		} else if (nr == 3) {
 			nr = 5;
 		} else {
@@ -306,7 +297,7 @@ public class Primes extends AbstractSequence {
 				add ^= 6;
 				if (nr >= current.endNr) {
 					current = current.getNext();
-				} 
+				}
 				if (current.isPrime(nr)) {
 					break;
 				}
@@ -328,5 +319,10 @@ public class Primes extends AbstractSequence {
 		nr = current.startNr;
 		pos = 0;
 		add = 2;
+	}
+	
+	@Override
+	public String toString() {
+		return "Prime Sequence (now at " + current() + ")";
 	}
 }
