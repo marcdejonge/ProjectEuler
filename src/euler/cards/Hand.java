@@ -31,6 +31,10 @@ public class Hand {
 	public Card[] getCards() {
 		return cards.clone();
 	}
+	
+	public Type getType() {
+		return type;
+	}
 
 	private Type determineType() {
 		Arrays.sort(cards, new Comparator<Card>() {
