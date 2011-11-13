@@ -85,10 +85,10 @@ public class Card implements Comparable<Card> {
 
 	@Override
 	public int compareTo(Card other) {
-		if (this.suite != other.suite) {
-			return this.suite.compareTo(other.suite);
+		if (this.rank != other.rank) {
+			return other.rank.compareTo(this.rank);
 		} else {
-			return this.rank.compareTo(other.rank);
+			return other.suite.compareTo(this.suite);
 		}
 	}
 
@@ -107,5 +107,10 @@ public class Card implements Comparable<Card> {
 			Card other = (Card) obj;
 			return rank.equals(other.rank) && suite.equals(other.suite);
 		}
+	}
+	
+	@Override
+	public String toString() {
+		return rank + " " + suite;
 	}
 }

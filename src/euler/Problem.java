@@ -123,23 +123,25 @@ public abstract class Problem<T> {
 		knownSolutions.put(206, Number.valueOf(1389019170));
 		knownSolutions.put(357, Number.valueOf(1739023853137l));
 	}
-	
-	private static final <T> long execute(Problem<T> problem, java.lang.Number knownSolution) {
+
+	private static final <T> long execute(Problem<T> problem,
+			java.lang.Number knownSolution) {
 		final long start = System.nanoTime();
 		T result = problem.solve();
 		final long time = System.nanoTime() - start;
 
 		if (result == null) {
-			System.out.printf(
-				"          Result not found for %-20s Calculated in %5.2f seconds%n",
-				problem.getClass().getSimpleName(), time / 1e9);
+			System.out
+					.printf("          Result not found for %-20s Calculated in %5.2f seconds%n",
+							problem.getClass().getSimpleName(), time / 1e9);
 			return -1;
 		} else {
-			String checked = knownSolution == null	? "Unchecked"
-													: (knownSolution.equals(result)) ? "Correct"
-																					: "Incorrect";
-			System.out.printf("%9s result for %s: %-18s Calculated in %5.2f seconds%n", checked,
-				problem.getClass().getSimpleName(), result.toString(), time / 1e9);
+			String checked = knownSolution == null ? "Unchecked"
+					: (knownSolution.equals(result)) ? "Correct" : "Incorrect";
+			System.out.printf(
+					"%9s result for %s: %-18s Calculated in %5.2f seconds%n",
+					checked, problem.getClass().getSimpleName(),
+					result.toString(), time / 1e9);
 			return time;
 		}
 	}
@@ -149,17 +151,19 @@ public abstract class Problem<T> {
 		Problem<?> problem = null;
 		int level = ((nr - 1) / 50) + 1;
 		try {
-			Class<?> clazz = Class.forName(String.format("euler.level%d.Problem%03d", level, nr));
+			Class<?> clazz = Class.forName(String.format(
+					"euler.level%d.Problem%03d", level, nr));
 			problem = (Problem<? extends java.lang.Number>) clazz.newInstance();
 		} catch (ClassNotFoundException e) {
 			throw new IllegalArgumentException(String.format(
-				"The given problem number (%d) could not be found", nr));
+					"The given problem number (%d) could not be found", nr));
 		} catch (InstantiationException e) {
 			throw new IllegalArgumentException(String.format(
-				"The given problem number (%d) could not be instantiated", nr));
+					"The given problem number (%d) could not be instantiated",
+					nr));
 		} catch (IllegalAccessException e) {
 			throw new IllegalArgumentException(String.format(
-				"The given problem number (%d) could not be accessed", nr));
+					"The given problem number (%d) could not be accessed", nr));
 		}
 
 		return execute(problem, knownSolutions.get(nr));
@@ -181,18 +185,22 @@ public abstract class Problem<T> {
 					}
 					executed++;
 				} catch (IllegalArgumentException ex) {
-					System.out.println(ex.getMessage());
-					missing++;
+					if (knownSolutions.containsKey(i)) {
+						System.out.println(ex.getMessage());
+						missing++;
+					}
 				}
 			}
-			System.out.printf("Problems solved: %d out of %d (+%d missing)\tTotal duration: %5.2f seconds%n",
-				found, executed, missing, totalTime / 1e9);
+			System.out
+					.printf("Problems solved: %d out of %d (+%d missing)\tTotal duration: %5.2f seconds%n",
+							found, executed, missing, totalTime / 1e9);
 		} else {
 			int nr = 1;
 			try {
 				nr = Integer.parseInt(args[0]);
 			} catch (NumberFormatException ex) {
-				System.out.println("Please give the number of the problem that you want to solve!");
+				System.out
+						.println("Please give the number of the problem that you want to solve!");
 				return;
 			}
 
