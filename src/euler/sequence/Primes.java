@@ -309,7 +309,7 @@ public class Primes extends AbstractSequence {
 	}
 
 	@Override
-	public int position() {
+	public long position() {
 		return pos;
 	}
 

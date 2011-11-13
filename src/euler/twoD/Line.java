@@ -16,18 +16,18 @@ public class Line {
 		dy = y2 - y1;
 	}
 
-	public boolean crosses(Line l) {
-		double n = dx * l.dy - dy * l.dx;
+	public boolean intersects(Line other) {
+		int n = dx * other.dy - dy * other.dx;
 		if (n == 0) { // Parallel lines
 			return false;
 		}
 
-		int dx1 = x1 - l.x1;
-		int dy1 = y1 - l.y1;
-		double r = (dy1 * l.dx - dx1 * l.dy) / n;
-		double s = (dy1 * dx - dx1 * dy) / n;
+		int dx1 = x1 - other.x1;
+		int dy1 = y1 - other.y1;
+		int r = (dy1 * other.dx - dx1 * other.dy);
+		int s = (dy1 * dx - dx1 * dy);
 
-		return r > 0 && r < 1 && s > 0 && s < 1;
+		return r > 0 && r < n && s > 0 && s < n;
 	}
 
 	@Override

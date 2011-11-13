@@ -23,7 +23,7 @@ public class Fibionacci extends AbstractSequence {
 	}
 
 	@Override
-	public int position() {
+	public long position() {
 		return ix;
 	}
 }

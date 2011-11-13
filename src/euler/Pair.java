@@ -14,7 +14,6 @@ public class Pair<T, V> {
 		this.second = second;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -23,7 +22,7 @@ public class Pair<T, V> {
 			return false;
 		}
 
-		Pair other = (Pair) obj;
+		Pair<?,?> other = (Pair<?,?>) obj;
 
 		if (first == null) {
 			if (other.first != null) {

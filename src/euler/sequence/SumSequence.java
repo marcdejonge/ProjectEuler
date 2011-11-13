@@ -26,7 +26,7 @@ public class SumSequence extends AbstractSequence {
 	}
 
 	@Override
-	public int position() {
+	public long position() {
 		return seq.position();
 	}
 

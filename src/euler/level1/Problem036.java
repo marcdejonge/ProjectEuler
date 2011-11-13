@@ -48,7 +48,7 @@ class Base2Palindromes extends AbstractSequence {
 	}
 
 	@Override
-	public int position() {
+	public long position() {
 		return pos;
 	}
 

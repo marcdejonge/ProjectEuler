@@ -2,10 +2,14 @@
 package euler.sequence;
 
 public abstract class SimpleSequence extends AbstractSequence {
-	private int n;
+	private long n;
 
 	public long getN() {
 		return n;
+	}
+	
+	protected void setN(long start) {
+		this.n = start;
 	}
 
 	@Override
@@ -15,7 +19,7 @@ public abstract class SimpleSequence extends AbstractSequence {
 	}
 
 	@Override
-	public int position() {
+	public long position() {
 		return n;
 	}
 

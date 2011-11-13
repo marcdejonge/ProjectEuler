@@ -59,7 +59,7 @@ public abstract class AbstractSequence implements Iterable<Long> {
 
 	public abstract long next();
 
-	public abstract int position();
+	public abstract long position();
 
 	public void reset() {
 		throw new UnsupportedOperationException();
