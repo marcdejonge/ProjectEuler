@@ -8,7 +8,7 @@ public class Problem357 extends MultiCoreProblem {
 	public static final long LIMIT = 100000000l;
 
 	public Problem357() {
-		super(new Primes());
+		super(new Primes(), 10000);
 	}
 
 	@Override

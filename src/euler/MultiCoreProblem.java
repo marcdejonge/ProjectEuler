@@ -15,12 +15,14 @@ public abstract class MultiCoreProblem extends Problem<Long> {
 	final ReentrantLock lock;
 	final ForkJoinPool pool;
 	protected final AtomicLong result;
+	private final int blockSize;
 
-	public MultiCoreProblem(AbstractSequence sequence) {
+	public MultiCoreProblem(AbstractSequence sequence, int blockSize) {
 		this.sequence = sequence;
 		this.lock = new ReentrantLock();
 		this.pool = new ForkJoinPool();
 		this.result = new AtomicLong(0);
+		this.blockSize = blockSize;
 	}
 
 	public abstract boolean handleNumber(long nr);
@@ -36,13 +38,18 @@ public abstract class MultiCoreProblem extends Problem<Long> {
 
 				@Override
 				protected void compute() {
-					while (true) {
+					long[] block = new long[blockSize];
+					loop: while (true) {
 						lock.lock();
-						final long nr = sequence.next();
+						for(int ix = 0; ix < blockSize; ix++) {
+							block[ix] = sequence.next();
+						}
 						lock.unlock();
 						
-						if (!handleNumber(nr)) {
-							break;
+						for(long nr : block) {
+							if (!handleNumber(nr)) {
+								break loop;
+							}
 						}
 					}
 				}
