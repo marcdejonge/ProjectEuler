@@ -10,17 +10,16 @@ import java.util.concurrent.locks.ReentrantLock;
 import euler.sequence.AbstractSequence;
 
 public abstract class MultiCoreProblem extends Problem<Long> {
+	private static final ForkJoinPool pool = new ForkJoinPool();
 
 	final AbstractSequence sequence;
 	final ReentrantLock lock;
-	final ForkJoinPool pool;
 	protected final AtomicLong result;
 	private final int blockSize;
 
 	public MultiCoreProblem(AbstractSequence sequence, int blockSize) {
 		this.sequence = sequence;
 		this.lock = new ReentrantLock();
-		this.pool = new ForkJoinPool();
 		this.result = new AtomicLong(0);
 		this.blockSize = blockSize;
 	}

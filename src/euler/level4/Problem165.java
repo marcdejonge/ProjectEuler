@@ -46,7 +46,6 @@ public class Problem165 extends Problem<Integer> {
 		Line[] lines = new Line[5000];
 		for(int ix = 0; ix < lines.length; ix++) {
 			lines[ix] = new Line((int)generator.next(), (int)generator.next(), (int)generator.next(), (int)generator.next());
-			System.out.println(lines[ix]);
 		}
 		
 		int total = 0;

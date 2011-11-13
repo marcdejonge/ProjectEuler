@@ -62,7 +62,7 @@ public class Problem079 extends Problem<Number> {
 			}
 		}
 		
-		System.out.println(splits);
+//		System.out.println(splits);
 
 		return null;
 	}
