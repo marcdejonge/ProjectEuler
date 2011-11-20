@@ -7,25 +7,25 @@ import euler.sequence.Primes;
 
 public class Problem046 extends Problem<Integer> {
 
-	@Override
-	public Integer solve() {
+    @Override
+    public Integer solve() {
 
-		Primes primes = new Primes();
-		long[] dsquare = new long[1000];
-		for (int i = 1; i < dsquare.length; i++) {
-			dsquare[i] = 2 * i * i;
-		}
+        final Primes primes = new Primes();
+        final long[] dsquare = new long[1000];
+        for (int i = 1; i < dsquare.length; i++) {
+            dsquare[i] = 2 * i * i;
+        }
 
-		loop: for (int comp = 3; ; comp+=2) {
-			if (!Primes.isPrime(comp)) {
-				primes.reset();
-				for (long prime = primes.next(); prime < comp; prime = primes.next()) {
-					if (Arrays.binarySearch(dsquare, comp - prime) > 0) {
-						continue loop;
-					}
-				}
-				return comp;
-			}
-		}
-	}
+        loop: for (int comp = 3;; comp += 2) {
+            if (!Primes.isPrime(comp)) {
+                primes.reset();
+                for (long prime = primes.next(); prime < comp; prime = primes.next()) {
+                    if (Arrays.binarySearch(dsquare, comp - prime) > 0) {
+                        continue loop;
+                    }
+                }
+                return comp;
+            }
+        }
+    }
 }

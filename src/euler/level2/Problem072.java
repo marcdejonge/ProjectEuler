@@ -3,25 +3,25 @@ package euler.level2;
 import euler.Problem;
 
 public class Problem072 extends Problem<Long> {
-	@Override
-	public Long solve() {
-		final int MAX = 1000000;
+    @Override
+    public Long solve() {
+        final int MAX = 1000000;
 
-		int[] values = new int[MAX+1];
-		for (int i = 2; i <= MAX; i++) {
-			values[i] = ((i & 1) == 0) ? i / 2 : i;
-		}
+        final int[] values = new int[MAX + 1];
+        for (int i = 2; i <= MAX; i++) {
+            values[i] = (i & 1) == 0 ? i / 2 : i;
+        }
 
-		long total = 1;
-		for (int x = 3; x <= MAX; x++) {
-			if (values[x] == x) {
-				for (int i = x; i <= MAX; i += x) {
-					values[i] -= values[i] / x;
-				}
-			}
-			total += values[x];
-		}
+        long total = 1;
+        for (int x = 3; x <= MAX; x++) {
+            if (values[x] == x) {
+                for (int i = x; i <= MAX; i += x) {
+                    values[i] -= values[i] / x;
+                }
+            }
+            total += values[x];
+        }
 
-		return total;
-	}
+        return total;
+    }
 }
