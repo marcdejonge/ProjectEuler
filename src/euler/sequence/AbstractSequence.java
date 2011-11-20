@@ -72,7 +72,7 @@ public abstract class AbstractSequence implements Iterable<Long> {
 	 */
 	@Override
 	public String toString() {
-		return toString(100);
+		return getClass().getSimpleName() + " [current = " + current() + "]";
 	}
 
 	public String toString(int max) {

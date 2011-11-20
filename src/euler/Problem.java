@@ -146,14 +146,13 @@ public abstract class Problem<T> {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private static final long execute(int nr) {
 		Problem<?> problem = null;
 		int level = ((nr - 1) / 50) + 1;
 		try {
 			Class<?> clazz = Class.forName(String.format(
 					"euler.level%d.Problem%03d", level, nr));
-			problem = (Problem<? extends java.lang.Number>) clazz.newInstance();
+			problem = (Problem<?>) clazz.newInstance();
 		} catch (ClassNotFoundException e) {
 			throw new IllegalArgumentException(String.format(
 					"The given problem number (%d) could not be found", nr));
