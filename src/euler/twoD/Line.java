@@ -1,6 +1,6 @@
 package euler.twoD;
 
-public class Line {
+public class Line implements Comparable<Line> {
 
     private static boolean inbetween(double a, double b, double c) {
         return a < b && b < c || a > b && b > c || a == b && b == c;
@@ -16,12 +16,28 @@ public class Line {
     }
 
     public Line(Point p1, Point p2) {
-        this.p1 = p1;
-        this.p2 = p2;
+        if (p1.x > p2.x) {
+            this.p1 = p2;
+            this.p2 = p1;
+        } else {
+            this.p1 = p1;
+            this.p2 = p2;
+        }
 
         dx = p1.x - p2.x;
         dy = p1.y - p2.y;
         dc = p1.x * p2.y - p1.y * p2.x;
+    }
+
+    @Override
+    public int compareTo(Line o) {
+        if (p1.x < o.p1.x) {
+            return -1;
+        } else if (p1.x > o.p1.x) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
     public final boolean contains(Point p) {
@@ -33,9 +49,11 @@ public class Line {
     }
 
     public Point getIntersection(Line other) {
-        // if (isParralelTo(other) || isParralelTo(new Line(p1, other.p1)) || isParralelTo(new Line(p1, other.p2))) {
-        // return null;
-        // }
+        if (p1.x > other.p2.x || p2.x < other.p1.x) {
+            return null;
+        } else if (Math.min(p1.y, p2.y) > Math.max(other.p1.y, other.p2.y) || Math.min(other.p1.y, other.p2.y) > Math.max(p1.y, p2.y)) {
+            return null;
+        }
 
         // Calculation base on: http://en.wikipedia.org/wiki/Line-line_intersection#Mathematics
         double num = dx * other.dy - other.dx * dy;
@@ -57,8 +75,12 @@ public class Line {
         }
     }
 
-    public final boolean isParralelTo(final Line other) {
-        return dx * other.dy - other.dx * dy == 0;
+    public Point getP1() {
+        return p1;
+    }
+
+    public Point getP2() {
+        return p2;
     }
 
     // final int n = dx * other.dy - other.dx * dy;
@@ -76,6 +98,10 @@ public class Line {
     // } else {
     // return r > n && r < 0 && s > n && s < 0;
     // }
+
+    public final boolean isParralelTo(final Line other) {
+        return dx * other.dy - other.dx * dy == 0;
+    }
 
     @Override
     public String toString() {
