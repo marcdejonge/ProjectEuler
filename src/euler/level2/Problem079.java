@@ -4,12 +4,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
-import euler.Pair;
 import euler.Problem;
+import euler.numberic.BitSet;
 
 public class Problem079 extends Problem<Number> {
     @Override
@@ -19,7 +17,7 @@ public class Problem079 extends Problem<Number> {
             bytes[c] = Byte.valueOf((byte) (c - '0'));
         }
 
-        final Set<Pair<Byte, Byte>> pairs = new HashSet<Pair<Byte, Byte>>();
+        final Map<Byte, BitSet> map = new HashMap<Byte, BitSet>();
 
         try {
             final BufferedReader reader = new BufferedReader(new FileReader("Problem79.txt"));
@@ -28,12 +26,16 @@ public class Problem079 extends Problem<Number> {
                 final int max = line.length();
                 for (int fIx = 0; fIx < max; fIx++) {
                     final Byte first = bytes[line.charAt(fIx)];
+                    if (!map.containsKey(first)) {
+                        map.put(first, new BitSet(10));
+                    }
                     if (first != null) {
                         for (int sIx = fIx + 1; sIx < max; sIx++) {
                             final Byte second = bytes[line.charAt(sIx)];
-                            if (second != null) {
-                                pairs.add(Pair.from(first, second));
+                            if (!map.containsKey(second)) {
+                                map.put(second, new BitSet(10));
                             }
+                            map.get(second).set(first.intValue());
                         }
                     }
                 }
@@ -43,27 +45,23 @@ public class Problem079 extends Problem<Number> {
             return null;
         }
 
-        // Now we have all the pairs loaded
-        // System.out.println(pairs);
+        int result = 0;
 
-        final Map<Byte, Pair<Set<Byte>, Set<Byte>>> splits = new HashMap<Byte, Pair<Set<Byte>, Set<Byte>>>();
-        for (byte center = 0; center <= 9; center++) {
-            final Pair<Set<Byte>, Set<Byte>> split = new Pair<Set<Byte>, Set<Byte>>(new HashSet<Byte>(), new HashSet<Byte>());
-            for (final Pair<Byte, Byte> pair : pairs) {
-                if (center == pair.getFirst()) {
-                    split.getSecond().add(pair.getSecond());
+        while (!map.isEmpty()) {
+            for (Byte key : map.keySet()) {
+                if (map.get(key).cardinality() == 0) {
+                    result *= 10;
+                    result += key.intValue();
+                    map.remove(key);
+
+                    for (BitSet bs : map.values()) {
+                        bs.reset(key.intValue());
+                    }
+                    break;
                 }
-                if (center == pair.getSecond()) {
-                    split.getFirst().add(pair.getFirst());
-                }
-            }
-            if (!split.getFirst().isEmpty() || !split.getSecond().isEmpty()) {
-                splits.put(center, split);
             }
         }
 
-        // System.out.println(splits);
-
-        return null;
+        return result;
     }
 }
