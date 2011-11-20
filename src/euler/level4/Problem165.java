@@ -1,11 +1,14 @@
 package euler.level4;
 
-import euler.MultiCoreProblem;
-import euler.sequence.AbstractSequence;
-import euler.sequence.NaturalNumbers;
-import euler.twoD.Line;
+import java.util.HashSet;
+import java.util.Set;
 
-public class Problem165 extends MultiCoreProblem {
+import euler.Problem;
+import euler.sequence.AbstractSequence;
+import euler.twoD.Line;
+import euler.twoD.Point;
+
+public class Problem165 extends Problem<Integer> {
 
     private static class BlumBlumShub extends AbstractSequence {
         private static final int START = 290797;
@@ -44,7 +47,6 @@ public class Problem165 extends MultiCoreProblem {
     private final Line[] lines;
 
     public Problem165() {
-        super(new NaturalNumbers(), 100);
         lines = new Line[5000];
         final BlumBlumShub bbs = new BlumBlumShub();
         for (int ix = 0; ix < lines.length; ix++) {
@@ -53,18 +55,16 @@ public class Problem165 extends MultiCoreProblem {
     }
 
     @Override
-    public boolean handleNumber(long nr) {
-        final int ix = (int) nr;
-        if (ix >= lines.length) {
-            return false;
-        }
-
-        for (int jx = ix + 1; jx < lines.length; jx++) {
-            if (lines[ix].intersects(lines[jx])) {
-                result.incrementAndGet();
+    public Integer solve() {
+        Set<Point> points = new HashSet<Point>(5000000);
+        for (int ix = 0; ix < lines.length; ix++) {
+            for (int jx = ix + 1; jx < lines.length; jx++) {
+                Point p = lines[ix].getIntersection(lines[jx]);
+                if (p != null) {
+                    points.add(p);
+                }
             }
         }
-
-        return true;
+        return points.size();
     }
 }
