@@ -3,6 +3,6 @@ package euler.sequence;
 public class TriangleNumbers extends SimpleSequence {
 	@Override
 	public long current() {
-		return (getN() * (getN() + 1)) >> 1;
+		return (getN() * (getN() + 1)) / 2;
 	}
 }
