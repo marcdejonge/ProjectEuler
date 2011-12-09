@@ -160,6 +160,20 @@ public class Primes extends AbstractSequence {
         }
     }
 
+    public static void main(String[] args) {
+        long start = System.nanoTime();
+        int ix = 0;
+        for (long prime : new Primes()) {
+            if (prime > 1000000000) {
+                break;
+            }
+            ix++;
+        }
+        long duration = System.nanoTime() - start;
+        System.out.println(ix);
+        System.out.println(duration / 1e9);
+    }
+
     public final static int nrOfDivisors(long nr) {
         final Primes p = new Primes();
 
