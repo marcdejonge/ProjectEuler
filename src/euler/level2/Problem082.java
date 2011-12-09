@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.Future;
 
 import euler.Problem;
@@ -37,11 +36,11 @@ public class Problem082 extends Problem<Integer> {
                 }
             };
 
-            ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+            ForkJoinPool pool = new ForkJoinPool();
             List<Future<Integer>> sums = new ArrayList<Future<Integer>>();
             for (int y = 0; y < nodes.size(); y++) {
                 final int line = y;
-                sums.add(executorService.submit(new Callable<Integer>() {
+                sums.add(pool.submit(new Callable<Integer>() {
                     @Override
                     public Integer call() throws Exception {
                         return Node.sumValues(new AStar(nodes.get(line).get(0), guide).findShortestPath());
