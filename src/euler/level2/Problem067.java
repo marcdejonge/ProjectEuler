@@ -8,8 +8,8 @@ import java.util.List;
 
 import euler.Problem;
 import euler.path.AStar;
+import euler.path.AStar.Guide;
 import euler.path.Node;
-import euler.path.NullHeuristic;
 import euler.path.ShortestPathSolver;
 
 public class Problem067 extends Problem<Long> {
@@ -53,7 +53,18 @@ public class Problem067 extends Problem<Long> {
             return null;
         }
 
-        final ShortestPathSolver solver = new AStar(start, goal, new NullHeuristic());
+        final Node endGoal = goal;
+        final ShortestPathSolver solver = new AStar(start, new Guide() {
+            @Override
+            public long estimateDistanceToGoal(Node node) {
+                return 0;
+            }
+
+            @Override
+            public boolean isGoal(Node node) {
+                return node.equals(endGoal);
+            }
+        });
         final List<Node> shortestPath = solver.findShortestPath();
         // System.out.println(shortestPath);
 

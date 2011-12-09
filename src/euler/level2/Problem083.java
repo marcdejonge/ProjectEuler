@@ -8,8 +8,9 @@ import java.util.List;
 
 import euler.Problem;
 import euler.path.AStar;
-import euler.path.ManhattanHeuristic;
+import euler.path.AStar.Guide;
 import euler.path.Node;
+import euler.path.ShortestPathSolver;
 
 public class Problem083 extends Problem<Long> {
     @Override
@@ -64,7 +65,20 @@ public class Problem083 extends Problem<Long> {
         final List<Node> goalList = nodes.get(nodes.size() - 1);
         final Node goal = goalList.get(goalList.size() - 1);
 
-        final List<Node> shortestPath = new AStar(start, goal, new ManhattanHeuristic()).findShortestPath();
+        final ShortestPathSolver solver = new AStar(start, new Guide() {
+            @Override
+            public long estimateDistanceToGoal(Node from) {
+                final int dx = Math.abs(from.getX() - goal.getX());
+                final int dy = Math.abs(from.getY() - goal.getY());
+                return dx + dy;
+            }
+
+            @Override
+            public boolean isGoal(Node node) {
+                return node.equals(goal);
+            }
+        });
+        final List<Node> shortestPath = solver.findShortestPath();
 
         long totalLength = 0;
         for (final Node n : shortestPath) {

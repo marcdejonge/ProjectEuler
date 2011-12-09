@@ -1,10 +1,11 @@
 package euler.path;
 
+import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Set;
 
 public class Node implements Iterable<Node> {
-    public static int sumValues(List<Node> nodes) {
+    public static int sumValues(Iterable<Node> nodes) {
         int total = 0;
         for (final Node node : nodes) {
             total += node.value;
@@ -12,7 +13,7 @@ public class Node implements Iterable<Node> {
         return total;
     }
 
-    private Node[] neighbors;
+    private final Set<Node> neighbors;
 
     private final int value;
 
@@ -22,14 +23,11 @@ public class Node implements Iterable<Node> {
         this.value = value;
         this.x = x;
         this.y = y;
-        neighbors = new Node[0];
+        neighbors = new HashSet<Node>(4);
     }
 
     public void addNeighbor(Node neighbor) {
-        final Node[] temp = new Node[neighbors.length + 1];
-        System.arraycopy(neighbors, 0, temp, 0, neighbors.length);
-        temp[temp.length - 1] = neighbor;
-        neighbors = temp;
+        neighbors.add(neighbor);
     }
 
     public int getValue() {
@@ -46,24 +44,7 @@ public class Node implements Iterable<Node> {
 
     @Override
     public Iterator<Node> iterator() {
-        return new Iterator<Node>() {
-            private int count = 0;
-
-            @Override
-            public boolean hasNext() {
-                return count < neighbors.length;
-            }
-
-            @Override
-            public Node next() {
-                return neighbors[count++];
-            }
-
-            @Override
-            public void remove() {
-                throw new UnsupportedOperationException();
-            }
-        };
+        return neighbors.iterator();
     }
 
     @Override

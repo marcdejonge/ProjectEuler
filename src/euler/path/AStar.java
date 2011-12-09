@@ -9,24 +9,27 @@ import java.util.Map.Entry;
 import euler.Pair;
 
 public class AStar implements ShortestPathSolver {
-    private final Node goal;
+    public static interface Guide {
+        long estimateDistanceToGoal(Node node);
 
-    private final Heuristic heuristic;
+        boolean isGoal(Node node);
+    }
 
     private final Node start;
 
-    public AStar(Node start, Node goal, Heuristic heuristic) {
+    private final Guide guide;
+
+    public AStar(Node start, Guide guide) {
         this.start = start;
-        this.goal = goal;
-        this.heuristic = heuristic;
+        this.guide = guide;
     }
 
     @Override
     public List<Node> findShortestPath() {
-        final Map<Node, Pair<Node, Long>> closed = new HashMap<Node, Pair<Node, Long>>();
-        final Map<Node, Pair<Node, Long>> open = new HashMap<Node, Pair<Node, Long>>();
+        final Map<Node, Pair<Node, Long>> closed = new HashMap<Node, Pair<Node, Long>>(100);
+        final Map<Node, Pair<Node, Long>> open = new HashMap<Node, Pair<Node, Long>>(100);
 
-        open.put(start, Pair.from((Node) null, start.getValue() + heuristic.estimateDistance(start, goal)));
+        open.put(start, Pair.from((Node) null, start.getValue() + guide.estimateDistanceToGoal(start)));
 
         while (!open.isEmpty()) {
             long min = Long.MAX_VALUE;
@@ -43,8 +46,8 @@ public class AStar implements ShortestPathSolver {
             final long distanceUntilNow = (from == null ? 0 : closed.get(from).getSecond()) + current.getValue();
             closed.put(current, Pair.from(from, distanceUntilNow));
 
-            if (current.equals(goal)) {
-                return reconstruct(closed);
+            if (guide.isGoal(current)) {
+                return reconstruct(closed, current);
             }
 
             for (final Node neighbor : current) {
@@ -52,7 +55,7 @@ public class AStar implements ShortestPathSolver {
                     continue;
                 }
 
-                final long estimatedDistance = distanceUntilNow + neighbor.getValue() + heuristic.estimateDistance(current, goal);
+                final long estimatedDistance = distanceUntilNow + neighbor.getValue() + guide.estimateDistanceToGoal(current);
                 if (!open.containsKey(neighbor) || estimatedDistance < open.get(neighbor).getSecond()) {
                     open.remove(neighbor);
                     open.put(neighbor, Pair.from(current, estimatedDistance));
@@ -63,9 +66,8 @@ public class AStar implements ShortestPathSolver {
         return null;
     }
 
-    private List<Node> reconstruct(Map<Node, Pair<Node, Long>> closed) {
+    private List<Node> reconstruct(Map<Node, Pair<Node, Long>> closed, Node current) {
         final List<Node> result = new LinkedList<Node>();
-        Node current = goal;
         while (current != null) {
             result.add(0, current);
             final Pair<Node, Long> pair = closed.get(current);
