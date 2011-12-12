@@ -218,7 +218,6 @@ public class Problem084 extends Problem<Integer> {
                 return (int) ((o2.getChance() - o1.getChance()) * 10000);
             };
         });
-        System.out.println(Arrays.toString(board));
 
         return board[0].getId() * 10000 + board[1].getId() * 100 + board[2].getId();
     }
