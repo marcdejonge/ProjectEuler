@@ -39,6 +39,25 @@ public class DivisorsSequence extends AbstractSequence {
         return Arrays.copyOf(tempDivisors, ix);
     }
 
+    public static synchronized int sumOfDivisors(int nr) {
+        tempPrimes.reset();
+        int sum = 1;
+        for (long prime : tempPrimes) {
+            int p = (int) prime;
+
+            if (p * p > nr) {
+                sum *= nr + 1;
+            }
+
+            int lastsum = sum;
+            while (nr % p == 0) {
+                nr /= p;
+                sum = sum * p + lastsum;
+            }
+        }
+        return sum;
+    }
+
     private Primes primes;
     private long nr, last;
     private int pos;

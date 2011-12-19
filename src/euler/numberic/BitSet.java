@@ -132,6 +132,12 @@ public class BitSet implements Cloneable {
         return result;
     }
 
+    public void orSet(BitSet other) {
+        for (int i = 0; i < Math.min(words.length, other.words.length); i++) {
+            words[i] |= other.words[i];
+        }
+    }
+
     public void reset() {
         for (int i = 0; i < words.length; i++) {
             words[i] = 0;
