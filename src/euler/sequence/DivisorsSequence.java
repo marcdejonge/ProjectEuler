@@ -5,9 +5,9 @@ import java.util.Arrays;
 public class DivisorsSequence extends AbstractSequence {
     private static final Primes tempPrimes = new Primes();
 
-    private static final long[] tempDivisors = new long[64];
+    private static final long[] tempDivisors = new long[1024];
 
-    private static final int[] tempIDivisors = new int[64];
+    private static final int[] tempIDivisors = new int[1024];
 
     public static synchronized int[] divisors(int nr) {
         tempPrimes.reset();
@@ -37,6 +37,20 @@ public class DivisorsSequence extends AbstractSequence {
             }
         }
         return Arrays.copyOf(tempDivisors, ix);
+    }
+
+    public static synchronized int[] properDivisors(int nr) {
+        int ix = 0;
+        tempIDivisors[ix++] = 1;
+        for (int div = 2; div * div <= nr; div++) {
+            if (nr % div == 0) {
+                tempIDivisors[ix++] = div;
+                if (div * div != nr) {
+                    tempIDivisors[ix++] = nr / div;
+                }
+            }
+        }
+        return Arrays.copyOf(tempIDivisors, ix);
     }
 
     public static synchronized int sumOfDivisors(int nr) {
