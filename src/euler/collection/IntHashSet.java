@@ -82,4 +82,8 @@ public class IntHashSet {
     private boolean isFull() {
         return buckets.length == filled;
     }
+
+    public int size() {
+        return filled;
+    }
 }
