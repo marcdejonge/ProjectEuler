@@ -2,43 +2,51 @@ package euler.search;
 
 import java.util.Stack;
 
-public class DepthFirstSearch implements SearchAlgorithm {
+public class DepthFirstSearch<S, T extends Transition<T>, M extends Model<S, T>> implements SearchAlgorithm<S, T, M> {
+    public static <S, T extends Transition<T>, M extends Model<S, T>> DepthFirstSearch<S, T, M> create(Class<M> clazz) {
+        return new DepthFirstSearch<S, T, M>();
+    }
 
-    private SearchAlgorithmListener listener;
+    private SearchAlgorithmListener<S> listener;
 
-    private final Stack<Transition> next;
+    private final Stack<T> next;
 
     public DepthFirstSearch() {
-        next = new Stack<Transition>();
+        next = new Stack<T>();
     }
 
-    private void add(Transition transition) {
-        if (transition != null) {
-            next.add(transition);
-        }
-    }
-
-    protected void goalStateFound(State state) {
+    protected void goalStateFound(S state) {
         if (listener != null) {
             listener.goalStateFound(state);
         }
     }
 
     @Override
-    public void search(State startState) {
+    public void search(M model) {
         next.clear();
-        next.add(startState.getFirstTransitions());
 
-        while (!next.isEmpty()) {
-            Transition trans = next.pop();
-
-            State nextState = trans.execute();
-            if (nextState.isGoalState()) {
-                goalStateFound(nextState);
+        while (true) {
+            if (model.isGoalState()) {
+                goalStateFound(model.storeState());
             }
 
-            add(trans.nextTransition());
-            add(nextState.getFirstTransitions());
+            T transition = model.getTransition(null);
+            if (transition != null) {
+                transition.execute();
+                next.add(transition);
+            } else {
+                while (transition == null && !next.isEmpty()) {
+                    transition = next.pop();
+                    transition.undo();
+                    transition = model.getTransition(transition);
+                }
+                if (transition == null) { // and thus the stack is empty
+                    break;
+                } else {
+                    transition.execute();
+                    next.add(transition);
+                }
+            }
         }
 
         searchFinished();
@@ -51,7 +59,7 @@ public class DepthFirstSearch implements SearchAlgorithm {
     }
 
     @Override
-    public void setSearchAlgorithmListener(SearchAlgorithmListener listener) {
+    public void setSearchAlgorithmListener(SearchAlgorithmListener<S> listener) {
         this.listener = listener;
     }
 }

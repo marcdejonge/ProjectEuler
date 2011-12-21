@@ -1,7 +1,7 @@
 package euler.search;
 
-public interface SearchAlgorithmListener {
-    void goalStateFound(State state);
+public interface SearchAlgorithmListener<S> {
+    void goalStateFound(S state);
 
     void searchFinished();
 }

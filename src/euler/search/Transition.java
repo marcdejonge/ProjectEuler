@@ -1,9 +1,7 @@
 package euler.search;
 
-public interface Transition {
-    State execute();
+public interface Transition<T extends Transition<T>> {
+    void execute();
 
-    State getFromState();
-
-    Transition nextTransition();
+    void undo();
 }

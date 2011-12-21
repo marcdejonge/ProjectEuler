@@ -1,7 +1,7 @@
 package euler.search;
 
-public interface SearchAlgorithm {
-    void search(State startState);
+public interface SearchAlgorithm<S, T extends Transition<T>, M extends Model<S, T>> {
+    void search(M model);
 
-    void setSearchAlgorithmListener(SearchAlgorithmListener listener);
+    void setSearchAlgorithmListener(SearchAlgorithmListener<S> listener);
 }
