@@ -136,6 +136,27 @@ public class Primes extends AbstractSequence {
 
             return (bits[ix >>> 6] >>> ix & 1L) == 1L;
         }
+
+        long nextPrime(long lastPrime) {
+            int ix = lastPrime < startNr ? 0 : (int) (lastPrime - startNr + 2);
+            ix >>>= 1;
+
+            int wordIx = ix >>> 6;
+            if (wordIx >= bits.length) {
+                return getNext().nextPrime(lastPrime);
+            }
+            long word = bits[wordIx] & -1L << ix;
+
+            while (word == 0) {
+                if (++wordIx >= bits.length) {
+                    return getNext().nextPrime(lastPrime);
+                }
+
+                word = bits[wordIx];
+            }
+
+            return startNr + ((wordIx << 6) + Long.numberOfTrailingZeros(word)) * 2;
+        }
     }
 
     public static final int NR_OF_PROCESSORS = Runtime.getRuntime().availableProcessors();
@@ -307,16 +328,11 @@ public class Primes extends AbstractSequence {
         } else if (nr == 3) {
             nr = 5;
         } else {
-            while (true) {
-                nr += add;
-                add ^= 6;
-                if (nr >= current.endNr) {
-                    current = current.getNext();
-                }
-                if (current.isPrime(nr)) {
-                    break;
-                }
+            if (nr > current.endNr) {
+                current = current.getNext();
             }
+            pos++;
+            nr = current.nextPrime(nr);
         }
 
         pos++;

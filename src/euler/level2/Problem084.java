@@ -198,7 +198,7 @@ public class Problem084 extends Problem<Integer> {
         double total = 0;
         for (int it = 0; it < 10; it++) {
             for (Field field : board) {
-                field.propagateChance(6);
+                field.propagateChance(4);
             }
 
             total = 0;

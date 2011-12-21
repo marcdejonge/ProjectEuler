@@ -1,8 +1,9 @@
 package euler.numberic;
 
 import java.util.Arrays;
+import java.util.Iterator;
 
-public class BitSet implements Cloneable {
+public class BitSet implements Cloneable, Iterable<Integer> {
     private final static long ONE_LEFT = 1l << 63, ALL_SET = -1l, SHIFT = 6, MASK = 63;
 
     private int length;
@@ -16,6 +17,9 @@ public class BitSet implements Cloneable {
     }
 
     public BitSet and(BitSet other) {
+        if (other == null) {
+            return this;
+        }
         final BitSet result = new BitSet(Math.min(length, other.length));
 
         for (int i = 0; i < result.words.length; i++) {
@@ -52,6 +56,12 @@ public class BitSet implements Cloneable {
 
         final BitSet other = (BitSet) obj;
         return length == other.length && Arrays.equals(words, other.words);
+    }
+
+    public void flip() {
+        for (int i = 0; i < words.length; i++) {
+            words[i] ^= ALL_SET;
+        }
     }
 
     public void flip(int index) {
@@ -95,6 +105,15 @@ public class BitSet implements Cloneable {
         return false;
     }
 
+    public boolean isEmpty() {
+        for (long word : words) {
+            if (word != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public boolean isSet(int index) {
         if (index < 0 || index >= length) {
             return false;
@@ -102,24 +121,57 @@ public class BitSet implements Cloneable {
         return (words[index >>> BitSet.SHIFT] & BitSet.ONE_LEFT >>> index) != 0;
     }
 
+    @Override
+    public Iterator<Integer> iterator() {
+        return new Iterator<Integer>() {
+            private int next = 0;
+            private boolean returned = true;
+
+            @Override
+            public boolean hasNext() {
+                if (returned) {
+                    next = nextSetBit(next + 1);
+                    returned = false;
+                }
+                return next != -1;
+            }
+
+            @Override
+            public Integer next() {
+                if (returned) {
+                    next = nextSetBit(next + 1);
+                }
+                returned = true;
+                return next;
+            }
+
+            @Override
+            public void remove() {
+                throw new UnsupportedOperationException();
+            }
+        };
+    }
+
     public int nextSetBit(int index) {
         int wordIndex = index >>> BitSet.SHIFT;
 
+        // Check the first word, ignoring the first bits
         if (wordIndex >= words.length) {
             return -1;
         }
-
         long word = words[wordIndex] & BitSet.ALL_SET >>> index;
+        if (word != 0) {
+            return (wordIndex << BitSet.SHIFT) + Long.numberOfLeadingZeros(word);
+        }
 
-        while (true) {
+        // Now check the rest of the words
+        for (wordIndex++; wordIndex < words.length; wordIndex++) {
+            word = words[wordIndex];
             if (word != 0) {
                 return (wordIndex << BitSet.SHIFT) + Long.numberOfLeadingZeros(word);
             }
-            if (++wordIndex == words.length) {
-                return -1;
-            }
-            word = words[wordIndex];
         }
+        return -1;
     }
 
     public BitSet or(BitSet other) {
@@ -130,6 +182,12 @@ public class BitSet implements Cloneable {
         }
 
         return result;
+    }
+
+    public void orSet(BitSet other) {
+        for (int i = 0; i < Math.min(words.length, other.words.length); i++) {
+            words[i] |= other.words[i];
+        }
     }
 
     public void reset() {
