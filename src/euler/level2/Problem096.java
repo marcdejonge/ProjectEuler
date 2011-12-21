@@ -18,7 +18,7 @@ import euler.search.Transition;
 
 public class Problem096 extends Problem<Integer> {
 
-    class SudokuBoard implements Model<int[], SudokuTransition> {
+    class SudokuBoard implements Model<SudokuBoard, SudokuTransition> {
         private final int[] board, possibleNumbers;
 
         public SudokuBoard() {
@@ -47,6 +47,18 @@ public class Problem096 extends Problem<Integer> {
                 if (!isFeasable()) {
                     return null;
                 }
+                // Now find a location where only one option is available
+                for (int x = 0; x < 9; x++) {
+                    for (int y = 0; y < 9; y++) {
+                        if (board[x + y * 9] == 0) {
+                            int pn = possibleNumbers[x + y * 9];
+                            if ((pn & pn - 1) == 0) {
+                                return new SudokuTransition(this, x, y, Integer.numberOfTrailingZeros(pn));
+                            }
+                        }
+                    }
+                }
+                // Then just locate the first place where we can place something
                 for (int x = 0; x < 9; x++) {
                     for (int y = 0; y < 9; y++) {
                         if (board[x + y * 9] == 0) {
@@ -121,16 +133,14 @@ public class Problem096 extends Problem<Integer> {
         }
 
         @Override
-        public void restoreState(int[] state) {
-            System.arraycopy(state, 0, board, 0, board.length);
-            System.arraycopy(state, board.length, possibleNumbers, 0, possibleNumbers.length);
+        public void restoreState(SudokuBoard state) {
+            System.arraycopy(state.board, 0, board, 0, board.length);
+            System.arraycopy(state.possibleNumbers, 0, possibleNumbers, 0, possibleNumbers.length);
         }
 
         @Override
-        public int[] storeState() {
-            int[] backup = Arrays.copyOf(board, board.length + possibleNumbers.length);
-            System.arraycopy(possibleNumbers, 0, backup, board.length, possibleNumbers.length);
-            return backup;
+        public SudokuBoard storeState() {
+            return new SudokuBoard(this);
         }
 
         @Override
@@ -160,7 +170,7 @@ public class Problem096 extends Problem<Integer> {
     class SudokuTransition implements Transition<SudokuTransition> {
         private final SudokuBoard board;
         private final int x, y, value;
-        private int[] backup;
+        private SudokuBoard backup;
 
         public SudokuTransition(SudokuBoard board, int x, int y, int value) {
             this.board = board;
@@ -236,13 +246,13 @@ public class Problem096 extends Problem<Integer> {
 
     @Override
     public Integer solve() {
-        DepthFirstSearch<int[], SudokuTransition, SudokuBoard> dfs = DepthFirstSearch.create(SudokuBoard.class);
+        DepthFirstSearch<SudokuBoard, SudokuTransition, SudokuBoard> dfs = DepthFirstSearch.create(SudokuBoard.class);
         final AtomicInteger sum = new AtomicInteger();
         SearchAlgorithmListener<SudokuBoard> resultAggregator = new SearchAlgorithmListener<SudokuBoard>() {
             @Override
             public boolean goalStateFound(SudokuBoard board) {
-                int[] state = board.storeState();
-                sum.addAndGet(state[0] * 100 + state[1] * 10 + state[2]);
+                SudokuBoard state = board.storeState();
+                sum.addAndGet(state.board[0] * 100 + state.board[1] * 10 + state.board[2]);
                 return false;
             }
 
