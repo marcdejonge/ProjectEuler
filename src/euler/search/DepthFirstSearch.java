@@ -7,7 +7,7 @@ public class DepthFirstSearch<S, T extends Transition<T>, M extends Model<S, T>>
         return new DepthFirstSearch<S, T, M>();
     }
 
-    private SearchAlgorithmListener<S> listener;
+    private SearchAlgorithmListener<M> listener;
 
     private final Stack<T> next;
 
@@ -15,9 +15,11 @@ public class DepthFirstSearch<S, T extends Transition<T>, M extends Model<S, T>>
         next = new Stack<T>();
     }
 
-    protected void goalStateFound(S state) {
+    protected boolean goalStateFound(M model) {
         if (listener != null) {
-            listener.goalStateFound(state);
+            return listener.goalStateFound(model);
+        } else {
+            return true;
         }
     }
 
@@ -27,7 +29,9 @@ public class DepthFirstSearch<S, T extends Transition<T>, M extends Model<S, T>>
 
         while (true) {
             if (model.isGoalState()) {
-                goalStateFound(model.storeState());
+                if (!goalStateFound(model)) {
+                    break;
+                }
             }
 
             T transition = model.getTransition(null);
@@ -59,7 +63,7 @@ public class DepthFirstSearch<S, T extends Transition<T>, M extends Model<S, T>>
     }
 
     @Override
-    public void setSearchAlgorithmListener(SearchAlgorithmListener<S> listener) {
+    public void setSearchAlgorithmListener(SearchAlgorithmListener<M> listener) {
         this.listener = listener;
     }
 }

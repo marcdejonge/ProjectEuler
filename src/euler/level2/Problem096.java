@@ -1,6 +1,14 @@
 package euler.level2;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import euler.Problem;
 import euler.search.DepthFirstSearch;
@@ -130,7 +138,7 @@ public class Problem096 extends Problem<Integer> {
             StringBuilder sb = new StringBuilder();
             for (int y = 0; y < 9; y++) {
                 if (y % 3 == 0) {
-                    sb.append("|===|===|===| |=========|=========|=========|").append(System.lineSeparator());
+                    sb.append("|===|===|===|").append(System.lineSeparator());
                 }
                 for (int x = 0; x < 9; x++) {
                     if (x % 3 == 0) {
@@ -142,16 +150,9 @@ public class Problem096 extends Problem<Integer> {
                         sb.append(board[x + y * 9]);
                     }
                 }
-                sb.append("| ");
-                for (int x = 0; x < 9; x++) {
-                    if (x % 3 == 0) {
-                        sb.append('|');
-                    }
-                    sb.append(String.format("%03d", possibleNumbers[x + y * 9] / 2));
-                }
                 sb.append('|').append(System.lineSeparator());
             }
-            sb.append("|===|===|===| |=========|=========|=========|").append(System.lineSeparator());
+            sb.append("|===|===|===|").append(System.lineSeparator());
             return sb.toString();
         }
     }
@@ -179,7 +180,6 @@ public class Problem096 extends Problem<Integer> {
         public void execute() {
             backup = board.storeState();
             board.place(x, y, value);
-            // System.out.printf("Executed to:%n%s", board);
         }
 
         public SudokuBoard getBoard() {
@@ -202,60 +202,62 @@ public class Problem096 extends Problem<Integer> {
         public void undo() {
             board.restoreState(backup);
             backup = null;
-            // System.out.printf("Undo to:%n%s", board);
+        }
+    }
+
+    public Map<String, SudokuBoard> readBoards() {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("Problem096.txt"));
+            int y = 0;
+            String line = null;
+            SudokuBoard board = null;
+            Map<String, SudokuBoard> result = new TreeMap<String, SudokuBoard>();
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith("Grid")) {
+                    board = new SudokuBoard();
+                    result.put(line, board);
+                    y = 0;
+                } else if (line.length() == 9) {
+                    for (int x = 0; x < 9; x++) {
+                        char c = line.charAt(x);
+                        if (c != '0') {
+                            board.place(x, y, c - '0');
+                        }
+                    }
+                    y++;
+                }
+            }
+            return result;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Collections.emptyMap();
         }
     }
 
     @Override
     public Integer solve() {
-        SudokuBoard board = new SudokuBoard();
-        board.place(2, 0, 3);
-        board.place(4, 0, 2);
-        board.place(6, 0, 6);
-        board.place(0, 1, 9);
-        board.place(3, 1, 3);
-        board.place(5, 1, 5);
-        board.place(8, 1, 1);
-        board.place(2, 2, 1);
-        board.place(3, 2, 8);
-        board.place(5, 2, 6);
-        board.place(6, 2, 4);
-        board.place(2, 3, 8);
-        board.place(3, 3, 1);
-        board.place(5, 3, 2);
-        board.place(6, 3, 9);
-        board.place(0, 4, 7);
-        board.place(8, 4, 8);
-        board.place(2, 5, 6);
-        board.place(3, 5, 7);
-        board.place(5, 5, 8);
-        board.place(6, 5, 2);
-        board.place(2, 6, 2);
-        board.place(3, 6, 6);
-        board.place(5, 6, 9);
-        board.place(6, 6, 5);
-        board.place(0, 7, 8);
-        board.place(3, 7, 2);
-        board.place(5, 7, 3);
-        board.place(8, 7, 9);
-        board.place(2, 8, 5);
-        board.place(4, 8, 1);
-        board.place(6, 8, 3);
-
         DepthFirstSearch<int[], SudokuTransition, SudokuBoard> dfs = DepthFirstSearch.create(SudokuBoard.class);
-        dfs.setSearchAlgorithmListener(new SearchAlgorithmListener<int[]>() {
+        final AtomicInteger sum = new AtomicInteger();
+        SearchAlgorithmListener<SudokuBoard> resultAggregator = new SearchAlgorithmListener<SudokuBoard>() {
             @Override
-            public void goalStateFound(int[] state) {
-                System.out.println("Result: " + (state[0] * 100 + state[1] * 10 + state[2]));
+            public boolean goalStateFound(SudokuBoard board) {
+                int[] state = board.storeState();
+                sum.addAndGet(state[0] * 100 + state[1] * 10 + state[2]);
+                return false;
             }
 
             @Override
             public void searchFinished() {
-                System.out.println("Finished!");
             }
-        });
-        dfs.search(board);
-        return null;
-    }
+        };
+        dfs.setSearchAlgorithmListener(resultAggregator);
 
+        for (Entry<String, SudokuBoard> board : readBoards().entrySet()) {
+            // long start = System.nanoTime();
+            dfs.search(board.getValue());
+            // System.out.printf("%s solved in %1.3f milliseconds%n", board.getKey(), (System.nanoTime() - start) /
+            // 1e6);
+        }
+        return sum.get();
+    }
 }
