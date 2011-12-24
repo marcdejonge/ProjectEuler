@@ -160,7 +160,7 @@ public abstract class Problem<T> {
             return -1;
         } else {
             final String checked = knownSolution == null ? "Unchecked" : knownSolution.equals(result) ? "Correct" : "Incorrect";
-            System.out.printf("%9s result for %s: %-18s Calculated in %5.2f seconds%n",
+            System.out.printf("%9s result for %s: %-18s Calculated in %5.3f seconds%n",
                               checked,
                               problem.getClass().getSimpleName(),
                               result.toString(),
