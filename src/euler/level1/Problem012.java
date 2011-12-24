@@ -9,7 +9,7 @@ public class Problem012 extends Problem<Long> {
     public Long solve() {
         final TriangleNumbers nrs = new TriangleNumbers();
         for (long nr = nrs.next();; nr = nrs.next()) {
-            if (Primes.nrOfDivisors(nr) >= 250) {
+            if (Primes.nrOfDivisors(nr) >= 500) {
                 return nr;
             }
         }

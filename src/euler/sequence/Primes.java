@@ -199,15 +199,13 @@ public class Primes extends AbstractSequence {
         final Primes p = new Primes();
 
         int cnt = 1;
-        for (long prime = p.next(); prime * prime < nr; prime = p.next()) {
+        for (long prime = p.next(); nr > 1; prime = p.next()) {
             int exp = 1;
             while (nr % prime == 0) {
                 exp++;
                 nr /= prime;
             }
-            if (exp > 1) {
-                cnt *= exp;
-            }
+            cnt *= exp;
         }
 
         return cnt;
