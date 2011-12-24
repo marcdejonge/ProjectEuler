@@ -8,7 +8,8 @@ public class Problem116 extends Problem<Long> {
     @Override
     public Long solve() {
         return new BinaryCombinationsWithFixedLength(50, 2).getTotalOptions() + new BinaryCombinationsWithFixedLength(50, 3).getTotalOptions()
-               + new BinaryCombinationsWithFixedLength(50, 4).getTotalOptions();
+               + new BinaryCombinationsWithFixedLength(50, 4).getTotalOptions()
+               - 3; // Ignore all the empty bars
     }
 
 }
