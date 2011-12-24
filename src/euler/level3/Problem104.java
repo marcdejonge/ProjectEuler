@@ -25,8 +25,7 @@ public class Problem104 extends Problem<Integer> {
         final long lMod = 1000000000000000000L;
         long firstF1 = 1, firstF2 = 1;
 
-        int k = 2;
-        while (true) {
+        for (int k = 3;; k++) {
             int temp = lastF1 + lastF2;
             lastF1 = lastF2;
             lastF2 = temp % mod;
@@ -38,8 +37,6 @@ public class Problem104 extends Problem<Integer> {
                 firstF1 /= 10;
                 firstF2 /= 10;
             }
-
-            k++;
 
             if (is9(lastF2) && is9((int) (firstF2 / mod))) {
                 return k;
