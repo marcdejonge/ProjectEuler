@@ -10,7 +10,7 @@ public class PellSolver {
     private static final BigInteger MAX = BigInteger.valueOf(Long.MAX_VALUE);
 
     public static void main(String[] args) {
-        PellSolver ps = new PellSolver(8);
+        PellSolver ps = new PellSolver(2);
 
         Pair<Long, Long> solution = ps.next();
         while (solution != null) {
