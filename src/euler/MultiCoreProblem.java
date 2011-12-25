@@ -24,6 +24,9 @@ public abstract class MultiCoreProblem extends Problem<Long> {
         this.blockSize = blockSize;
     }
 
+    public void finished() {
+    }
+
     public abstract boolean handleNumber(long nr);
 
     @Override
@@ -60,6 +63,8 @@ public abstract class MultiCoreProblem extends Problem<Long> {
         for (final RecursiveAction task : tasks) {
             task.join();
         }
+
+        finished();
 
         return result.get();
     }
