@@ -46,7 +46,7 @@ public class Problem124 extends MultiCoreProblem {
     }
 
     public Problem124(int length, int k) {
-        super(new Primes(), 100);
+        super(new Primes(), 1000);
         rads = new Rad[length];
         for (int ix = 0; ix < length; ix++) {
             rads[ix] = new Rad(ix + 1);
