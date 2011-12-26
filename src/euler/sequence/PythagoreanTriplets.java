@@ -1,43 +1,8 @@
 package euler.sequence;
 
+import euler.Triplet;
+
 public class PythagoreanTriplets {
-    public static final class Triplet {
-        private int a, b;
-        private final int c;
-
-        private Triplet(int a, int b, int c) {
-            if (a < b) {
-                this.a = a;
-                this.b = b;
-            } else {
-                this.a = b;
-                this.b = a;
-            }
-            this.c = c;
-        }
-
-        public int getA() {
-            return a;
-        }
-
-        public int getB() {
-            return b;
-        }
-
-        public int getC() {
-            return c;
-        }
-
-        public int getSum() {
-            return a + b + c;
-        }
-
-        @Override
-        public String toString() {
-            return String.format("(%d,%d,%d)", a, b, c);
-        }
-    }
-
     public static final int gcd(final int a, final int b) {
         if (b == 0) {
             return a;
@@ -65,6 +30,13 @@ public class PythagoreanTriplets {
 
         final int v2 = v * v;
         final int w2 = w * w;
-        return new Triplet(2 * v * w, v2 - w2, v2 + w2);
+        int a = 2 * v * w;
+        int b = v2 - w2;
+        int c = v2 + w2;
+        if (a < b) {
+            return new Triplet(a, b, c);
+        } else {
+            return new Triplet(b, a, c);
+        }
     }
 }

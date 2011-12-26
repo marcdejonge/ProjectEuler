@@ -1,8 +1,8 @@
 package euler.level2;
 
 import euler.Problem;
+import euler.Triplet;
 import euler.sequence.PythagoreanTriplets;
-import euler.sequence.PythagoreanTriplets.Triplet;
 
 public class Problem075 extends Problem<Integer> {
     private final static int MAX = 1500000;
