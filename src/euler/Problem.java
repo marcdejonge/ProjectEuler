@@ -100,7 +100,7 @@ public abstract class Problem<T> {
         knownSolutions.put(90, Number.valueOf(1217));
         knownSolutions.put(91, Number.valueOf(14234));
         knownSolutions.put(92, Number.valueOf(8581146));
-        knownSolutions.put(92, Number.valueOf(1258));
+        knownSolutions.put(93, Number.valueOf(1258));
         knownSolutions.put(94, Number.valueOf(518408346));
         knownSolutions.put(95, Number.valueOf(14316));
         knownSolutions.put(96, Number.valueOf(24702));
