@@ -1,6 +1,6 @@
 package euler.twoD;
 
-public class Point {
+public final class Point {
     final double x, y;
 
     public Point(double x, double y) {
@@ -20,13 +20,7 @@ public class Point {
     }
 
     public boolean equals(Point p) {
-        if (Double.doubleToLongBits(x) != Double.doubleToLongBits(p.x)) {
-            return false;
-        } else if (Double.doubleToLongBits(y) != Double.doubleToLongBits(p.y)) {
-            return false;
-        } else {
-            return true;
-        }
+        return x == p.x && y == p.y;
     }
 
     public double getX() {
@@ -39,13 +33,9 @@ public class Point {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        long temp = Double.doubleToLongBits(x);
-        result = prime * result + (int) (temp ^ temp >>> 32);
-        temp = Double.doubleToLongBits(y);
-        result = prime * result + (int) (temp ^ temp >>> 32);
-        return result;
+        long tx = Double.doubleToLongBits(x);
+        long ty = Double.doubleToLongBits(y);
+        return 31 * (int) (tx ^ tx >>> 32) + (int) (ty ^ ty >>> 32);
     }
 
     @Override

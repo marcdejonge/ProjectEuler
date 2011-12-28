@@ -1,9 +1,9 @@
 package euler.level4;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import euler.Problem;
+import euler.collection.HashSet;
 import euler.sequence.AbstractSequence;
 import euler.twoD.Line;
 import euler.twoD.Point;
@@ -56,7 +56,7 @@ public class Problem165 extends Problem<Integer> {
 
     @Override
     public Integer solve() {
-        Set<Point> points = new HashSet<Point>(5000000);
+        Set<Point> points = HashSet.create(Point.class, 22);
         for (int ix = 0; ix < lines.length; ix++) {
             for (int jx = ix + 1; jx < lines.length; jx++) {
                 Point p = lines[ix].getIntersection(lines[jx]);
