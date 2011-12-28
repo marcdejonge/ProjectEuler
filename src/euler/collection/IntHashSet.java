@@ -24,16 +24,19 @@ public class IntHashSet {
     }
 
     public boolean add(int nr) {
-        checkFilled();
+        if (nr > 0) {
+            checkFilled();
 
-        int ix = findIx(nr);
-        if (buckets[ix] == 0) {
-            buckets[ix] = nr;
-            filled++;
-            return true;
-        } else {
-            return false;
+            int ix = findIx(nr);
+            if (buckets[ix] == 0) {
+                buckets[ix] = nr;
+                filled++;
+                return true;
+            } else {
+                return false;
+            }
         }
+        return false;
     }
 
     public void addAll(IntHashSet store) {
@@ -85,5 +88,22 @@ public class IntHashSet {
 
     public int size() {
         return filled;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{");
+        for (int bucket : buckets) {
+            if (bucket > 0) {
+                sb.append(bucket);
+                sb.append(", ");
+            }
+        }
+        if (size() != 0) {
+            sb.setLength(sb.length() - 2);
+        }
+        sb.append("}");
+        return sb.toString();
     }
 }
