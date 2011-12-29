@@ -5,6 +5,22 @@ import euler.combination.CombinationGenerator;
 
 public class Problem121 extends Problem<Long> {
 
+    public static long fact(final int n) {
+        if (n <= 1) {
+            return 1;
+        } else {
+            return n * fact(n - 1);
+        }
+    }
+
+    public static long mult(final Integer[] values) {
+        long mult = 1;
+        for (Integer x : values) {
+            mult *= x;
+        }
+        return mult;
+    }
+
     private final int n;
 
     public Problem121() {
@@ -15,34 +31,18 @@ public class Problem121 extends Problem<Long> {
         this.n = n;
     }
 
-    public long fact(int n) {
-        if (n <= 1) {
-            return 1;
-        } else {
-            return n * fact(n - 1);
-        }
-    }
-
-    public long mult(Integer[] values) {
-        long mult = 1;
-        for (Integer x : values) {
-            mult *= x;
-        }
-        return mult;
-    }
-
     @Override
     public Long solve() {
         long sum = 1;
 
-        Integer[] options = new Integer[n];
-        for (int ix = 0; ix < options.length; ix++) {
-            options[ix] = ix + 1;
+        Integer[] loseChances = new Integer[n];
+        for (int ix = 0; ix < loseChances.length; ix++) {
+            loseChances[ix] = ix + 1;
         }
 
-        for (int selected = 1; selected < (n + 1) / 2; selected++) {
-            for (Integer[] selection : new CombinationGenerator<Integer>(options, selected)) {
-                sum += mult(selection);
+        for (int nrLost = 1; nrLost < (n + 1) / 2; nrLost++) {
+            for (Integer[] lostSelection : new CombinationGenerator<Integer>(loseChances, nrLost)) {
+                sum += mult(lostSelection);
             }
         }
 
