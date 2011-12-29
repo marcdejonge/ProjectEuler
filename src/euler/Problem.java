@@ -105,6 +105,7 @@ public abstract class Problem<T> {
         knownSolutions.put(95, Number.valueOf(14316));
         knownSolutions.put(96, Number.valueOf(24702));
         knownSolutions.put(97, Number.valueOf(8739992577l));
+        knownSolutions.put(99, Number.valueOf(18769));
         knownSolutions.put(99, Number.valueOf(709));
         knownSolutions.put(100, Number.valueOf(756872327473l));
         knownSolutions.put(102, Number.valueOf(228));
@@ -119,6 +120,7 @@ public abstract class Problem<T> {
         knownSolutions.put(117, Number.valueOf(100808458960497l));
         knownSolutions.put(119, Number.valueOf(248155780267521l));
         knownSolutions.put(120, Number.valueOf(333082500));
+        knownSolutions.put(121, Number.valueOf(2269));
         knownSolutions.put(123, Number.valueOf(21035));
         knownSolutions.put(124, Number.valueOf(21417));
         knownSolutions.put(125, Number.valueOf(2906969179l));
@@ -162,7 +164,7 @@ public abstract class Problem<T> {
             return -1;
         } else {
             final String checked = knownSolution == null ? "Unchecked" : knownSolution.equals(result) ? "Correct" : "Incorrect";
-            System.out.printf("%9s result for %s: %-18s Calculated in %5.3f seconds%n",
+            System.out.printf("%9s result for %s: %20s Calculated in %5.3f seconds%n",
                               checked,
                               problem.getClass().getSimpleName(),
                               result.toString(),
