@@ -1,6 +1,14 @@
 package euler.numberic;
 
 public class NumericUtils {
+    public static int fact(int nr) {
+        if (nr == 1) {
+            return 1;
+        } else {
+            return nr * fact(nr - 1);
+        }
+    }
+
     public static int gcd(int a, int b) {
         if (b == 0) {
             return a;
@@ -9,8 +17,8 @@ public class NumericUtils {
         }
     }
 
-    public static int pow(int x, int n) {
-        int res;
+    public static long pow(int x, int n) {
+        long res;
         if (n == 0) {
             return 1;
         } else if ((n & 1) == 1) {
