@@ -9,39 +9,40 @@ public class TriangleNumbers {
     private Node[][] numbers;
 
     public TriangleNumbers(File file) throws IOException {
-        final BufferedReader reader = new BufferedReader(new FileReader(file));
-        numbers = new Node[10][];
-        int lineNr = 0;
-        String line = null;
-        while ((line = reader.readLine()) != null) {
-            final String[] sNrs = line.split(" ");
-            lineNr++;
-            if (sNrs.length != lineNr) {
-                throw new IOException("Illegal format: should be " + lineNr + "numbers on line " + lineNr);
-            }
-            if (numbers.length <= lineNr) {
-                final Node[][] temp = new Node[lineNr * 2][];
-                System.arraycopy(numbers, 0, temp, 0, numbers.length);
-                numbers = temp;
-            }
-            numbers[lineNr - 1] = new Node[lineNr];
-            for (int i = 0; i < lineNr; i++) {
-                try {
-                    numbers[lineNr - 1][i] = new Node(lineNr > 1 && i > 0 ? numbers[lineNr - 2][i - 1] : null,
-                                                      lineNr > 1 && i < lineNr - 1 ? numbers[lineNr - 2][i] : null,
-                                                      Integer.parseInt(sNrs[i]));
-                    if (sNrs[i].length() > Node.maxSize) {
-                        Node.maxSize = sNrs[i].length();
+        try (final BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            numbers = new Node[10][];
+            int lineNr = 0;
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                final String[] sNrs = line.split(" ");
+                lineNr++;
+                if (sNrs.length != lineNr) {
+                    throw new IOException("Illegal format: should be " + lineNr + "numbers on line " + lineNr);
+                }
+                if (numbers.length <= lineNr) {
+                    final Node[][] temp = new Node[lineNr * 2][];
+                    System.arraycopy(numbers, 0, temp, 0, numbers.length);
+                    numbers = temp;
+                }
+                numbers[lineNr - 1] = new Node[lineNr];
+                for (int i = 0; i < lineNr; i++) {
+                    try {
+                        numbers[lineNr - 1][i] = new Node(lineNr > 1 && i > 0 ? numbers[lineNr - 2][i - 1] : null,
+                                                          lineNr > 1 && i < lineNr - 1 ? numbers[lineNr - 2][i] : null,
+                                                          Integer.parseInt(sNrs[i]));
+                        if (sNrs[i].length() > Node.maxSize) {
+                            Node.maxSize = sNrs[i].length();
+                        }
+                    } catch (final NumberFormatException ex) {
+                        throw new IOException("Illegal number an line " + lineNr);
                     }
-                } catch (final NumberFormatException ex) {
-                    throw new IOException("Illegal number an line " + lineNr);
                 }
             }
-        }
 
-        final Node[][] temp = new Node[lineNr][];
-        System.arraycopy(numbers, 0, temp, 0, lineNr);
-        numbers = temp;
+            final Node[][] temp = new Node[lineNr][];
+            System.arraycopy(numbers, 0, temp, 0, lineNr);
+            numbers = temp;
+        }
     }
 
     public Node[] findHeaviestRoute() {

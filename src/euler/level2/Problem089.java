@@ -11,8 +11,7 @@ public class Problem089 extends Problem<Integer> {
     @Override
     public Integer solve() {
         int charactersSaved = 0;
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader("Problem089.txt"));
+        try (BufferedReader reader = new BufferedReader(new FileReader("Problem089.txt"))) {
             String line = null;
             while ((line = reader.readLine()) != null) {
                 charactersSaved += line.length() - RomanNumeral.parse(line).toString().length();

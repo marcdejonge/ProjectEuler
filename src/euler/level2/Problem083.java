@@ -16,8 +16,7 @@ public class Problem083 extends Problem<Long> {
     @Override
     public Long solve() {
         final List<List<Node>> nodes = new ArrayList<List<Node>>(80);
-        try {
-            final BufferedReader reader = new BufferedReader(new FileReader("Problem083.txt"));
+        try (final BufferedReader reader = new BufferedReader(new FileReader("Problem083.txt"))) {
             String line = null;
             int y = 0;
             while ((line = reader.readLine()) != null) {

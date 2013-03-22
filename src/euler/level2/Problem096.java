@@ -216,8 +216,7 @@ public class Problem096 extends Problem<Integer> {
     }
 
     public Map<String, SudokuBoard> readBoards() {
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader("Problem096.txt"));
+        try (final BufferedReader reader = new BufferedReader(new FileReader("Problem096.txt"))) {
             int y = 0;
             String line = null;
             SudokuBoard board = null;

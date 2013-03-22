@@ -19,8 +19,7 @@ public class Problem079 extends Problem<Number> {
 
         final Map<Byte, BitSet> map = new HashMap<Byte, BitSet>();
 
-        try {
-            final BufferedReader reader = new BufferedReader(new FileReader("Problem79.txt"));
+        try (final BufferedReader reader = new BufferedReader(new FileReader("Problem79.txt"))) {
             String line = null;
             while ((line = reader.readLine()) != null) {
                 final int max = line.length();

@@ -24,11 +24,12 @@ public class Triangle {
     }
 
     public static List<Triangle> read(File file) throws IOException {
-        final BufferedReader reader = new BufferedReader(new FileReader(file));
-        String line = null;
         final List<Triangle> res = new ArrayList<Triangle>();
-        while ((line = reader.readLine()) != null) {
-            res.add(decode(line));
+        try (final BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                res.add(decode(line));
+            }
         }
         return res;
     }

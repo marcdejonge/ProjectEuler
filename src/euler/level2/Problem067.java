@@ -16,8 +16,7 @@ public class Problem067 extends Problem<Long> {
     @Override
     public Long solve() {
         Node start = null, goal = null;
-        try {
-            final BufferedReader reader = new BufferedReader(new FileReader("Problem67.txt"));
+        try (final BufferedReader reader = new BufferedReader(new FileReader("Problem67.txt"))) {
             String line = null;
             List<Node> last = null;
             int y = 0;
