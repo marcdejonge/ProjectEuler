@@ -19,6 +19,10 @@ public class Problem165 extends Problem<Integer> {
         private long curr;
         private int pos;
 
+        public BlumBlumShub() {
+            reset();
+        }
+
         @Override
         public long current() {
             return curr;

@@ -6,13 +6,13 @@ import java.util.List;
 
 import euler.Problem;
 import euler.numberic.Number;
-import euler.sequence.AbstractSequence;
+import euler.sequence.LongSequence;
 import euler.sequence.SimpleSequence;
 
 public class Problem062 extends Problem<Number> {
     @Override
     public Number solve() {
-        final AbstractSequence cubes = new SimpleSequence() {
+        final LongSequence cubes = new SimpleSequence() {
             @Override
             public long current() {
                 final long n = getN();

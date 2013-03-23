@@ -5,11 +5,11 @@ public class SumSequence extends AbstractSequence {
         System.out.println(new SumSequence(new NaturalNumbers()));
     }
 
-    private final AbstractSequence seq;
+    private final LongSequence seq;
 
     private long sum;
 
-    public SumSequence(AbstractSequence seq) {
+    public SumSequence(LongSequence seq) {
         this.seq = seq;
         sum = 0;
     }

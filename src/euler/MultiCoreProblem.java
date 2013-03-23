@@ -7,17 +7,17 @@ import java.util.concurrent.RecursiveAction;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantLock;
 
-import euler.sequence.AbstractSequence;
+import euler.sequence.LongSequence;
 
 public abstract class MultiCoreProblem extends Problem<Long> {
     private static final ForkJoinPool pool = new ForkJoinPool();
 
-    final AbstractSequence sequence;
+    final LongSequence sequence;
     final ReentrantLock lock;
     protected final AtomicLong result;
     private final int blockSize;
 
-    public MultiCoreProblem(AbstractSequence sequence, int blockSize) {
+    public MultiCoreProblem(LongSequence sequence, int blockSize) {
         this.sequence = sequence;
         lock = new ReentrantLock();
         result = new AtomicLong(0);

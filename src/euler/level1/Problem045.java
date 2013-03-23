@@ -1,17 +1,17 @@
 package euler.level1;
 
 import euler.Problem;
-import euler.sequence.AbstractSequence;
 import euler.sequence.HexagonalNumbers;
+import euler.sequence.LongSequence;
 import euler.sequence.PentagonalNumbers;
 import euler.sequence.TriangleNumbers;
 
 public class Problem045 extends Problem<Long> {
     @Override
     public Long solve() {
-        final AbstractSequence tria = new TriangleNumbers();
-        final AbstractSequence pent = new PentagonalNumbers();
-        final AbstractSequence hexa = new HexagonalNumbers();
+        final LongSequence tria = new TriangleNumbers();
+        final LongSequence pent = new PentagonalNumbers();
+        final LongSequence hexa = new HexagonalNumbers();
 
         long t = tria.next();
         long p = pent.next();

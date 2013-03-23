@@ -3,17 +3,24 @@ package euler.sequence;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public abstract class AbstractSequence implements Iterable<Long> {
+public abstract class AbstractSequence implements Iterable<Long>, LongSequence {
     public static abstract interface Test {
         public boolean test(long value);
     }
 
     public AbstractSequence() {
-        reset();
     }
 
+    /* (non-Javadoc)
+     * @see euler.sequence.LongSequence#current()
+     */
+    @Override
     public abstract long current();
 
+    /* (non-Javadoc)
+     * @see euler.sequence.LongSequence#dropWhile(euler.sequence.AbstractSequence.Test)
+     */
+    @Override
     public void dropWhile(Test test) {
         reset();
         long nr = next();
@@ -43,6 +50,10 @@ public abstract class AbstractSequence implements Iterable<Long> {
         return result;
     }
 
+    /* (non-Javadoc)
+     * @see euler.sequence.LongSequence#head(long)
+     */
+    @Override
     public long[] head(long until) {
         final ArrayList<Long> list = new ArrayList<Long>();
         for (long nr = next(); nr < until; nr = next()) {
@@ -77,10 +88,22 @@ public abstract class AbstractSequence implements Iterable<Long> {
         };
     }
 
+    /* (non-Javadoc)
+     * @see euler.sequence.LongSequence#next()
+     */
+    @Override
     public abstract long next();
 
+    /* (non-Javadoc)
+     * @see euler.sequence.LongSequence#position()
+     */
+    @Override
     public abstract long position();
 
+    /* (non-Javadoc)
+     * @see euler.sequence.LongSequence#reset()
+     */
+    @Override
     public void reset() {
         throw new UnsupportedOperationException();
     }

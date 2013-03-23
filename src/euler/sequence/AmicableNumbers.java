@@ -9,6 +9,10 @@ public class AmicableNumbers extends AbstractSequence {
 
     private int pos, filled;
 
+    public AmicableNumbers() {
+        reset();
+    }
+
     @Override
     public long current() {
         return n;
