@@ -63,7 +63,7 @@ public class Number extends java.lang.Number implements Comparable<Number> {
     public Number(byte[] bytes) {
         values = new byte[bytes.length];
         for (int i = 0, j = bytes.length - 1; j >= 0; i++, j--) {
-            values[i] = bytes[j];
+            values[i] = (byte) (bytes[j] % 10);
         }
         validate();
     }
@@ -204,12 +204,26 @@ public class Number extends java.lang.Number implements Comparable<Number> {
         return 0;
     }
 
+    @Override
+    public int hashCode() {
+        return (int) hashCodeLong();
+    }
+
     public long hashCodeLong() {
         long x = 0;
         for (final byte value : values) {
             x += 1 << 5 * value;
         }
         return x;
+    }
+
+    public boolean hasOnlyOddDigits() {
+        for (byte value : values) {
+            if ((value & 1) == 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public boolean hasZeros(int nr) {
