@@ -35,14 +35,22 @@ public class Primes extends AbstractSequence {
         }
     }
 
-    private static class Numbers {
+    /**
+     * A block of primenumbers that is stored as a set of bits between a lowerBound and upperBound.
+     * 
+     * @author Marc de Jonge
+     */
+    private static class PrimeNumbers {
         private final long[] bits;
 
-        private Numbers next;
+        private PrimeNumbers next;
 
-        private final long startNr, endNr;
+        private final long lowerBound, upperBound;
 
-        private Numbers() {
+        /**
+         * Initialized the first set of prime numbers, which is pre-calculated
+         */
+        private PrimeNumbers() {
             bits = new long[] { 0x816d129a64b4cb6eL,
                                0x2196820d864a4c32L,
                                0xa48961205a0434c9L,
@@ -51,24 +59,35 @@ public class Primes extends AbstractSequence {
                                0x148a48844225064bL,
                                0xb40b4086c304205L,
                                0x65048928125108a0L };
-            startNr = 1;
-            endNr = startNr + bits.length * 128;
+            lowerBound = 1;
+            upperBound = lowerBound + bits.length * 128;
         }
 
-        private Numbers(Numbers last) {
-            startNr = last.endNr;
+        /**
+         * Calculates the next set of prime numbers, based on the previous set.
+         * 
+         * @param last
+         *            The previous set of prime numbers to base the next block on
+         */
+        private PrimeNumbers(PrimeNumbers last) {
+            // We can store the primenumbers starting from the end of the last block
+            lowerBound = last.upperBound;
+            // Calculate the size of the next block
             bits = new long[Math.min(last.bits.length * 2, 131072) * NR_OF_PROCESSORS];
             final long blocksize = bits.length / NR_OF_PROCESSORS;
+            // Start out with everything as 'prime'
             for (int i = 0; i < bits.length; i++) {
                 bits[i] = 0xffffffffffffffffl;
             }
-            endNr = startNr + bits.length * 128;
+            // And we can store until this number
+            upperBound = lowerBound + bits.length * 128;
 
             // System.out.print("Calculating primes until " + endNr + "...");
 
+            // Use the ForkJoinPool to do the calculation parallel
             final List<ForkJoinTask<Void>> tasks = new ArrayList<ForkJoinTask<Void>>(NR_OF_PROCESSORS);
             for (int tix = 0; tix < NR_OF_PROCESSORS; tix++) {
-                final long startNr = this.startNr;
+                final long startNr = lowerBound;
                 final long[] bits = this.bits;
                 final long start = startNr + blocksize * 128 * tix;
                 final long end = start + blocksize * 128;
@@ -77,14 +96,16 @@ public class Primes extends AbstractSequence {
 
                     @Override
                     protected void compute() {
-
+                        // Use the Primes sequence class to read the real prime numbers
                         final Primes primes = new Primes();
                         long prime = primes.next(); // Skip the 2
+                        // Check for each prime
                         while ((prime = primes.next()) * prime < end) {
                             final long add = prime * 2;
                             long mult = start / add * add + prime;
                             while (mult < end) {
                                 if (mult >= start) {
+                                    // Use bitmasking to disable the composite numbers
                                     int ix = (int) (mult - startNr);
                                     ix >>>= 1;
                                     bits[ix >>> 6] &= 0xffffffffffffffffL ^ 1L << ix;
@@ -103,42 +124,62 @@ public class Primes extends AbstractSequence {
             }
             // System.out.println("done");
 
+            // Link this new instance to the previous
             last.next = this;
-            currentMax = endNr;
+            currentMax = upperBound;
 
-            if (endNr < 1000000l) {
-                new Numbers(this);
+            // Already start on the next block
+            if (upperBound < 1000000l) {
+                new PrimeNumbers(this);
             }
         }
 
-        Numbers getNext() {
+        /**
+         * @return The next PrimeNumbers block. This will calculate the next block, when it has not been asked before.
+         */
+        PrimeNumbers getNext() {
             while (next == null) {
                 synchronized (this) {
                     if (next == null) {
-                        new Numbers(this);
+                        new PrimeNumbers(this);
                     }
                 }
             }
             return next;
         }
 
+        /**
+         * Checks if the given number is prime using the sieve. This should only be called on the first block and will
+         * be called recursively on the next linked blocks when this block doesn't have the number.
+         * 
+         * @param nr
+         *            The number that needs to be checked for primeness.
+         * @return true when the given number is prime, false otherwise.
+         */
         boolean isPrime(long nr) {
             if ((nr & 1) == 0) {
                 return nr == 2;
-            } else if (nr < startNr) {
+            } else if (nr < lowerBound) {
                 return false;
-            } else if (nr >= endNr) {
+            } else if (nr >= upperBound) {
                 return getNext().isPrime(nr);
             }
 
-            int ix = (int) (nr - startNr);
+            int ix = (int) (nr - lowerBound);
             ix >>>= 1;
 
             return (bits[ix >>> 6] >>> ix & 1L) == 1L;
         }
 
+        /**
+         * Finds the next prime number, given the previous one.
+         * 
+         * @param lastPrime
+         *            The previous number from which the search should start.
+         * @return The first prime that is bigger that the lastPrime.
+         */
         long nextPrime(long lastPrime) {
-            int ix = lastPrime < startNr ? 0 : (int) (lastPrime - startNr + 2);
+            int ix = lastPrime < lowerBound ? 0 : (int) (lastPrime - lowerBound + 2);
             ix >>>= 1;
 
             int wordIx = ix >>> 6;
@@ -155,7 +196,7 @@ public class Primes extends AbstractSequence {
                 word = bits[wordIx];
             }
 
-            return startNr + ((wordIx << 6) + Long.numberOfTrailingZeros(word)) * 2;
+            return lowerBound + ((wordIx << 6) + Long.numberOfTrailingZeros(word)) * 2;
         }
     }
 
@@ -163,13 +204,20 @@ public class Primes extends AbstractSequence {
 
     private static final ForkJoinPool FORK_JOIN_POOL = new ForkJoinPool();
 
-    private final static Numbers numbers = new Numbers();
+    private final static PrimeNumbers primeNumbers = new PrimeNumbers();
 
-    static long currentMax = numbers.endNr;
+    static long currentMax = primeNumbers.upperBound;
+
+    private static long calculateMemoryUsage() {
+        for (int i = 0; i < 16; i++) {
+            System.gc();
+        }
+        return Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+    }
 
     public final static boolean isPrime(long nr) {
         if (nr < currentMax) {
-            return numbers.isPrime(nr);
+            return primeNumbers.isPrime(nr);
         } else {
             final Primes ps = new Primes();
             for (long p = ps.next(); p * p <= nr; p = ps.next()) {
@@ -182,8 +230,11 @@ public class Primes extends AbstractSequence {
     }
 
     public static void main(String[] args) {
+        long mem0 = calculateMemoryUsage();
+
         long start = System.nanoTime();
         int ix = 0;
+
         for (long prime : new Primes()) {
             if (prime > 1000000000) {
                 break;
@@ -193,6 +244,7 @@ public class Primes extends AbstractSequence {
         long duration = System.nanoTime() - start;
         System.out.println(ix);
         System.out.println(duration / 1e9);
+        System.out.println(calculateMemoryUsage() - mem0);
     }
 
     public final static int nrOfDivisors(long nr) {
@@ -299,7 +351,7 @@ public class Primes extends AbstractSequence {
 
     private int add, pos;
 
-    private Numbers current;
+    private PrimeNumbers current;
 
     private long nr;
 
@@ -326,7 +378,7 @@ public class Primes extends AbstractSequence {
         } else if (nr == 3) {
             nr = 5;
         } else {
-            if (nr > current.endNr) {
+            if (nr > current.upperBound) {
                 current = current.getNext();
             }
             pos++;
@@ -344,8 +396,8 @@ public class Primes extends AbstractSequence {
 
     @Override
     public void reset() {
-        current = Primes.numbers;
-        nr = current.startNr;
+        current = Primes.primeNumbers;
+        nr = current.lowerBound;
         pos = 0;
         add = 2;
     }
