@@ -1,7 +1,6 @@
 package euler.level2;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,13 +9,14 @@ import euler.Pair;
 import euler.Problem;
 import euler.cards.Card;
 import euler.cards.Hand;
+import euler.input.FileUtils;
 
 public class Problem054 extends Problem<Integer> {
 
-    private static List<Pair<Hand, Hand>> readHands(String file) throws IOException {
+    private List<Pair<Hand, Hand>> readHands() throws IOException {
         final List<Pair<Hand, Hand>> result = new ArrayList<Pair<Hand, Hand>>();
 
-        try (final BufferedReader reader = new BufferedReader(new FileReader(file))) {
+        try (final BufferedReader reader = FileUtils.readInput(this)) {
             String line = null;
             while ((line = reader.readLine()) != null) {
                 if (line.length() == 29) {
@@ -41,7 +41,7 @@ public class Problem054 extends Problem<Integer> {
     @Override
     public Integer solve() {
         try {
-            final List<Pair<Hand, Hand>> hands = readHands("Problem054.txt");
+            final List<Pair<Hand, Hand>> hands = readHands();
 
             int total = 0;
             for (final Pair<Hand, Hand> hand : hands) {

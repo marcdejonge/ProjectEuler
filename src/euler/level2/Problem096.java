@@ -1,7 +1,6 @@
 package euler.level2;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -11,6 +10,7 @@ import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import euler.Problem;
+import euler.input.FileUtils;
 import euler.search.DepthFirstSearch;
 import euler.search.Model;
 import euler.search.SearchAlgorithmListener;
@@ -216,7 +216,7 @@ public class Problem096 extends Problem<Integer> {
     }
 
     public Map<String, SudokuBoard> readBoards() {
-        try (final BufferedReader reader = new BufferedReader(new FileReader("Problem096.txt"))) {
+        try (final BufferedReader reader = FileUtils.readInput(this)) {
             int y = 0;
             String line = null;
             SudokuBoard board = null;

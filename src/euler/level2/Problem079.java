@@ -1,12 +1,12 @@
 package euler.level2;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import euler.Problem;
+import euler.input.FileUtils;
 import euler.numberic.BitSet;
 
 public class Problem079 extends Problem<Number> {
@@ -19,7 +19,7 @@ public class Problem079 extends Problem<Number> {
 
         final Map<Byte, BitSet> map = new HashMap<Byte, BitSet>();
 
-        try (final BufferedReader reader = new BufferedReader(new FileReader("Problem79.txt"))) {
+        try (final BufferedReader reader = FileUtils.readInput(this)) {
             String line = null;
             while ((line = reader.readLine()) != null) {
                 final int max = line.length();

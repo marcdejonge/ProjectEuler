@@ -1,12 +1,12 @@
 package euler.level2;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import euler.Problem;
+import euler.input.FileUtils;
 import euler.path.AStar;
 import euler.path.AStar.Guide;
 import euler.path.Node;
@@ -16,7 +16,7 @@ public class Problem083 extends Problem<Long> {
     @Override
     public Long solve() {
         final List<List<Node>> nodes = new ArrayList<List<Node>>(80);
-        try (final BufferedReader reader = new BufferedReader(new FileReader("Problem083.txt"))) {
+        try (final BufferedReader reader = FileUtils.readInput(this)) {
             String line = null;
             int y = 0;
             while ((line = reader.readLine()) != null) {

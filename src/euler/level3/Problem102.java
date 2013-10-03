@@ -1,10 +1,10 @@
 package euler.level3;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import euler.Problem;
+import euler.input.FileUtils;
 import euler.twoD.Triangle;
 import euler.twoD.Vector;
 
@@ -13,7 +13,7 @@ public class Problem102 extends Problem<Integer> {
     public Integer solve() {
         List<Triangle> ts;
         try {
-            ts = Triangle.read(new File("Problem102.txt"));
+            ts = Triangle.read(FileUtils.findFile(this));
         } catch (final IOException e) {
             System.err.println("Could not read input file: Problem102.txt");
             return null;

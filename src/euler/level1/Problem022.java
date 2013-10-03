@@ -1,19 +1,18 @@
 package euler.level1;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import euler.FileUtil;
 import euler.Problem;
+import euler.input.FileUtils;
 
 public class Problem022 extends Problem<Long> {
 
     @Override
     public Long solve() {
         try {
-            final List<String> names = FileUtil.readNames(new File("Problem22.txt"));
+            final List<String> names = FileUtils.readNames(this);
             Collections.sort(names);
             long sum = 0;
             for (int i = 0; i < names.size(); i++) {

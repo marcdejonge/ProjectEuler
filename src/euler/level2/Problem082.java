@@ -1,6 +1,5 @@
 package euler.level2;
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +9,7 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.Future;
 
 import euler.Problem;
+import euler.input.FileUtils;
 import euler.path.AStar;
 import euler.path.AStar.Guide;
 import euler.path.Node;
@@ -20,8 +20,8 @@ public class Problem082 extends Problem<Integer> {
     @Override
     public Integer solve() {
         try {
-            final List<List<Node>> nodes = new NodeReader(new FileReader("Problem082.txt"),
-                                                          NodeReader.CONNECT_RIGHT | NodeReader.CONNECT_DOWN | NodeReader.CONNECT_UP).readNodes();
+            final List<List<Node>> nodes = new NodeReader(FileUtils.readInput(this), NodeReader.CONNECT_RIGHT | NodeReader.CONNECT_DOWN
+                                                                                     | NodeReader.CONNECT_UP).readNodes();
 
             final int maxX = nodes.get(0).size() - 1;
             final Guide guide = new Guide() {

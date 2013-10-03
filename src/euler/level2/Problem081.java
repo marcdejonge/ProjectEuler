@@ -1,10 +1,10 @@
 package euler.level2;
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
 import euler.Problem;
+import euler.input.FileUtils;
 import euler.path.AStar;
 import euler.path.AStar.Guide;
 import euler.path.Node;
@@ -15,7 +15,7 @@ public class Problem081 extends Problem<Integer> {
     @Override
     public Integer solve() {
         try {
-            List<List<Node>> nodes = new NodeReader(new FileReader("Problem081.txt"), NodeReader.CONNECT_RIGHT | NodeReader.CONNECT_DOWN).readNodes();
+            List<List<Node>> nodes = new NodeReader(FileUtils.readInput(this), NodeReader.CONNECT_RIGHT | NodeReader.CONNECT_DOWN).readNodes();
 
             Node start = nodes.get(0).get(0);
             List<Node> lastRow = nodes.get(nodes.size() - 1);

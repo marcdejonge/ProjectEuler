@@ -1,12 +1,11 @@
 package euler.level1;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import euler.FileUtil;
 import euler.Problem;
+import euler.input.FileUtils;
 import euler.sequence.TriangleNumbers;
 
 public class Problem042 extends Problem<Integer> {
@@ -14,7 +13,7 @@ public class Problem042 extends Problem<Integer> {
     @Override
     public Integer solve() {
         try {
-            final List<String> words = FileUtil.readNames(new File("Problem42.txt"));
+            final List<String> words = FileUtils.readNames(this);
 
             final int[] triangleNrs = new TriangleNumbers().head(1000);
 

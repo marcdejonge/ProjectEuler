@@ -1,6 +1,5 @@
 package euler.level2;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,9 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import euler.FileUtil;
 import euler.Problem;
 import euler.combination.CombinationGenerator;
+import euler.input.FileUtils;
 
 public class Problem098 extends Problem<Integer> {
     private int decode(char[] word, char[] encoding) {
@@ -50,7 +49,7 @@ public class Problem098 extends Problem<Integer> {
 
     private Collection<List<String>> readAnagrams() {
         try {
-            final List<String> words = FileUtil.readNames(new File("Problem42.txt"));
+            final List<String> words = FileUtils.readNames(this);
             Map<String, List<String>> anagrams = new HashMap<String, List<String>>();
             for (String word : words) {
                 char[] letters = word.toCharArray();

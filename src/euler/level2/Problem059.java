@@ -1,17 +1,16 @@
 package euler.level2;
 
-import java.io.File;
 import java.io.IOException;
 
-import euler.FileUtil;
 import euler.Problem;
+import euler.input.FileUtils;
 
 public class Problem059 extends Problem<Integer> {
 
     @Override
     public Integer solve() {
         try {
-            final char[] enc = FileUtil.readChars(new File("Problem59.txt"));
+            final char[] enc = FileUtils.readChars(this);
             final char[] dec = new char[enc.length];
 
             final char[] key = new char[] { 0, 0, 0 };

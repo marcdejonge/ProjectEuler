@@ -1,6 +1,5 @@
 package euler.level1;
 
-import java.io.File;
 import java.io.IOException;
 
 import euler.Problem;
@@ -11,7 +10,7 @@ public class Problem018 extends Problem<Integer> {
     @Override
     public Integer solve() {
         try {
-            final TriangleNumbers tn = new TriangleNumbers(new File("Problem18.txt"));
+            final TriangleNumbers tn = new TriangleNumbers(this);
             // System.out.println(tn);
             final Node[] route = tn.findHeaviestRoute();
             // System.out.println(Arrays.toString(route));

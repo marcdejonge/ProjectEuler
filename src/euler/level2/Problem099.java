@@ -1,8 +1,6 @@
 package euler.level2;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -11,13 +9,14 @@ import java.util.List;
 
 import euler.Pair;
 import euler.Problem;
+import euler.input.FileUtils;
 
 public class Problem099 extends Problem<Integer> {
 
-    private static List<Pair<Integer, Integer>> readNumberPairs(File file) throws IOException {
+    private List<Pair<Integer, Integer>> readNumberPairs() throws IOException {
         final List<Pair<Integer, Integer>> result = new ArrayList<Pair<Integer, Integer>>();
 
-        try (final BufferedReader reader = new BufferedReader(new FileReader(file))) {
+        try (final BufferedReader reader = FileUtils.readInput(this)) {
             String line = null;
             while ((line = reader.readLine()) != null) {
                 final String[] nrs = line.split(",");
@@ -38,7 +37,7 @@ public class Problem099 extends Problem<Integer> {
     @Override
     public Integer solve() {
         try {
-            final List<Pair<Integer, Integer>> pairs = readNumberPairs(new File("Problem99.txt"));
+            final List<Pair<Integer, Integer>> pairs = readNumberPairs();
             BigDecimal max = BigDecimal.ZERO;
             final MathContext mc = new MathContext(8);
             int maxLine = 0;

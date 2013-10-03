@@ -5,10 +5,14 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import euler.Problem;
+import euler.input.FileUtils;
+
 public class TriangleNumbers {
     private Node[][] numbers;
 
-    public TriangleNumbers(File file) throws IOException {
+    public TriangleNumbers(Problem<?> problem) throws IOException {
+        File file = FileUtils.findFile(problem);
         try (final BufferedReader reader = new BufferedReader(new FileReader(file))) {
             numbers = new Node[10][];
             int lineNr = 0;
