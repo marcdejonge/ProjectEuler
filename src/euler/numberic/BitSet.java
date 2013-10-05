@@ -10,6 +10,12 @@ public class BitSet implements Cloneable, Iterable<Integer> {
 
     private long[] words;
 
+    public BitSet(BitSet other, int length) {
+        final int nrInts = (length >>> BitSet.SHIFT) + ((length & BitSet.MASK) == 0 ? 0 : 1);
+        words = Arrays.copyOf(other.words, nrInts);
+        this.length = length;
+    }
+
     public BitSet(int length) {
         final int nrInts = (length >>> BitSet.SHIFT) + ((length & BitSet.MASK) == 0 ? 0 : 1);
         words = new long[nrInts];
@@ -35,6 +41,21 @@ public class BitSet implements Cloneable, Iterable<Integer> {
             sum += Long.bitCount(value);
         }
         return sum;
+    }
+
+    /**
+     * @param index
+     * @return true if the set succeeded (thus the previous state was not set), false otherwise
+     */
+    public boolean checkAndSet(int index) {
+        if (index < 0 || index >= length) {
+            return false;
+        }
+        final int wordIndex = index >>> BitSet.SHIFT;
+        long bitMask = BitSet.ONE_LEFT >>> index;
+        boolean isSet = (words[wordIndex] & bitMask) != 0;
+        words[wordIndex] |= bitMask;
+        return !isSet;
     }
 
     @Override
@@ -184,10 +205,14 @@ public class BitSet implements Cloneable, Iterable<Integer> {
         return result;
     }
 
-    public void orSet(BitSet other) {
-        for (int i = 0; i < Math.min(words.length, other.words.length); i++) {
-            words[i] |= other.words[i];
+    public boolean overlaps(BitSet other) {
+        int length = Math.min(words.length, other.words.length);
+        for (int ix = 0; ix < length; ix++) {
+            if ((words[ix] & other.words[ix]) != 0) {
+                return true;
+            }
         }
+        return false;
     }
 
     public void reset() {
@@ -225,6 +250,13 @@ public class BitSet implements Cloneable, Iterable<Integer> {
         }
     }
 
+    public BitSet setAll(BitSet other) {
+        for (int i = 0; i < Math.min(words.length, other.words.length); i++) {
+            words[i] |= other.words[i];
+        }
+        return this;
+    }
+
     public void setLength(int length) {
         length++;
         final int newWordLength = (length >>> BitSet.SHIFT) + ((length & BitSet.MASK) == 0 ? 0 : 1);
@@ -232,6 +264,29 @@ public class BitSet implements Cloneable, Iterable<Integer> {
             words = new long[newWordLength];
         }
         this.length = length;
+    }
+
+    public BitSet shiftRight(int count) {
+        if (count < 0) {
+            throw new IllegalArgumentException("count >= 0");
+        } else if (count == 0) {
+            return this; // Nothing to do
+        }
+
+        long[] result = new long[words.length];
+        int nrLongSteps = count >>> SHIFT;
+        int shift = (int) (count & MASK);
+        int invShift = 64 - shift;
+
+        for (int ix = 0; ix + nrLongSteps < result.length; ix++) {
+            result[ix + nrLongSteps] |= words[ix] >>> shift;
+            if (ix + nrLongSteps + 1 < result.length) {
+                result[ix + nrLongSteps + 1] |= words[ix] << invShift;
+            }
+        }
+        words = result;
+
+        return this;
     }
 
     @Override
