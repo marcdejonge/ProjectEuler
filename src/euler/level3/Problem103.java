@@ -1,13 +1,11 @@
 package euler.level3;
 
 import java.util.Arrays;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 import euler.Problem;
 import euler.numberic.BitSet;
 
-public class Problem103 extends Problem<Long> {
+public final class Problem103 extends Problem<Long> {
     private static BitSet addAndCheck(BitSet originalSums, int number) {
         BitSet newSums = new BitSet(originalSums, originalSums.getLength() + number).shiftRight(number);
         if (originalSums.overlaps(newSums)) {
@@ -16,97 +14,95 @@ public class Problem103 extends Problem<Long> {
         return newSums.setAll(originalSums);
     }
 
-    SortedMap<Integer, int[]> solutions = new TreeMap<>();
-    private final int count;
-    private int currentMin;
-    private final int[] currentSolution;
-    private final BitSet[] usedSums;
-
-    public Problem103() {
-        count = 7;
-        currentMin = Integer.MAX_VALUE;
-        currentSolution = new int[count];
-        usedSums = new BitSet[count];
-    }
-
-    private int endSum(int lastIx, int count) {
+    private static int sum(int[] array, int fromIx, int untilIx) {
         int sum = 0;
-        for (int i = 0; i < count; i++) {
-            sum += currentSolution[lastIx - i];
+        for (int ix = fromIx; ix <= untilIx; ix++) {
+            sum += array[ix];
         }
         return sum;
     }
 
-    private void generate(int ix, int currentSum) {
+    private final int count;
+
+    private int currentMin;
+
+    private int[] currentMinimalSolution;
+
+    public Problem103() {
+        count = 7;
+        currentMin = Integer.MAX_VALUE;
+        currentMinimalSolution = null;
+    }
+
+    private final void generate(final int[] array, final BitSet sums, final int ix, final int currentSum) {
         if (ix == 0) {
-            int x = ++currentSolution[0];
-            currentSolution[1] = x;
-            usedSums[0] = new BitSet(x + 1).set(0).set(x);
-            generate(1, x);
+            // When the array is empty, try to start generating the next number
+            generate(array, new BitSet(array[0] + 1).set(0).set(array[0]), ix + 1, array[0]);
         } else if (ix == 1) {
-            for (int x = currentSum + 1; x <= Math.min(currentSum * 2, currentMin - (count - 2) * x); x++) {
-                currentSolution[1] = x;
-                currentSolution[2] = x;
-                usedSums[1] = addAndCheck(usedSums[0], x);
-                generate(2, currentSum + x);
+            // When the array has only 1 put into it, generate any second number
+            for (int x = currentSum + 1; x <= currentSum * 2 && possible(currentSum, x, ix); x++) {
+                array[ix] = x;
+                generate(array, addAndCheck(sums, x), ix + 1, currentSum + x);
             }
         } else if (ix >= count) {
-            // Found one!
-            if (!solutions.containsKey(currentSum)) {
-                solutions.put(currentSum, Arrays.copyOf(currentSolution, count));
-                if (currentSum < currentMin) {
-                    currentMin = currentSum;
-                }
+            // Found a solution, check if it is optimal
+            if (currentSum < currentMin) {
+                currentMin = currentSum;
+                currentMinimalSolution = Arrays.copyOf(array, count);
             }
         } else {
+            array[ix] = array[ix - 1];
             while (true) {
-                int x = ++currentSolution[ix];
-                if (ix + 1 < count) {
-                    currentSolution[ix + 1] = x;
-                }
+                final int x = ++array[ix];
 
-                if (currentSum + x * (count - ix - 1) > currentMin) {
+                // Try to detect early if there is no way to create a new minimal solution
+                // It calculates the current sum + the current number * nrOfSpotsLeft + triangle nr [nrOfSpotsLeft]
+                if (!possible(currentSum, x, ix)) {
                     return;
                 }
 
                 // First check for property ii:
                 // ii: If B contains more elements than C then S(B) > S(C).
-                for (int count = 1; 2 * count <= ix; count++) {
-                    if (startSum(count + 1) <= endSum(ix, count)) {
+                // When the last number becomes too high, we can return
+                for (int sizeOfC = 1; 2 * sizeOfC <= ix; sizeOfC++) {
+                    if (sum(array, 0, sizeOfC) <= sum(array, ix - sizeOfC + 1, ix)) {
                         return;
                     }
                 }
 
                 // Then generate for property i:
                 // i: S(B) ≠ S(C); that is, sums of subsets cannot be equal.
-                usedSums[ix] = addAndCheck(usedSums[ix - 1], x);
-                if (usedSums[ix] != null) {
-                    generate(ix + 1, currentSum + x);
+                BitSet newSums = addAndCheck(sums, x);
+                if (newSums != null) {
+                    generate(array, newSums, ix + 1, currentSum + x);
                 }
             }
         }
     }
 
+    private final boolean possible(final int currentSum, final int x, final int ix) {
+        int spotsLeft = count - ix;
+        return currentSum + x * spotsLeft < currentMin;
+    }
+
     @Override
     public Long solve() {
-        while (currentSolution[0] < currentMin / count) {
-            generate(0, 0);
+        int[] array = new int[count];
+        array[0] = 1;
+        while (array[0] < currentMin / count) {
+            generate(array, null, 0, 0);
+            array[0]++;
         }
 
         long result = 0;
-        int[] solution = solutions.get(currentMin);
-        for (int x : solution) {
-            result = result * 100;
+        for (int x : currentMinimalSolution) {
+            int factor = 10;
+            while (x >= factor) {
+                factor *= 10;
+            }
+            result = result * factor;
             result += x;
         }
         return result;
-    }
-
-    private int startSum(int count) {
-        int sum = 0;
-        for (int ix = 0; ix < count; ix++) {
-            sum += currentSolution[ix];
-        }
-        return sum;
     }
 }

@@ -278,11 +278,9 @@ public class BitSet implements Cloneable, Iterable<Integer> {
         int shift = (int) (count & MASK);
         int invShift = 64 - shift;
 
-        for (int ix = 0; ix + nrLongSteps < result.length; ix++) {
-            result[ix + nrLongSteps] |= words[ix] >>> shift;
-            if (ix + nrLongSteps + 1 < result.length) {
-                result[ix + nrLongSteps + 1] |= words[ix] << invShift;
-            }
+        result[nrLongSteps] = words[0] >>> shift;
+        for (int ix = nrLongSteps + 1; ix < result.length; ix++) {
+            result[ix] = words[ix - nrLongSteps] >>> shift | words[ix - nrLongSteps - 1] << invShift;
         }
         words = result;
 
