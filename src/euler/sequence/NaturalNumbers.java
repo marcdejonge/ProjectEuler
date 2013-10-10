@@ -6,7 +6,7 @@ public class NaturalNumbers extends SimpleSequence {
     }
 
     public NaturalNumbers(long start) {
-        setN(start);
+        setN(start - 1);
     }
 
     @Override

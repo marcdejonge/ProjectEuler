@@ -2,16 +2,16 @@ package euler;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.RecursiveAction;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantLock;
 
 import euler.sequence.LongSequence;
 
 public abstract class MultiCoreProblem extends Problem<Long> {
-    private static final ForkJoinPool pool = new ForkJoinPool();
-
     final LongSequence sequence;
     final ReentrantLock lock;
     protected final AtomicLong result;
@@ -31,15 +31,14 @@ public abstract class MultiCoreProblem extends Problem<Long> {
 
     @Override
     public Long solve() {
-        final int maxTasks = Runtime.getRuntime().availableProcessors();
-        final List<RecursiveAction> tasks = new ArrayList<RecursiveAction>(maxTasks);
+        final int maxProcesses = Runtime.getRuntime().availableProcessors();
+        final ExecutorService executor = Executors.newFixedThreadPool(maxProcesses);
+        final List<Future<?>> futures = new ArrayList<>(maxProcesses);
 
-        for (int ix = 0; ix < maxTasks; ix++) {
-            final RecursiveAction task = new RecursiveAction() {
-                private static final long serialVersionUID = 1L;
-
+        for (int ix = 0; ix < maxProcesses; ix++) {
+            futures.add(executor.submit(new Runnable() {
                 @Override
-                protected void compute() {
+                public void run() {
                     final long[] block = new long[blockSize];
                     loop: while (true) {
                         lock.lock();
@@ -55,16 +54,20 @@ public abstract class MultiCoreProblem extends Problem<Long> {
                         }
                     }
                 }
-            };
-            pool.execute(task);
-            tasks.add(task);
+            }));
         }
 
-        for (final RecursiveAction task : tasks) {
-            task.join();
+        for (final Future<?> future : futures) {
+            try {
+                future.get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
         }
 
         finished();
+
+        executor.shutdownNow();
 
         return result.get();
     }
