@@ -58,6 +58,11 @@ public class IntIntHashMap implements Map<Integer, Integer> {
             this.value = value;
         }
 
+        public int decr() {
+            value -= 1;
+            return value;
+        }
+
         @Override
         public Integer getKey() {
             return key;
@@ -73,6 +78,11 @@ public class IntIntHashMap implements Map<Integer, Integer> {
         }
 
         public int getValueInt() {
+            return value;
+        }
+
+        public int incr() {
+            value += 1;
             return value;
         }
 
@@ -167,12 +177,15 @@ public class IntIntHashMap implements Map<Integer, Integer> {
         filled = 0;
     }
 
+    public boolean containsKey(int key) {
+        int ix = findIx(key);
+        return buckets[ix] != null;
+    }
+
     @Override
     public boolean containsKey(Object key) {
         if (key instanceof Number) {
-            int k = ((Number) key).intValue();
-            int ix = findIx(k);
-            return buckets[ix] != null;
+            return containsKey(((Number) key).intValue());
         } else {
             return false;
         }
@@ -189,6 +202,15 @@ public class IntIntHashMap implements Map<Integer, Integer> {
             }
         }
         return false;
+    }
+
+    public int decr(int key) {
+        int ix = findIx(key);
+        if (buckets[ix] != null) {
+            return buckets[ix].decr();
+        } else {
+            throw new IllegalArgumentException("Key not found");
+        }
     }
 
     @Override
@@ -229,6 +251,16 @@ public class IntIntHashMap implements Map<Integer, Integer> {
             return get(((Number) key).intValue(), 0);
         } else {
             return null;
+        }
+    }
+
+    public int incr(int key) {
+        int ix = findIx(key);
+        if (buckets[ix] != null) {
+            return buckets[ix].incr();
+        } else {
+            add(new Bucket(key, 1));
+            return 1;
         }
     }
 
@@ -287,6 +319,19 @@ public class IntIntHashMap implements Map<Integer, Integer> {
     }
 
     @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append('[');
+        for (Bucket b : buckets) {
+            if (b != null) {
+                sb.append('(').append(b.getKey()).append(',').append(b.getValueInt()).append(')').append(',');
+            }
+        }
+        sb.setCharAt(sb.length() - 1, ']');
+        return sb.toString();
+    }
+
+    @Override
     public Collection<Integer> values() {
         return new AbstractCollection<Integer>() {
             @Override
@@ -300,4 +345,5 @@ public class IntIntHashMap implements Map<Integer, Integer> {
             }
         };
     }
+
 }
