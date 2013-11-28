@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import euler.Problem;
+import euler.graph.WeightedGraph;
 
 public abstract class FileUtils {
     public static File findFile(Problem<?> problem) throws IOException {
@@ -54,6 +55,25 @@ public abstract class FileUtils {
             }
         }
         return names;
+    }
+
+    public static WeightedGraph readWeightedGraph(Problem<?> problem) throws IOException {
+        WeightedGraph graph = new WeightedGraph();
+        int from = 0;
+        try (BufferedReader reader = FileUtils.readInput(problem)) {
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                for (int to = 0; to < parts.length; to++) {
+                    if (!"-".equals(parts[to])) {
+                        int weight = Integer.parseInt(parts[to]);
+                        graph.addEdge(from, to, weight);
+                    }
+                }
+                from++;
+            }
+        }
+        return graph;
     }
 
     public static Scanner scanInput(Problem<?> problem) throws IOException {
