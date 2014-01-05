@@ -3,45 +3,48 @@ package euler.graph;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-import euler.graph.WeightedGraph.Edge;
-import euler.graph.WeightedGraph.Vertex;
+public class PrimsAlgorithm<V extends Vertex<V, E>, E extends WeightedEdge<V, E> & DirectedEdge<V, E>> {
+    public static <V extends Vertex<V, E>, E extends WeightedEdge<V, E> & DirectedEdge<V, E>>
+            PrimsAlgorithm<V, E>
+            create(Graph<V, E> inputGraph) {
+        return new PrimsAlgorithm<>(inputGraph);
+    }
 
-public class PrimsAlgorithm {
-    private final WeightedGraph inputGraph;
+    private final Graph<V, E> inputGraph;
 
-    public PrimsAlgorithm(WeightedGraph inputGraph) {
+    public PrimsAlgorithm(Graph<V, E> inputGraph) {
         this.inputGraph = inputGraph;
     }
 
-    public WeightedGraph run() {
-        PriorityQueue<Edge> edges = new PriorityQueue<Edge>(11, new Comparator<Edge>() {
+    public WeightedDirectedGraphImpl run() {
+        PriorityQueue<E> edges = new PriorityQueue<E>(11, new Comparator<E>() {
             @Override
-            public int compare(Edge e1, Edge e2) {
+            public int compare(E e1, E e2) {
                 if (e1.getWeight() != e2.getWeight()) {
                     return e1.getWeight() - e2.getWeight();
                 } else if (e1.getFrom() != e2.getFrom()) {
-                    return e1.getFrom() - e2.getFrom();
+                    return e1.getFrom().hashCode() - e2.getFrom().hashCode();
                 } else {
-                    return e1.getTo() - e2.getTo();
+                    return e1.getTo().hashCode() - e2.getTo().hashCode();
                 }
             }
         });
 
-        WeightedGraph outputGraph = new WeightedGraph();
+        WeightedDirectedGraphImpl outputGraph = new WeightedDirectedGraphImpl();
 
-        Vertex vertex = inputGraph.iterator().next();
+        V vertex = inputGraph.getAnyVertex();
         while (true) {
-            for (Edge edge : vertex) {
+            for (E edge : vertex) {
                 edges.add(edge);
             }
 
-            Edge nextEdge = edges.poll();
-            while (nextEdge != null && outputGraph.hasVertex(nextEdge.getTo())) {
+            E nextEdge = edges.poll();
+            while (nextEdge != null && outputGraph.hasVertex(nextEdge.getTo().getId())) {
                 nextEdge = edges.poll();
             }
             if (nextEdge != null) {
                 outputGraph.addEdge(nextEdge);
-                vertex = inputGraph.getVertex(nextEdge.getTo());
+                vertex = nextEdge.getTo();
             } else {
                 break;
             }

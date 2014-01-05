@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import euler.Problem;
-import euler.graph.WeightedGraph;
+import euler.graph.WeightedDirectedGraphImpl;
 
 public abstract class FileUtils {
     public static File findFile(Problem<?> problem) throws IOException {
@@ -57,8 +57,8 @@ public abstract class FileUtils {
         return names;
     }
 
-    public static WeightedGraph readWeightedGraph(Problem<?> problem) throws IOException {
-        WeightedGraph graph = new WeightedGraph();
+    public static WeightedDirectedGraphImpl readWeightedGraph(Problem<?> problem) throws IOException {
+        WeightedDirectedGraphImpl graph = new WeightedDirectedGraphImpl();
         int from = 0;
         try (BufferedReader reader = FileUtils.readInput(problem)) {
             String line = null;

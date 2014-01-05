@@ -1,19 +1,19 @@
 package euler.graph;
 
 import java.util.Iterator;
-import java.util.Map.Entry;
 
-import euler.collection.IntIntHashMap;
 import euler.collection.IntObjectHashMap;
-import euler.graph.WeightedGraph.Vertex;
 
-public class WeightedGraph implements Iterable<Vertex> {
-    public static class Edge {
-        private final int from;
-        private final int to;
+public class WeightedDirectedGraphImpl implements Graph<WeightedDirectedGraphImpl.Vertex, WeightedDirectedGraphImpl.Edge> {
+    public static class Edge implements WeightedEdge<Vertex, Edge>, DirectedEdge<Vertex, Edge> {
+        private final Vertex from;
+        private final Vertex to;
         private final int weight;
 
-        Edge(int from, int to, int weight) {
+        Edge(Vertex from, Vertex to, int weight) {
+            if (from == null || to == null) {
+                throw new NullPointerException();
+            }
             this.from = from;
             this.to = to;
             this.weight = weight;
@@ -27,77 +27,62 @@ public class WeightedGraph implements Iterable<Vertex> {
                 return false;
             } else {
                 Edge other = (Edge) obj;
-                return from == other.from && to == other.to && weight == other.weight;
+                return from.equals(other.from) && to.equals(other.to) && weight == other.weight;
             }
         }
 
-        public int getFrom() {
+        @Override
+        public Vertex getFrom() {
             return from;
         }
 
-        public int getTo() {
+        @Override
+        public Vertex getTo() {
             return to;
         }
 
+        @Override
+        public Vertex[] getVertices() {
+            return new Vertex[] { from, to };
+        }
+
+        @Override
         public int getWeight() {
             return weight;
         }
 
         @Override
         public int hashCode() {
-            return 31 * (31 * from + to) + weight;
+            return 31 * (31 * from.getId() + to.getId()) + weight;
         }
 
         @Override
         public String toString() {
-            return "Edge(" + from + " -> " + to + ")";
+            return "Edge(" + from.getId() + " -> " + to.getId() + ")";
         };
     }
 
-    public static class Vertex implements Iterable<Edge> {
-        private final IntIntHashMap edges;
+    public static class Vertex implements euler.graph.Vertex<Vertex, Edge> {
+        private final IntObjectHashMap<Edge> edges;
         private final int nr;
-
-        private final Iterable<Edge> edgeView = new Iterable<Edge>() {
-            @Override
-            public Iterator<Edge> iterator() {
-                final Iterator<Entry<Integer, Integer>> it = edges.entrySet().iterator();
-                return new Iterator<Edge>() {
-                    @Override
-                    public boolean hasNext() {
-                        return it.hasNext();
-                    }
-
-                    @Override
-                    public Edge next() {
-                        Entry<Integer, Integer> x = it.next();
-                        return new Edge(nr, x.getKey(), x.getValue());
-                    }
-
-                    @Override
-                    public void remove() {
-                        throw new UnsupportedOperationException();
-                    }
-                };
-            }
-        };
 
         Vertex(int nr) {
             this.nr = nr;
-            edges = new IntIntHashMap();
+            edges = new IntObjectHashMap<>();
         }
 
-        void addEdge(int to, int weight) {
-            edges.put(to, weight);
+        void addEdge(Vertex to, int weight) {
+            edges.put(to.getId(), new Edge(this, to, weight));
         }
 
-        public int getNr() {
+        @Override
+        public int getId() {
             return nr;
         }
 
         @Override
         public Iterator<Edge> iterator() {
-            return edgeView.iterator();
+            return edges.values().iterator();
         }
 
         @Override
@@ -113,22 +98,26 @@ public class WeightedGraph implements Iterable<Vertex> {
 
     private final IntObjectHashMap<Vertex> vertices;
 
-    public WeightedGraph() {
+    public WeightedDirectedGraphImpl() {
         vertices = new IntObjectHashMap<Vertex>();
     }
 
-    public void addEdge(Edge edge) {
-        addEdge(edge.getFrom(), edge.getTo(), edge.getWeight());
+    public <V extends euler.graph.Vertex<V, E>, E extends DirectedEdge<V, E> & WeightedEdge<V, E>> void addEdge(E edge) {
+        addEdge(edge.getFrom().getId(), edge.getTo().getId(), edge.getWeight());
     }
 
     public void addEdge(int from, int to, int weight) {
-        getOrCreateVertex(from).addEdge(to, weight);
-        getOrCreateVertex(to);
+        getOrCreateVertex(from).addEdge(getOrCreateVertex(to), weight);
     }
 
     public void addUndirectedEdge(int from, int to, int weight) {
-        getOrCreateVertex(from).addEdge(to, weight);
-        getOrCreateVertex(to).addEdge(from, weight);
+        getOrCreateVertex(from).addEdge(getOrCreateVertex(to), weight);
+        getVertex(to).addEdge(getVertex(from), weight);
+    }
+
+    @Override
+    public Vertex getAnyVertex() {
+        return getVertex(vertices.getAnyKey());
     }
 
     public Vertex getOrCreateVertex(int id) {
@@ -138,6 +127,7 @@ public class WeightedGraph implements Iterable<Vertex> {
         return vertices.get(id);
     }
 
+    @Override
     public Vertex getVertex(int id) {
         if (!vertices.containsKey(id)) {
             return null;

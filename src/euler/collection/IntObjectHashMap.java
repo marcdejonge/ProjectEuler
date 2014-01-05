@@ -63,7 +63,7 @@ public class IntObjectHashMap<T> implements Map<Integer, T> {
             return key;
         }
 
-        public Integer getKeyInt() {
+        public int getKeyInt() {
             return key;
         }
 
@@ -230,6 +230,18 @@ public class IntObjectHashMap<T> implements Map<Integer, T> {
             return get(k);
         }
         return null;
+    }
+
+    public int getAnyKey() {
+        if (filled == 0) {
+            throw new IllegalStateException("getAnyKey fails on an empty map");
+        }
+        for (Bucket<T> bucket : buckets) {
+            if (bucket != null) {
+                return bucket.getKeyInt();
+            }
+        }
+        throw new AssertionError("Non empty map should contain at least 1 bucket");
     }
 
     @Override
