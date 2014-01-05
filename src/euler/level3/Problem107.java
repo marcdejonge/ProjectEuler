@@ -26,7 +26,7 @@ public class Problem107 extends Problem<Integer> {
         WeightedDirectedGraphImpl input;
         try {
             input = FileUtils.readWeightedGraph(this);
-            WeightedDirectedGraphImpl output = new PrimsAlgorithm(input).run();
+            WeightedDirectedGraphImpl output = PrimsAlgorithm.create(input).run();
             return getTotalWeight(input) / 2 - getTotalWeight(output);
         } catch (IOException e) {
             e.printStackTrace();
