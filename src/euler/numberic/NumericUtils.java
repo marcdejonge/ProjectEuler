@@ -1,5 +1,7 @@
 package euler.numberic;
 
+import java.util.Arrays;
+
 public class NumericUtils {
     public static int fact(int nr) {
         if (nr == 1) {
@@ -15,6 +17,13 @@ public class NumericUtils {
         } else {
             return gcd(b, a % b);
         }
+    }
+
+    public static int[] initArray(int length, int... values) {
+        int[] array = new int[length];
+        Arrays.fill(array, values[values.length - 1]);
+        System.arraycopy(values, 0, array, 0, Math.min(length, values.length));
+        return array;
     }
 
     public static long pow(int x, int n) {
@@ -69,6 +78,14 @@ public class NumericUtils {
             filled++;
             divider = rem * 10;
         }
+    }
+
+    public static int sum(int[] array) {
+        int sum = 0;
+        for (int element : array) {
+            sum += element;
+        }
+        return sum;
     }
 
     // Can never be created an instance of
