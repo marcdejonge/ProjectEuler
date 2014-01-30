@@ -133,6 +133,7 @@ public abstract class Problem<T> {
         knownSolutions.put(123, Number.valueOf(21035));
         knownSolutions.put(124, Number.valueOf(21417));
         knownSolutions.put(125, Number.valueOf(2906969179l));
+        knownSolutions.put(126, Number.valueOf(18522));
         knownSolutions.put(127, Number.valueOf(18407904));
         knownSolutions.put(142, Number.valueOf(1006193));
         knownSolutions.put(145, Number.valueOf(608720));
