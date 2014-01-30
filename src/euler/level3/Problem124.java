@@ -1,75 +1,50 @@
 package euler.level3;
 
 import java.util.Arrays;
-import java.util.concurrent.atomic.AtomicInteger;
 
-import euler.MultiCoreProblem;
-import euler.sequence.Primes;
+import euler.Problem;
 
-public class Problem124 extends MultiCoreProblem {
+public class Problem124 extends Problem<Integer> {
+    private static class Radical implements Comparable<Radical> {
+        final int nr;
+        int rad;
 
-    private static class Rad extends AtomicInteger implements Comparable<Rad> {
-        private static final long serialVersionUID = -3625315145491534426L;
-
-        private final int n;
-
-        public Rad(int n) {
-            super(1);
-            this.n = n;
-        }
-
-        public void addPrime(int p) {
-            int rad = get();
-            compareAndSet(rad, rad * p);
+        Radical(int nr) {
+            this.nr = nr;
+            rad = 1;
         }
 
         @Override
-        public int compareTo(Rad o) {
-            return get() - o.get();
-        }
-
-        public int getN() {
-            return n;
-        }
-
-        @Override
-        public String toString() {
-            return String.format("%d -> %d", n, get());
+        public int compareTo(Radical other) {
+            if (rad > other.rad) {
+                return 1;
+            } else if (rad < other.rad) {
+                return -1;
+            } else {
+                return nr - other.nr;
+            }
         }
     }
 
-    private final Rad[] rads;
-    private final int k;
+    private static final int QUERY = 10000;
 
-    public Problem124() {
-        this(100000, 10000);
-    }
-
-    public Problem124(int length, int k) {
-        super(new Primes(), 1000);
-        rads = new Rad[length];
-        for (int ix = 0; ix < length; ix++) {
-            rads[ix] = new Rad(ix + 1);
-        }
-        this.k = k;
-    }
+    private static final int LIMIT = 100000;
 
     @Override
-    public void finished() {
-        Arrays.sort(rads);
-        result.set(rads[k - 1].getN());
-    }
-
-    @Override
-    public boolean handleNumber(long nr) {
-        if (nr > rads.length) {
-            return false;
+    public Integer solve() {
+        Radical[] radicals = new Radical[LIMIT + 1];
+        for (int ix = 0; ix <= LIMIT; ix++) {
+            radicals[ix] = new Radical(ix);
         }
-        int p = (int) nr;
-        for (int ix = p; ix <= rads.length; ix += p) {
-            rads[ix - 1].addPrime(p);
+        for (int x = 2; x <= LIMIT; x++) {
+            if (radicals[x].rad == 1) {
+                for (int y = x; y <= LIMIT; y += x) {
+                    radicals[y].rad *= x;
+                }
+            }
         }
-        return true;
-    }
+        Arrays.sort(radicals);
 
+        return radicals[QUERY].nr;
+    }
 }
