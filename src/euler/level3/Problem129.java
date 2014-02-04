@@ -6,10 +6,9 @@ public class Problem129 extends Problem<Integer> {
     private static final int LIMIT = 1000000;
 
     public static int A(int n) {
-        int k = 1, r = 1;
-        while (r > 0) {
+        int k = 1;
+        for (int r = 1; r > 0; k++) {
             r = (10 * r + 1) % n;
-            k++;
         }
         return k;
     }

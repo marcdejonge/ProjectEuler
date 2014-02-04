@@ -137,6 +137,7 @@ public abstract class Problem<T> {
         knownSolutions.put(129, 1000023);
         knownSolutions.put(130, 149253);
         knownSolutions.put(131, 173);
+        knownSolutions.put(132, 843296);
         knownSolutions.put(142, 1006193);
         knownSolutions.put(145, 608720);
         knownSolutions.put(160, 16576);
