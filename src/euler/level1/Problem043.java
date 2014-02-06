@@ -1,12 +1,12 @@
 package euler.level1;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.sequence.LineSequence;
 
-public class Problem043 extends Problem<Long> {
+public class Problem043 extends IntegerProblem {
 
     @Override
-    public Long solve() {
+    public long solve() {
         final LineSequence seq = new LineSequence(new byte[] { 0, 9, 8, 7, 6, 5, 4, 3, 2, 1 });
 
         long sum = 0;

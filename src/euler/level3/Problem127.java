@@ -2,9 +2,9 @@ package euler.level3;
 
 import java.util.Arrays;
 
-import euler.Problem;
+import euler.IntegerProblem;
 
-public class Problem127 extends Problem<Long> {
+public class Problem127 extends IntegerProblem {
     private static final int LIMIT = 120000;
 
     /**
@@ -47,7 +47,7 @@ public class Problem127 extends Problem<Long> {
     }
 
     @Override
-    public Long solve() {
+    public long solve() {
         int[] radicals = calcRadicals(LIMIT);
 
         // Encode all the radical/number pairs in a long

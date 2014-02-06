@@ -5,16 +5,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.input.FileUtils;
 import euler.path.AStar;
 import euler.path.AStar.Guide;
 import euler.path.Node;
 import euler.path.ShortestPathSolver;
 
-public class Problem067 extends Problem<Long> {
+public class Problem067 extends IntegerProblem {
     @Override
-    public Long solve() {
+    public long solve() throws IOException {
         Node start = null, goal = null;
         try (final BufferedReader reader = FileUtils.readInput(this)) {
             String line = null;
@@ -48,8 +48,6 @@ public class Problem067 extends Problem<Long> {
             for (final Node node : last) {
                 node.addNeighbor(goal);
             }
-        } catch (final IOException ex) {
-            return null;
         }
 
         final Node endGoal = goal;

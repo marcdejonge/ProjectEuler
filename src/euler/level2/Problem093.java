@@ -1,11 +1,11 @@
 package euler.level2;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.combination.CombinationGenerator;
 import euler.combination.PermutationGenerator;
 import euler.numberic.BitSet;
 
-public class Problem093 extends Problem<Integer> {
+public class Problem093 extends IntegerProblem {
 
     private void calc(BitSet bs, double a) {
         if (Math.round(a) == a) {
@@ -54,7 +54,7 @@ public class Problem093 extends Problem<Integer> {
     }
 
     @Override
-    public Integer solve() {
+    public long solve() {
         int max = 0;
         Integer[] maxArr = null;
 

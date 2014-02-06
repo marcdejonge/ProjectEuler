@@ -1,11 +1,11 @@
 package euler.level2;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.numberic.Number;
 
-public class Problem056 extends Problem<Integer> {
+public class Problem056 extends IntegerProblem {
     @Override
-    public Integer solve() {
+    public long solve() {
         final Number[] nrs = new Number[100];
         for (int i = 0; i < nrs.length; i++) {
             nrs[i] = Number.valueOf(i);

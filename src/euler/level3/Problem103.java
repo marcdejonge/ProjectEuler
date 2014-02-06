@@ -2,10 +2,10 @@ package euler.level3;
 
 import java.util.Arrays;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.numberic.BitSet;
 
-public final class Problem103 extends Problem<Long> {
+public final class Problem103 extends IntegerProblem {
     private static BitSet addAndCheck(BitSet originalSums, int number) {
         BitSet newSums = new BitSet(originalSums, originalSums.getLength() + number).shiftRight(number);
         if (originalSums.overlaps(newSums)) {
@@ -86,7 +86,7 @@ public final class Problem103 extends Problem<Long> {
     }
 
     @Override
-    public Long solve() {
+    public long solve() {
         int[] array = new int[count];
         array[0] = 1;
         while (array[0] < currentMin / count) {

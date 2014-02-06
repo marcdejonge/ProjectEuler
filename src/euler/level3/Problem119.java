@@ -1,12 +1,12 @@
 package euler.level3;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.sequence.SumDigitsPowerSequence;
 
-public class Problem119 extends Problem<Long> {
+public class Problem119 extends IntegerProblem {
 
     @Override
-    public Long solve() {
+    public long solve() {
         SumDigitsPowerSequence seq = new SumDigitsPowerSequence();
         for (int ix = 1; ix < 30; ix++) {
             seq.next();

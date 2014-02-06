@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.input.FileUtils;
 
-public class Problem022 extends Problem<Long> {
+public class Problem022 extends IntegerProblem {
 
     @Override
-    public Long solve() {
+    public long solve() {
         try {
             final List<String> names = FileUtils.readNames(this);
             Collections.sort(names);

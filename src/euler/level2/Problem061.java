@@ -7,8 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import euler.IntegerProblem;
 import euler.Pair;
-import euler.Problem;
+import euler.SolutionNotFoundException;
 import euler.sequence.HeptagonalNumbers;
 import euler.sequence.HexagonalNumbers;
 import euler.sequence.OctagonelNumbers;
@@ -17,7 +18,7 @@ import euler.sequence.SimpleSequence;
 import euler.sequence.SquareNumbers;
 import euler.sequence.TriangleNumbers;
 
-public class Problem061 extends Problem<Integer> {
+public class Problem061 extends IntegerProblem {
     private static final int MIN = 1000;
     private static final int MAX = 10000;
 
@@ -60,7 +61,7 @@ public class Problem061 extends Problem<Integer> {
     }
 
     @Override
-    public Integer solve() {
+    public long solve() throws SolutionNotFoundException {
         final List<Pair<Integer, SimpleSequence>> nrs = new ArrayList<Pair<Integer, SimpleSequence>>();
         for (final SimpleSequence seq : new SimpleSequence[] { new TriangleNumbers(),
                                                               new SquareNumbers(),
@@ -85,7 +86,7 @@ public class Problem061 extends Problem<Integer> {
             }
             return sum;
         } else {
-            return null;
+            throw new SolutionNotFoundException();
         }
     }
 }

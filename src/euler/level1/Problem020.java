@@ -1,12 +1,12 @@
 package euler.level1;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.numberic.Number;
 
-public class Problem020 extends Problem<Integer> {
+public class Problem020 extends IntegerProblem {
 
     @Override
-    public Integer solve() {
+    public long solve() {
         Number fact = Number.ONE;
         for (int i = 2; i <= 100; i++) {
             fact = fact.multiply(Number.valueOf(i));

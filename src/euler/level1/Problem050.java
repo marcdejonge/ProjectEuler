@@ -3,13 +3,13 @@ package euler.level1;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.sequence.Primes;
 
-public class Problem050 extends Problem<Long> {
+public class Problem050 extends IntegerProblem {
 
     @Override
-    public Long solve() {
+    public long solve() {
         final Primes gen = new Primes();
 
         final Queue<Long> primes = new LinkedList<Long>();

@@ -1,11 +1,11 @@
 package euler.level2;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.sequence.SquareDigits;
 
-public class Problem064 extends Problem<Integer> {
+public class Problem064 extends IntegerProblem {
     @Override
-    public Integer solve() {
+    public long solve() {
         int count = 0;
         for (int i = 2; i < 10000; i++) {
             final SquareDigits list = new SquareDigits(i);

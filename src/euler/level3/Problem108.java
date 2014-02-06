@@ -2,10 +2,10 @@ package euler.level3;
 
 import java.math.BigInteger;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.sequence.Primes;
 
-public class Problem108 extends Problem<Long> {
+public class Problem108 extends IntegerProblem {
     private final BigInteger[] primes;
 
     private final int max;
@@ -54,7 +54,7 @@ public class Problem108 extends Problem<Long> {
     }
 
     @Override
-    public Long solve() {
+    public long solve() {
         return nrOfSolutions(max);
     }
 

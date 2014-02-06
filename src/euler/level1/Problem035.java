@@ -1,9 +1,9 @@
 package euler.level1;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.sequence.Primes;
 
-public class Problem035 extends Problem<Integer> {
+public class Problem035 extends IntegerProblem {
     private long rotate(long value, long powerTen) {
         long res = value * 10 % powerTen;
         res += value * 10 / powerTen;
@@ -11,7 +11,7 @@ public class Problem035 extends Problem<Integer> {
     }
 
     @Override
-    public Integer solve() {
+    public long solve() {
         final Primes p = new Primes();
 
         int count = 0;

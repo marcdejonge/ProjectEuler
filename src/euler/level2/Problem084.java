@@ -5,9 +5,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import euler.Problem;
+import euler.IntegerProblem;
 
-public class Problem084 extends Problem<Integer> {
+public class Problem084 extends IntegerProblem {
 
     class ChanceField extends Field {
         public ChanceField(int id, String name) {
@@ -194,7 +194,7 @@ public class Problem084 extends Problem<Integer> {
                                                new Field(39, "H2"), };
 
     @Override
-    public Integer solve() {
+    public long solve() {
         double total = 0;
         for (int it = 0; it < 10; it++) {
             for (Field field : board) {

@@ -1,10 +1,10 @@
 package euler.level2;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.numberic.BitSet;
 import euler.sequence.Primes;
 
-public class Problem060 extends Problem<Integer> {
+public class Problem060 extends IntegerProblem {
     private static boolean check(final int p1, final int p2) {
         long mult1 = 10;
         while (p2 > mult1) {
@@ -57,7 +57,7 @@ public class Problem060 extends Problem<Integer> {
     }
 
     @Override
-    public Integer solve() {
+    public long solve() {
         BitSet bs = new BitSet(primes.length);
         bs.flip();
         return solve(bs, 0, 0);

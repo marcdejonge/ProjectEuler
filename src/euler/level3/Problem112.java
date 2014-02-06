@@ -1,16 +1,16 @@
 package euler.level3;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.sequence.CombinedSequence;
 import euler.sequence.DecreasingNumbers;
 import euler.sequence.IncreasingNumbers;
 import euler.sequence.InverseSequence;
 import euler.sequence.LongSequence;
 
-public class Problem112 extends Problem<Long> {
+public class Problem112 extends IntegerProblem {
 
     @Override
-    public Long solve() {
+    public long solve() {
         LongSequence bouncyNumbers = new InverseSequence(new CombinedSequence(new IncreasingNumbers(), new DecreasingNumbers()));
 
         while (true) {

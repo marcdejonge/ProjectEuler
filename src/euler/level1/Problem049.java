@@ -6,13 +6,12 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import euler.Problem;
+import euler.NumberProblem;
 import euler.numberic.Number;
 import euler.sequence.AbstractSequence.Test;
 import euler.sequence.Primes;
 
-public class Problem049 extends Problem<Number> {
-
+public class Problem049 extends NumberProblem {
     @Override
     public Number solve() {
         final Primes primes = new Primes();

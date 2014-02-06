@@ -1,11 +1,11 @@
 package euler.level1;
 
-import euler.Problem;
+import euler.IntegerProblem;
 
-public class Problem009 extends Problem<Integer> {
+public class Problem009 extends IntegerProblem {
 
     @Override
-    public Integer solve() {
+    public long solve() {
         for (int c = 1; c < 1000; c++) {
             for (int b = 1; b < c; b++) {
                 final int a = 1000 - b - c;

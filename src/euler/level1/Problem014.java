@@ -1,8 +1,8 @@
 package euler.level1;
 
-import euler.Problem;
+import euler.IntegerProblem;
 
-public class Problem014 extends Problem<Integer> {
+public class Problem014 extends IntegerProblem {
 
     public int chain(long value) {
         int length = 0;
@@ -18,7 +18,7 @@ public class Problem014 extends Problem<Integer> {
     }
 
     @Override
-    public Integer solve() {
+    public long solve() {
         int max = 0, maxNr = 0;
         for (int i = 2; i < 1000000; i++) {
             final int length = chain(i);

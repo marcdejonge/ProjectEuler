@@ -2,13 +2,13 @@ package euler.level1;
 
 import java.util.Arrays;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.sequence.Primes;
 
-public class Problem046 extends Problem<Integer> {
+public class Problem046 extends IntegerProblem {
 
     @Override
-    public Integer solve() {
+    public long solve() {
 
         final Primes primes = new Primes();
         final long[] dsquare = new long[1000];

@@ -1,10 +1,10 @@
 package euler.level2;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.collection.IntHashSet;
 import euler.sequence.DivisorsSequence;
 
-public class Problem088 extends Problem<Long> {
+public class Problem088 extends IntegerProblem {
 
     private static final int MIN = 2;
     private static final int MAX = 12000;
@@ -38,7 +38,7 @@ public class Problem088 extends Problem<Long> {
     }
 
     @Override
-    public Long solve() {
+    public long solve() {
         long total = 0;
         IntHashSet foundK = new IntHashSet(15);
         for (int nr = 4; foundK.size() <= MAX - MIN; nr++) {

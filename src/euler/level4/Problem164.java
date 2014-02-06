@@ -3,10 +3,10 @@ package euler.level4;
 import java.util.HashMap;
 import java.util.Map;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.Triplet;
 
-public class Problem164 extends Problem<Long> {
+public class Problem164 extends IntegerProblem {
 
     private final Map<Triplet, Long> solutions;
     private final int startSize;
@@ -37,7 +37,7 @@ public class Problem164 extends Problem<Long> {
     }
 
     @Override
-    public Long solve() {
+    public long solve() {
         return getSolution(startSize, 0, 0) - getSolution(startSize - 1, 0, 0);
     }
 

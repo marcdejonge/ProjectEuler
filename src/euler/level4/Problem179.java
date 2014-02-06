@@ -1,12 +1,12 @@
 package euler.level4;
 
-import euler.Problem;
+import euler.IntegerProblem;
 
-public class Problem179 extends Problem<Integer> {
+public class Problem179 extends IntegerProblem {
     private static final int LIMIT = 10000000;
 
     @Override
-    public Integer solve() {
+    public long solve() {
         int[] nrDivisors = new int[LIMIT];
         for (int div = 2; div < LIMIT; div++) {
             for (int nr = div; nr < LIMIT; nr += div) {

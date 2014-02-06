@@ -2,13 +2,13 @@ package euler.level1;
 
 import java.io.IOException;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.field.Node;
 import euler.field.TriangleNumbers;
 
-public class Problem018 extends Problem<Integer> {
+public class Problem018 extends IntegerProblem {
     @Override
-    public Integer solve() {
+    public long solve() {
         try {
             final TriangleNumbers tn = new TriangleNumbers(this);
             // System.out.println(tn);

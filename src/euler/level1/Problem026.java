@@ -1,11 +1,11 @@
 package euler.level1;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.numberic.NumericUtils;
 
-public class Problem026 extends Problem<Integer> {
+public class Problem026 extends IntegerProblem {
     @Override
-    public Integer solve() {
+    public long solve() {
         // System.out.println(Arrays.toString(NumericUtils.recurringCycle(7)));
         int max = 0;
         int maxNr = 0;

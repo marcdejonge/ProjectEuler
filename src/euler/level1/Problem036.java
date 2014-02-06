@@ -1,6 +1,6 @@
 package euler.level1;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.numberic.Number;
 import euler.sequence.AbstractSequence;
 
@@ -62,9 +62,9 @@ class Base2Palindromes extends AbstractSequence {
     }
 }
 
-public class Problem036 extends Problem<Long> {
+public class Problem036 extends IntegerProblem {
     @Override
-    public Long solve() {
+    public long solve() {
         long total = 0;
         final Base2Palindromes palindromes = new Base2Palindromes();
         for (long p = palindromes.next(); p < 1000000; p = palindromes.next()) {

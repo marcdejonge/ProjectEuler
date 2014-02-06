@@ -9,14 +9,14 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.input.FileUtils;
 import euler.search.DepthFirstSearch;
 import euler.search.Model;
 import euler.search.SearchAlgorithmListener;
 import euler.search.Transition;
 
-public class Problem096 extends Problem<Integer> {
+public class Problem096 extends IntegerProblem {
 
     class SudokuBoard implements Model<SudokuBoard, SudokuTransition> {
         private final int[] board, possibleNumbers;
@@ -244,7 +244,7 @@ public class Problem096 extends Problem<Integer> {
     }
 
     @Override
-    public Integer solve() {
+    public long solve() {
         DepthFirstSearch<SudokuBoard, SudokuTransition, SudokuBoard> dfs = DepthFirstSearch.create(SudokuBoard.class);
         final AtomicInteger sum = new AtomicInteger();
         SearchAlgorithmListener<SudokuBoard> resultAggregator = new SearchAlgorithmListener<SudokuBoard>() {

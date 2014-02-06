@@ -11,7 +11,7 @@ import euler.input.FileUtils;
 public class TriangleNumbers {
     private Node[][] numbers;
 
-    public TriangleNumbers(Problem<?> problem) throws IOException {
+    public TriangleNumbers(Problem problem) throws IOException {
         File file = FileUtils.findFile(problem);
         try (final BufferedReader reader = new BufferedReader(new FileReader(file))) {
             numbers = new Node[10][];

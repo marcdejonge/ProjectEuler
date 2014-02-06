@@ -1,11 +1,11 @@
 package euler.level1;
 
-import euler.Problem;
+import euler.IntegerProblem;
 
-public class Problem003 extends Problem<Integer> {
+public class Problem003 extends IntegerProblem {
 
     @Override
-    public Integer solve() {
+    public long solve() {
         long value = 600851475143l;
 
         int divider = 1;

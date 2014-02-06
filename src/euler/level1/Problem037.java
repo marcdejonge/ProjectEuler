@@ -1,12 +1,12 @@
 package euler.level1;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.sequence.Primes;
 
-public class Problem037 extends Problem<Integer> {
+public class Problem037 extends IntegerProblem {
 
     @Override
-    public Integer solve() {
+    public long solve() {
         final Primes primes = new Primes();
         primes.get(4); // Drop first 4 primes
 

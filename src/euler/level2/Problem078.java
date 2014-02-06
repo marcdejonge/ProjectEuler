@@ -1,10 +1,11 @@
 package euler.level2;
 
-import euler.Problem;
+import euler.IntegerProblem;
+import euler.SolutionNotFoundException;
 
-public class Problem078 extends Problem<Integer> {
+public class Problem078 extends IntegerProblem {
     @Override
-    public Integer solve() {
+    public long solve() throws SolutionNotFoundException {
         final int[] pents = new int[1000];
         for (int ix = 0; ix < pents.length; ix++) {
             final int x = ((ix & 1) == 1 ? -1 : 1) * (ix + 2) / 2;
@@ -31,6 +32,6 @@ public class Problem078 extends Problem<Integer> {
             }
             nrs[ix] = total;
         }
-        return null;
+        throw new SolutionNotFoundException();
     }
 }

@@ -1,8 +1,8 @@
 package euler.level2;
 
-import euler.Problem;
+import euler.IntegerProblem;
 
-public class Problem053 extends Problem<Integer> {
+public class Problem053 extends IntegerProblem {
     private long calc(int n, int r) {
         long total = 1;
         for (int x = 0; x < r; x++) {
@@ -15,7 +15,7 @@ public class Problem053 extends Problem<Integer> {
     }
 
     @Override
-    public Integer solve() {
+    public long solve() {
         int total = 0;
         int n = 2, r = 1;
         while (n <= 100) {

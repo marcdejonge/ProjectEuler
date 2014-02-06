@@ -1,14 +1,14 @@
 package euler.level2;
 
+import euler.IntegerProblem;
 import euler.Pair;
-import euler.Problem;
 import euler.numberic.Number;
 import euler.sequence.ContinuedFraction;
 import euler.sequence.SquareDigits;
 
-public class Problem066 extends Problem<Integer> {
+public class Problem066 extends IntegerProblem {
     @Override
-    public Integer solve() {
+    public long solve() {
         Number maxX = Number.ZERO;
         int maxD = 0;
         int squareN = 2, squared = 4;

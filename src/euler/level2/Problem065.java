@@ -1,12 +1,12 @@
 package euler.level2;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.sequence.ContinuedFraction;
 import euler.sequence.SimpleSequence;
 
-public class Problem065 extends Problem<Integer> {
+public class Problem065 extends IntegerProblem {
     @Override
-    public Integer solve() {
+    public long solve() {
         final SimpleSequence seq = new SimpleSequence() {
             @Override
             public long current() {

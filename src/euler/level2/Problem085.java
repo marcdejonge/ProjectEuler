@@ -1,14 +1,14 @@
 package euler.level2;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.sequence.TriangleNumbers;
 
-public class Problem085 extends Problem<Long> {
+public class Problem085 extends IntegerProblem {
 
     private static final int TARGET = 2000000;
 
     @Override
-    public Long solve() {
+    public long solve() {
         long closest = 0;
         long bestX = 0, bestY = 0;
 

@@ -1,11 +1,11 @@
 package euler.level3;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.combination.BinaryCombinationsWithLimit;
 
-public class Problem114 extends Problem<Long> {
+public class Problem114 extends IntegerProblem {
     @Override
-    public Long solve() {
+    public long solve() {
         return new BinaryCombinationsWithLimit(50, 3).getTotalOptions();
     }
 }

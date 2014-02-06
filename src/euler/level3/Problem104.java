@@ -1,8 +1,8 @@
 package euler.level3;
 
-import euler.Problem;
+import euler.IntegerProblem;
 
-public class Problem104 extends Problem<Integer> {
+public class Problem104 extends IntegerProblem {
 
     private boolean is9(int nr) {
         if (nr < 100000000 || nr > 1000000000) {
@@ -18,7 +18,7 @@ public class Problem104 extends Problem<Integer> {
     }
 
     @Override
-    public Integer solve() {
+    public long solve() {
         final int mod = 1000000000;
         int lastF1 = 1, lastF2 = 1;
 

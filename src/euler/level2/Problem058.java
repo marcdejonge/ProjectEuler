@@ -1,11 +1,11 @@
 package euler.level2;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.sequence.Primes;
 
-public class Problem058 extends Problem<Integer> {
+public class Problem058 extends IntegerProblem {
     @Override
-    public Integer solve() {
+    public long solve() {
         int nrValues = 1, nrPrimes = 0;
         int currValue = 1, currAdd = 2;
         while (nrPrimes == 0 || nrValues < nrPrimes) {

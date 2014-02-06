@@ -2,12 +2,12 @@ package euler.level1;
 
 import java.util.Arrays;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.sequence.PentagonalNumbers;
 
-public class Problem044 extends Problem<Long> {
+public class Problem044 extends IntegerProblem {
     @Override
-    public Long solve() {
+    public long solve() {
         final long[] pent = new PentagonalNumbers().head(10000000l);
         for (int x = 1; x < pent.length; x++) {
             for (int y = 1; y <= x; y++) {

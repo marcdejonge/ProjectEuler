@@ -1,12 +1,12 @@
 package euler.level1;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.sequence.Primes;
 
-public class Problem027 extends Problem<Integer> {
+public class Problem027 extends IntegerProblem {
 
     @Override
-    public Integer solve() {
+    public long solve() {
         int max = 0;
         int maxA = 0, maxB = 0;
         for (int a = -999; a < 1000; a++) {

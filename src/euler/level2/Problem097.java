@@ -2,9 +2,9 @@ package euler.level2;
 
 import java.math.BigInteger;
 
-import euler.Problem;
+import euler.BigIntegerProblem;
 
-public class Problem097 extends Problem<BigInteger> {
+public class Problem097 extends BigIntegerProblem {
     private final static BigInteger MODULO = BigInteger.valueOf(10000000000l);
     private final static BigInteger TWO = BigInteger.valueOf(2);
     private final static BigInteger BASE = BigInteger.valueOf(28433);

@@ -1,6 +1,6 @@
 package euler.level3;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.sequence.Primes;
 
 /**
@@ -17,16 +17,16 @@ import euler.sequence.Primes;
  * 
  * p = (3 * a)(a + 1) + 1
  */
-public class Problem131 extends Problem<Integer> {
+public class Problem131 extends IntegerProblem {
     @Override
-    public Integer solve() {
+    public long solve() {
         int count = 0;
         for (int a = 1; a <= 576; a++) {
             int p = 3 * a * (a + 1) + 1;
             if (Primes.isPrime(p)) {
-                long n = a * a * a;
-                long m = n * n * n + n * n * p;
-                System.out.printf("Solution %d^3 + %d^2*%d = %d^3%n", n, n, p, m);
+                // long n = a * a * a;
+                // long m = n * n * n + n * n * p;
+                // System.out.printf("Solution %d^3 + %d^2*%d = %d^3%n", n, n, p, m);
                 count++;
             }
         }

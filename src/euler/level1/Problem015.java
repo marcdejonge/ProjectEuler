@@ -1,11 +1,11 @@
 package euler.level1;
 
-import euler.Problem;
+import euler.IntegerProblem;
 
-public class Problem015 extends Problem<Long> {
+public class Problem015 extends IntegerProblem {
 
     @Override
-    public Long solve() {
+    public long solve() {
         final int SIZE = 21;
 
         final long[][] matrix = new long[SIZE][SIZE];

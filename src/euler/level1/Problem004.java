@@ -1,11 +1,11 @@
 package euler.level1;
 
-import euler.Problem;
+import euler.IntegerProblem;
 
-public class Problem004 extends Problem<Integer> {
+public class Problem004 extends IntegerProblem {
 
     @Override
-    public Integer solve() {
+    public long solve() {
         for (int x = 9; x >= 0; x--) {
             for (int y = 9; y >= 0; y--) {
                 for (int z = 9; z >= 0; z--) {

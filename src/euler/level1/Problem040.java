@@ -1,11 +1,11 @@
 package euler.level1;
 
-import euler.Problem;
+import euler.IntegerProblem;
 
-public class Problem040 extends Problem<Integer> {
+public class Problem040 extends IntegerProblem {
 
     @Override
-    public Integer solve() {
+    public long solve() {
         final byte[] fraction = new byte[1000000];
         int used = 0;
         int i = 1;

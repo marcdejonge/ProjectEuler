@@ -1,13 +1,13 @@
 package euler.level1;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.numberic.BitSet;
 import euler.sequence.AbundantNumbers;
 
-public class Problem023 extends Problem<Integer> {
+public class Problem023 extends IntegerProblem {
 
     @Override
-    public Integer solve() {
+    public long solve() {
         final int MAX = 28124;
 
         final int[] abNrs = new AbundantNumbers().head(MAX);

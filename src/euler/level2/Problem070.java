@@ -1,13 +1,13 @@
 package euler.level2;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.numberic.Number;
 import euler.sequence.Primes;
 
-public class Problem070 extends Problem<Integer> {
+public class Problem070 extends IntegerProblem {
 
     @Override
-    public Integer solve() {
+    public long solve() {
         double min = Double.MAX_VALUE;
         int solution = 0;
 

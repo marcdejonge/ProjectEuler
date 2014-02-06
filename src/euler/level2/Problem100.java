@@ -1,15 +1,15 @@
 package euler.level2;
 
+import euler.IntegerProblem;
 import euler.Pair;
-import euler.Problem;
 import euler.combination.PellSolver;
 
-public class Problem100 extends Problem<Long> {
+public class Problem100 extends IntegerProblem {
 
     private static final long MAX = 1000000000000L;
 
     @Override
-    public Long solve() {
+    public long solve() {
         PellSolver ps = new PellSolver(8);
 
         Pair<Long, Long> pair = null;

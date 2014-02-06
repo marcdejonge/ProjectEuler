@@ -3,13 +3,13 @@ package euler.level1;
 import java.util.HashSet;
 import java.util.Set;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.sequence.LineSequence;
 
-public class Problem032 extends Problem<Integer> {
+public class Problem032 extends IntegerProblem {
 
     @Override
-    public Integer solve() {
+    public long solve() {
         final LineSequence seq = new LineSequence(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
         final byte[] line = seq.current();
         final Set<Integer> numbers = new HashSet<Integer>();

@@ -1,10 +1,10 @@
 package euler.level1;
 
-import euler.Problem;
+import euler.IntegerProblem;
 
-public class Problem033 extends Problem<Integer> {
+public class Problem033 extends IntegerProblem {
     @Override
-    public Integer solve() {
+    public long solve() {
         int totA = 1;
         int totB = 1;
         for (int a = 1; a < 10; a++) {

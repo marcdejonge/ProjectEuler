@@ -11,7 +11,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import euler.sequence.LongSequence;
 
-public abstract class MultiCoreProblem extends Problem<Long> {
+public abstract class MultiCoreProblem extends IntegerProblem {
     final LongSequence sequence;
     final ReentrantLock lock;
     protected final AtomicLong result;
@@ -30,7 +30,7 @@ public abstract class MultiCoreProblem extends Problem<Long> {
     public abstract boolean handleNumber(long nr);
 
     @Override
-    public Long solve() {
+    public long solve() {
         final int maxProcesses = Runtime.getRuntime().availableProcessors();
         final ExecutorService executor = Executors.newFixedThreadPool(maxProcesses);
         final List<Future<?>> futures = new ArrayList<>(maxProcesses);

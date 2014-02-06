@@ -2,14 +2,14 @@ package euler.level3;
 
 import java.util.Arrays;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.formulas.PolynomialFormula;
 import euler.numberic.NumericUtils;
 
-public class Problem101 extends Problem<Long> {
+public class Problem101 extends IntegerProblem {
 
     @Override
-    public Long solve() {
+    public long solve() {
         PolynomialFormula un = new PolynomialFormula();
         int factor = 1;
         for (int power = 0; power <= 10; power++) {

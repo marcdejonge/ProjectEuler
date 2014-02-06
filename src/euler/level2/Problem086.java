@@ -1,8 +1,8 @@
 package euler.level2;
 
-import euler.Problem;
+import euler.IntegerProblem;
 
-public class Problem086 extends Problem<Integer> {
+public class Problem086 extends IntegerProblem {
     private final static int MAX = 1000000;
 
     private boolean isSquare(int n) {
@@ -11,7 +11,7 @@ public class Problem086 extends Problem<Integer> {
     }
 
     @Override
-    public Integer solve() {
+    public long solve() {
         int count = 0;
 
         int a;

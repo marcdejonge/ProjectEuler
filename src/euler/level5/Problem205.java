@@ -1,11 +1,10 @@
 package euler.level5;
 
-import euler.Problem;
+import euler.FloatingPointProblem;
 
-public class Problem205 extends Problem<Double> {
-
+public class Problem205 extends FloatingPointProblem {
     @Override
-    public Double solve() {
+    public double solve() {
         final int[] pyramidalDice = new int[] { 1, 2, 3, 4 };
         final int[] cubicDice = new int[] { 1, 2, 3, 4, 5, 6 };
 
@@ -68,5 +67,4 @@ public class Problem205 extends Problem<Double> {
 
         return Math.round(chance * 1e7) / 1e7;
     }
-
 }

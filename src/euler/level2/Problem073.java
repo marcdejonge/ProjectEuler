@@ -1,8 +1,8 @@
 package euler.level2;
 
-import euler.Problem;
+import euler.IntegerProblem;
 
-public class Problem073 extends Problem<Integer> {
+public class Problem073 extends IntegerProblem {
     private final static int MAX = 12000;
 
     private final int count(final int b, final int d) {
@@ -14,7 +14,7 @@ public class Problem073 extends Problem<Integer> {
     }
 
     @Override
-    public Integer solve() {
+    public long solve() {
         return count(2, 3);
     }
 }

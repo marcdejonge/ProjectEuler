@@ -1,30 +1,30 @@
 package euler.level3;
 
-import euler.Problem;
-import euler.numberic.Number;
+import static euler.numberic.NumericUtils.pow;
+import euler.IntegerProblem;
 
-public class Problem145 extends Problem<Integer> {
+public class Problem145 extends IntegerProblem {
     @Override
-    public Integer solve() {
-        int count = 0;
+    public long solve() {
+        long count = 0;
 
-        for (int i = 12; i < 100000000; i += 2) {
-            Number x = Number.valueOf(i);
-            if ((x.getDigitAt(0) & 1) == 0) {
-                continue;
-            }
-
-            Number rev = x.reverse();
-            if (x.hasZeros(1) || rev.hasZeros(1)) {
-                continue;
-            }
-
-            Number added = x.add(rev);
-            if (added.hasOnlyOddDigits()) {
-                count += 2;
-                // System.out.println(x + " + " + rev + " = " + added + " (" + count + ")");
+        for (int digitLength = 1; digitLength < 9; digitLength++) {
+            if (digitLength % 2 == 0) {
+                // For even length solutions, each pair of number should add up to an odd number < 10 (30 choices)
+                // The first and last digit can not use 0, so it only has 20 choices
+                count += 20 * pow(30, digitLength / 2 - 1);
+            } else if ((digitLength - 1) % 4 == 0) {
+                // For odd length in the form 4n + 1, there is no solution
+            } else {
+                // For odd length in the form 4n + 3,
+                // 5 options for the middle one (should be even < 10)
+                // 20 options for the outer layer and the 3rd / 5th / etc. layer
+                // 25 options for the 2nd / 4th / etc. layer
+                int n = (digitLength - 3) / 4;
+                count += 5 * Math.pow(20, n + 1) * Math.pow(25, n);
             }
         }
+
         return count;
     }
 }

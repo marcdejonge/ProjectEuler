@@ -1,14 +1,15 @@
 package euler.level3;
 
-import euler.Problem;
+import euler.IntegerProblem;
+import euler.SolutionNotFoundException;
 
-public class Problem126 extends Problem<Integer> {
+public class Problem126 extends IntegerProblem {
     private static int layer(int x, int y, int z, int n) {
         return 2 * (x * y + x * z + y * z) + 4 * (x + y + z + n - 2) * (n - 1);
     }
 
     @Override
-    public Integer solve() {
+    public long solve() throws SolutionNotFoundException {
         int[] count = new int[20000];
         boolean changedForX = true;
         for (int x = 1; changedForX; x++) {
@@ -33,6 +34,6 @@ public class Problem126 extends Problem<Integer> {
             }
         }
 
-        return null;
+        throw new SolutionNotFoundException();
     }
 }

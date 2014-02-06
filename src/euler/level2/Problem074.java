@@ -1,8 +1,8 @@
 package euler.level2;
 
-import euler.Problem;
+import euler.IntegerProblem;
 
-public class Problem074 extends Problem<Integer> {
+public class Problem074 extends IntegerProblem {
     private final static int MAX = 1000000;
 
     private final int[] facts;
@@ -50,7 +50,7 @@ public class Problem074 extends Problem<Integer> {
     }
 
     @Override
-    public Integer solve() {
+    public long solve() {
         int count = 0;
         for (int x = 1; x < MAX; x++) {
             if (length(x) == 60) {

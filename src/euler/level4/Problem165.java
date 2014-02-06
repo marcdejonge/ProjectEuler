@@ -2,13 +2,13 @@ package euler.level4;
 
 import java.util.Set;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.collection.HashSet;
 import euler.sequence.AbstractSequence;
 import euler.twoD.Line;
 import euler.twoD.Point;
 
-public class Problem165 extends Problem<Integer> {
+public class Problem165 extends IntegerProblem {
 
     private static class BlumBlumShub extends AbstractSequence {
         private static final int START = 290797;
@@ -59,7 +59,7 @@ public class Problem165 extends Problem<Integer> {
     }
 
     @Override
-    public Integer solve() {
+    public long solve() {
         Set<Point> points = HashSet.create(Point.class, 22);
         for (int ix = 0; ix < lines.length; ix++) {
             for (int jx = ix + 1; jx < lines.length; jx++) {

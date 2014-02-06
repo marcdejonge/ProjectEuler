@@ -1,11 +1,11 @@
 package euler.level1;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.sequence.Primes;
 
-public class Problem007 extends Problem<Long> {
+public class Problem007 extends IntegerProblem {
     @Override
-    public Long solve() {
+    public long solve() {
         return new Primes().get(10001);
     }
 }

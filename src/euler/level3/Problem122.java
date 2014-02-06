@@ -1,9 +1,9 @@
 package euler.level3;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.numberic.NumericUtils;
 
-public class Problem122 extends Problem<Integer> {
+public class Problem122 extends IntegerProblem {
     private static final int MAX_NR = 200;
     private static final int EXPECTED_MAX_DEPTH = MAX_NR;
 
@@ -27,7 +27,7 @@ public class Problem122 extends Problem<Integer> {
     }
 
     @Override
-    public Integer solve() {
+    public long solve() {
         int[] tmpArray = NumericUtils.initArray(EXPECTED_MAX_DEPTH + 1, 1, 0);
         search(tmpArray, 0);
         return NumericUtils.sum(minimalDepth);

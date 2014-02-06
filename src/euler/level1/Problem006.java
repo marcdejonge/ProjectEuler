@@ -1,11 +1,11 @@
 package euler.level1;
 
-import euler.Problem;
+import euler.IntegerProblem;
 
-public class Problem006 extends Problem<Integer> {
+public class Problem006 extends IntegerProblem {
 
     @Override
-    public Integer solve() {
+    public long solve() {
         int sumOfSquares = 0, squareOfSums = 0;
         for (int i = 1; i <= 100; i++) {
             sumOfSquares += i * i;

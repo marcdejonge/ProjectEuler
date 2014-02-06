@@ -5,13 +5,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.input.FileUtils;
 import euler.numberic.BitSet;
 
-public class Problem079 extends Problem<Number> {
+public class Problem079 extends IntegerProblem {
     @Override
-    public Number solve() {
+    public long solve() throws IOException {
         final Byte[] bytes = new Byte[256];
         for (char c = '0'; c <= '9'; c++) {
             bytes[c] = Byte.valueOf((byte) (c - '0'));
@@ -39,11 +39,7 @@ public class Problem079 extends Problem<Number> {
                     }
                 }
             }
-        } catch (final IOException ex) {
-            ex.printStackTrace();
-            return null;
         }
-
         int result = 0;
 
         while (!map.isEmpty()) {

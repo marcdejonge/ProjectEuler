@@ -2,14 +2,14 @@ package euler.level2;
 
 import java.math.BigInteger;
 
-import euler.Problem;
+import euler.IntegerProblem;
 
-public class Problem080 extends Problem<Integer> {
+public class Problem080 extends IntegerProblem {
 
     private static final BigInteger HUNDRED = BigInteger.valueOf(100);
 
     @Override
-    public Integer solve() {
+    public long solve() {
         int sum = 0;
         for (int x = 2; x < 100; x++) {
             int sqrt = (int) Math.sqrt(x);

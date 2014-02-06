@@ -1,12 +1,12 @@
 package euler.level1;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.numberic.NumericUtils;
 
-public class Problem030 extends Problem<Integer> {
+public class Problem030 extends IntegerProblem {
 
     @Override
-    public Integer solve() {
+    public long solve() {
         int sum = 0;
 
         final int[] nrs = new int[] { 0, 0, 0, 0, 0, 2 };

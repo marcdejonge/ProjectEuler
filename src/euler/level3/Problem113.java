@@ -2,9 +2,9 @@ package euler.level3;
 
 import java.math.BigInteger;
 
-import euler.Problem;
+import euler.BigIntegerProblem;
 
-public class Problem113 extends Problem<BigInteger> {
+public class Problem113 extends BigIntegerProblem {
     private BigInteger nCr(int n, int k) {
         // From http://en.wikipedia.org/wiki/Binomial_coefficient#Multiplicative_formula
         BigInteger top = BigInteger.valueOf(n);
@@ -29,5 +29,4 @@ public class Problem113 extends Problem<BigInteger> {
         }
         return count;
     }
-
 }

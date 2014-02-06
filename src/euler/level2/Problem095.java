@@ -4,15 +4,15 @@ import java.util.Comparator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.sequence.AmicableChain;
 import euler.sequence.AmicableChain.AmicableChainBuilder;
 
-public class Problem095 extends Problem<Integer> {
+public class Problem095 extends IntegerProblem {
     private static final int MAX = 1000000;
 
     @Override
-    public Integer solve() {
+    public long solve() {
         AmicableChainBuilder acb = new AmicableChainBuilder(MAX);
         SortedSet<AmicableChain> chains = new TreeSet<AmicableChain>(new Comparator<AmicableChain>() {
             @Override

@@ -1,10 +1,9 @@
 package euler.level1;
 
-import euler.Problem;
+import euler.NumberProblem;
 import euler.numberic.Number;
 
-public class Problem038 extends Problem<Number> {
-
+public class Problem038 extends NumberProblem {
     @Override
     public Number solve() {
         Number max = Number.ZERO;
@@ -23,5 +22,4 @@ public class Problem038 extends Problem<Number> {
         }
         return max;
     }
-
 }

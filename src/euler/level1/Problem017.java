@@ -1,10 +1,10 @@
 package euler.level1;
 
-import euler.Problem;
+import euler.IntegerProblem;
 
-public class Problem017 extends Problem<Integer> {
+public class Problem017 extends IntegerProblem {
     @Override
-    public Integer solve() {
+    public long solve() {
         final int onetonine = "onetwothreefourfivesixseveneightnine".length();
         final int tentonineteen = "teneleventwelvethirteenfourteenfifteensixteenseventeeneighteennineteen".length();
         final int and = "and".length();

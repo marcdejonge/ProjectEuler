@@ -3,10 +3,10 @@ package euler.level3;
 import java.util.ArrayList;
 import java.util.List;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.sequence.Primes;
 
-public class Problem111 extends Problem<Long> {
+public class Problem111 extends IntegerProblem {
 
     private void generateList(int length, long number, int digitsNeeded, int digit, List<Long> primes) {
         if (length == 0) {
@@ -25,7 +25,7 @@ public class Problem111 extends Problem<Long> {
     }
 
     @Override
-    public Long solve() {
+    public long solve() {
         long result = 0;
         final List<Long> primes = new ArrayList<Long>();
 

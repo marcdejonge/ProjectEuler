@@ -1,12 +1,12 @@
 package euler.level2;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.numberic.Number;
 import euler.sequence.Primes;
 
-public class Problem051 extends Problem<Long> {
+public class Problem051 extends IntegerProblem {
     @Override
-    public Long solve() {
+    public long solve() {
         final Primes primes = new Primes();
         final byte BASE = 1;
 

@@ -1,8 +1,8 @@
 package euler.level2;
 
-import euler.Problem;
+import euler.IntegerProblem;
 
-public class Problem094 extends Problem<Long> {
+public class Problem094 extends IntegerProblem {
     private static final long MAX = 1000000000l;
 
     private boolean isSquare(long x) {
@@ -11,7 +11,7 @@ public class Problem094 extends Problem<Long> {
     }
 
     @Override
-    public Long solve() {
+    public long solve() {
         // Using generation of http://en.wikipedia.org/wiki/Pythagorean_triple
         // There are two scenario's, both can be derived from n
         // The first is where a = base, b = height, c = side

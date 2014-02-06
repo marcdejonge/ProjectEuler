@@ -4,14 +4,14 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.input.FileUtils;
 import euler.sequence.TriangleNumbers;
 
-public class Problem042 extends Problem<Integer> {
+public class Problem042 extends IntegerProblem {
 
     @Override
-    public Integer solve() {
+    public long solve() {
         try {
             final List<String> words = FileUtils.readNames(this);
 

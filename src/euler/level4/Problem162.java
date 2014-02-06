@@ -2,10 +2,9 @@ package euler.level4;
 
 import java.math.BigInteger;
 
-import euler.Problem;
+import euler.BigIntegerProblem;
 
-public class Problem162 extends Problem<BigInteger> {
-
+public class Problem162 extends BigIntegerProblem {
     @Override
     public BigInteger solve() {
         BigInteger total = BigInteger.ZERO;

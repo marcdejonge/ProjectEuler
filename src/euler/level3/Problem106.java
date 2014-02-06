@@ -1,8 +1,8 @@
 package euler.level3;
 
-import euler.Problem;
+import euler.IntegerProblem;
 
-public class Problem106 extends Problem<Integer> {
+public class Problem106 extends IntegerProblem {
     public static int choose(int n, int r) {
         long top = 1, bottom = 1;
         for (int i = 0; i < r; i++) {
@@ -46,7 +46,7 @@ public class Problem106 extends Problem<Integer> {
     }
 
     @Override
-    public Integer solve() {
+    public long solve() {
         int n = 12;
         int total = 0;
         for (int x = 2; x * 2 <= n; x++) {

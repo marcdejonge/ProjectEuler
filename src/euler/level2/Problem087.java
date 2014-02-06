@@ -1,13 +1,13 @@
 package euler.level2;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.numberic.BitSet;
 import euler.sequence.Primes;
 
-public class Problem087 extends Problem<Integer> {
+public class Problem087 extends IntegerProblem {
 
     @Override
-    public Integer solve() {
+    public long solve() {
         final int MAX = 50000000;
         final BitSet bs = new BitSet(MAX);
         final int[] primes = new Primes().head((int) Math.sqrt(MAX));

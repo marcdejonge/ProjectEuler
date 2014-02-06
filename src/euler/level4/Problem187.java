@@ -1,14 +1,14 @@
 package euler.level4;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.sequence.Primes;
 
-public class Problem187 extends Problem<Integer> {
+public class Problem187 extends IntegerProblem {
     private static final long LIMIT = (long) Math.pow(10, 8);
     private static final long SQRT_LIMIT = (long) Math.sqrt(LIMIT);
 
     @Override
-    public Integer solve() {
+    public long solve() {
         Primes primes1 = new Primes();
         Primes primes2 = new Primes();
 

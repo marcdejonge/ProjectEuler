@@ -1,11 +1,11 @@
 package euler.level2;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.numberic.Number;
 
-public class Problem063 extends Problem<Integer> {
+public class Problem063 extends IntegerProblem {
     @Override
-    public Integer solve() {
+    public long solve() {
         int count = 0;
         for (int i = 1; i < 100; i++) {
             for (long base = 1; base < 100; base++) {

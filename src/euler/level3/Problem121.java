@@ -1,9 +1,9 @@
 package euler.level3;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.combination.CombinationGenerator;
 
-public class Problem121 extends Problem<Long> {
+public class Problem121 extends IntegerProblem {
 
     public static long fact(final int n) {
         if (n <= 1) {
@@ -32,7 +32,7 @@ public class Problem121 extends Problem<Long> {
     }
 
     @Override
-    public Long solve() {
+    public long solve() {
         long sum = 1;
 
         Integer[] loseChances = new Integer[n];

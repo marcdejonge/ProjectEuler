@@ -1,11 +1,11 @@
 package euler.level2;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.numberic.Number;
 
-public class Problem055 extends Problem<Integer> {
+public class Problem055 extends IntegerProblem {
     @Override
-    public Integer solve() {
+    public long solve() {
         int total = 0;
         for (int x = 1; x < 10000; x++) {
             final Number n = Number.valueOf(x);

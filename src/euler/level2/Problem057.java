@@ -2,11 +2,11 @@ package euler.level2;
 
 import java.math.BigInteger;
 
-import euler.Problem;
+import euler.IntegerProblem;
 
-public class Problem057 extends Problem<Integer> {
+public class Problem057 extends IntegerProblem {
     @Override
-    public Integer solve() {
+    public long solve() {
         BigInteger top = BigInteger.ONE, bottom = BigInteger.valueOf(2);
         int count = 0;
         BigInteger powerTen = BigInteger.TEN;

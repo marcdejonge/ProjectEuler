@@ -3,10 +3,10 @@ package euler.level2;
 import java.util.Arrays;
 import java.util.List;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.combination.CombinationGenerator;
 
-public class Problem090 extends Problem<Integer> {
+public class Problem090 extends IntegerProblem {
 
     class Dices {
         private final Integer[] dice1;
@@ -55,7 +55,7 @@ public class Problem090 extends Problem<Integer> {
     }
 
     @Override
-    public Integer solve() {
+    public long solve() {
         int count = 0;
         List<Integer[]> possibleDices = new CombinationGenerator<Integer>(new Integer[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, 6).generateAll();
         for (int ix = 0; ix < possibleDices.size(); ix++) {

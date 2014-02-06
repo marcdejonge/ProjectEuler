@@ -7,12 +7,11 @@ import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.List;
 
+import euler.IntegerProblem;
 import euler.Pair;
-import euler.Problem;
 import euler.input.FileUtils;
 
-public class Problem099 extends Problem<Integer> {
-
+public class Problem099 extends IntegerProblem {
     private List<Pair<Integer, Integer>> readNumberPairs() throws IOException {
         final List<Pair<Integer, Integer>> result = new ArrayList<Pair<Integer, Integer>>();
 
@@ -35,25 +34,20 @@ public class Problem099 extends Problem<Integer> {
     }
 
     @Override
-    public Integer solve() {
-        try {
-            final List<Pair<Integer, Integer>> pairs = readNumberPairs();
-            BigDecimal max = BigDecimal.ZERO;
-            final MathContext mc = new MathContext(8);
-            int maxLine = 0;
-            int line = 1;
-            for (final Pair<Integer, Integer> pair : pairs) {
-                final BigDecimal x = BigDecimal.valueOf(pair.getFirst()).pow(pair.getSecond(), mc);
-                if (x.compareTo(max) > 0) {
-                    maxLine = line;
-                    max = x;
-                }
-                line++;
+    public long solve() throws IOException {
+        final List<Pair<Integer, Integer>> pairs = readNumberPairs();
+        BigDecimal max = BigDecimal.ZERO;
+        final MathContext mc = new MathContext(8);
+        int maxLine = 0;
+        int line = 1;
+        for (final Pair<Integer, Integer> pair : pairs) {
+            final BigDecimal x = BigDecimal.valueOf(pair.getFirst()).pow(pair.getSecond(), mc);
+            if (x.compareTo(max) > 0) {
+                maxLine = line;
+                max = x;
             }
-            return maxLine;
-        } catch (final IOException ex) {
-            ex.printStackTrace();
-            return null;
+            line++;
         }
+        return maxLine;
     }
 }

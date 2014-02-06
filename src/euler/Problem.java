@@ -3,8 +3,9 @@ package euler;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class Problem<T> {
+public abstract class Problem {
     private static final Map<Integer, java.lang.Number> knownSolutions = new HashMap<Integer, java.lang.Number>();
+
     static {
         knownSolutions.put(1, 233168);
         knownSolutions.put(2, 4613732);
@@ -12,13 +13,13 @@ public abstract class Problem<T> {
         knownSolutions.put(4, 906609);
         knownSolutions.put(5, 232792560);
         knownSolutions.put(6, 25164150);
-        knownSolutions.put(7, 104743);
+        knownSolutions.put(7, 104743L);
         knownSolutions.put(8, 40824);
         knownSolutions.put(9, 31875000);
         knownSolutions.put(10, 142913828922l);
         knownSolutions.put(11, 70600674);
-        knownSolutions.put(12, 76576500);
-        knownSolutions.put(13, 5537376230l);
+        knownSolutions.put(12, 76576500L);
+        knownSolutions.put(13, 5537376230L);
         knownSolutions.put(14, 837799);
         knownSolutions.put(15, 137846528820l);
         knownSolutions.put(16, 1366);
@@ -138,6 +139,7 @@ public abstract class Problem<T> {
         knownSolutions.put(130, 149253);
         knownSolutions.put(131, 173);
         knownSolutions.put(132, 843296);
+        knownSolutions.put(133, 453647705L);
         knownSolutions.put(142, 1006193);
         knownSolutions.put(145, 608720);
         knownSolutions.put(160, 16576);
@@ -153,11 +155,11 @@ public abstract class Problem<T> {
     }
 
     private static final long execute(int nr) {
-        Problem<?> problem = null;
+        Problem problem = null;
         final int level = (nr - 1) / 50 + 1;
         try {
             final Class<?> clazz = Class.forName(String.format("euler.level%d.Problem%03d", level, nr));
-            problem = (Problem<?>) clazz.newInstance();
+            problem = (Problem) clazz.newInstance();
         } catch (final ClassNotFoundException e) {
             throw new IllegalArgumentException(String.format("The given problem number (%d) could not be found", nr));
         } catch (final InstantiationException e) {
@@ -169,9 +171,9 @@ public abstract class Problem<T> {
         return execute(problem, knownSolutions.get(nr));
     }
 
-    private static final <T> long execute(Problem<T> problem, java.lang.Number knownSolution) {
+    private static final long execute(Problem problem, java.lang.Number knownSolution) {
         final long start = System.nanoTime();
-        final T result = problem.solve();
+        final Number result = problem.execute(knownSolution);
         final long time = System.nanoTime() - start;
 
         if (result == null) {
@@ -180,7 +182,7 @@ public abstract class Problem<T> {
                               time / 1e9);
             return -1;
         } else {
-            final String checked = knownSolution == null ? "Unchecked" : knownSolution.equals(result) ? "Correct" : "Incorrect";
+            final String checked = knownSolution == null ? "Unchecked" : result == knownSolution ? "Correct" : "Incorrect";
             System.out.printf("%9s result for %s: %20s Calculated in %5.3f seconds%n",
                               checked,
                               problem.getClass().getSimpleName(),
@@ -230,5 +232,11 @@ public abstract class Problem<T> {
         }
     }
 
-    public abstract T solve();
+    /**
+     * @param expected
+     *            The expected output of the solution.
+     * @return When the solution found is the same as the expected, we want the same object to be returned. Otherwise,
+     *         return the calculated value. When no solution has been found, this method should return null.
+     */
+    public abstract Number execute(Number expected);
 }

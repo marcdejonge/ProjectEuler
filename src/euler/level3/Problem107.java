@@ -2,14 +2,14 @@ package euler.level3;
 
 import java.io.IOException;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.graph.PrimsAlgorithm;
 import euler.graph.WeightedDirectedGraphImpl;
 import euler.graph.WeightedDirectedGraphImpl.Edge;
 import euler.graph.WeightedDirectedGraphImpl.Vertex;
 import euler.input.FileUtils;
 
-public class Problem107 extends Problem<Integer> {
+public class Problem107 extends IntegerProblem {
 
     private int getTotalWeight(WeightedDirectedGraphImpl g) {
         int total = 0;
@@ -22,7 +22,7 @@ public class Problem107 extends Problem<Integer> {
     }
 
     @Override
-    public Integer solve() {
+    public long solve() {
         WeightedDirectedGraphImpl input;
         try {
             input = FileUtils.readWeightedGraph(this);

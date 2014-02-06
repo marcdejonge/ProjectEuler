@@ -12,7 +12,7 @@ import euler.Problem;
 import euler.graph.WeightedDirectedGraphImpl;
 
 public abstract class FileUtils {
-    public static File findFile(Problem<?> problem) throws IOException {
+    public static File findFile(Problem problem) throws IOException {
         String filename = "input" + File.separator + problem.getClass().getSimpleName() + ".txt";
         File file = new File(filename);
         if (file.exists() && file.canRead()) {
@@ -22,7 +22,7 @@ public abstract class FileUtils {
         }
     }
 
-    public static char[] readChars(Problem<?> problem) throws IOException {
+    public static char[] readChars(Problem problem) throws IOException {
         File file = findFile(problem);
         try (final Scanner scanner = new Scanner(file)) {
             scanner.useDelimiter(",|\n");
@@ -38,11 +38,11 @@ public abstract class FileUtils {
         }
     }
 
-    public static BufferedReader readInput(Problem<?> problem) throws IOException {
+    public static BufferedReader readInput(Problem problem) throws IOException {
         return new BufferedReader(new FileReader(findFile(problem)));
     }
 
-    public static List<String> readNames(Problem<?> problem) throws IOException {
+    public static List<String> readNames(Problem problem) throws IOException {
         final List<String> names = new ArrayList<String>();
         try (final Scanner scanner = scanInput(problem)) {
             scanner.useDelimiter("\"(,\")*");
@@ -57,7 +57,7 @@ public abstract class FileUtils {
         return names;
     }
 
-    public static WeightedDirectedGraphImpl readWeightedGraph(Problem<?> problem) throws IOException {
+    public static WeightedDirectedGraphImpl readWeightedGraph(Problem problem) throws IOException {
         WeightedDirectedGraphImpl graph = new WeightedDirectedGraphImpl();
         int from = 0;
         try (BufferedReader reader = FileUtils.readInput(problem)) {
@@ -76,7 +76,7 @@ public abstract class FileUtils {
         return graph;
     }
 
-    public static Scanner scanInput(Problem<?> problem) throws IOException {
+    public static Scanner scanInput(Problem problem) throws IOException {
         return new Scanner(findFile(problem));
     }
 }

@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.combination.CombinationGenerator;
 import euler.input.FileUtils;
 
-public class Problem098 extends Problem<Integer> {
+public class Problem098 extends IntegerProblem {
     private int decode(char[] word, char[] encoding) {
         int nr = 0;
         for (char c : word) {
@@ -77,7 +77,7 @@ public class Problem098 extends Problem<Integer> {
     }
 
     @Override
-    public Integer solve() {
+    public long solve() {
         Collection<List<String>> anagrams = readAnagrams();
 
         int maxFound = 0;

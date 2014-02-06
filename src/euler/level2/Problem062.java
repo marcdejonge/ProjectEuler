@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import euler.Problem;
+import euler.NumberProblem;
 import euler.numberic.Number;
 import euler.sequence.LongSequence;
 import euler.sequence.SimpleSequence;
 
-public class Problem062 extends Problem<Number> {
+public class Problem062 extends NumberProblem {
     @Override
     public Number solve() {
         final LongSequence cubes = new SimpleSequence() {

@@ -1,10 +1,10 @@
 package euler.level2;
 
-import euler.Problem;
+import euler.IntegerProblem;
 
-public class Problem068 extends Problem<Long> {
+public class Problem068 extends IntegerProblem {
     @Override
-    public Long solve() {
+    public long solve() {
         // Done by solving by hand, it is very easy
         return 6531031914842725l;
     }

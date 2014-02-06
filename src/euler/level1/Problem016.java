@@ -1,12 +1,12 @@
 package euler.level1;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.numberic.Number;
 
-public class Problem016 extends Problem<Integer> {
+public class Problem016 extends IntegerProblem {
 
     @Override
-    public Integer solve() {
+    public long solve() {
         final Number nr = Number.valueOf(2).pow(1000);
         return nr.digitalSum();
     }

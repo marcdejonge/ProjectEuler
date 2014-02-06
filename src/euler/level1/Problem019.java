@@ -2,12 +2,12 @@ package euler.level1;
 
 import java.util.Calendar;
 
-import euler.Problem;
+import euler.IntegerProblem;
 
-public class Problem019 extends Problem<Integer> {
+public class Problem019 extends IntegerProblem {
 
     @Override
-    public Integer solve() {
+    public long solve() {
         final Calendar calendar = Calendar.getInstance();
         int sundays = 0;
         for (int year = 1901; year < 2001; year++) {

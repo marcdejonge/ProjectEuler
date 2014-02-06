@@ -1,14 +1,14 @@
 package euler.level2;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.Triplet;
 import euler.sequence.PythagoreanTriplets;
 
-public class Problem075 extends Problem<Integer> {
+public class Problem075 extends IntegerProblem {
     private final static int MAX = 1500000;
 
     @Override
-    public Integer solve() {
+    public long solve() {
         final int[] nrs = new int[MAX + 1];
         final PythagoreanTriplets pts = new PythagoreanTriplets();
 

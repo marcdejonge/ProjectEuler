@@ -1,8 +1,8 @@
 package euler.level3;
 
-import euler.Problem;
+import euler.IntegerProblem;
 
-public class Problem120 extends Problem<Long> {
+public class Problem120 extends IntegerProblem {
 
     // (a-1)^2 = -2a + 1 % a^2
     // (a-1)^3 = 3a - 1 % a^2
@@ -25,7 +25,7 @@ public class Problem120 extends Problem<Long> {
     }
 
     @Override
-    public Long solve() {
+    public long solve() {
         long sum = 0;
         for (int a = 3; a <= 1000; a++) {
             sum += calcRmax(a);

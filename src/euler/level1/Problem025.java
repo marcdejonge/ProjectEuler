@@ -2,11 +2,11 @@ package euler.level1;
 
 import java.math.BigInteger;
 
-import euler.Problem;
+import euler.IntegerProblem;
 
-public class Problem025 extends Problem<Integer> {
+public class Problem025 extends IntegerProblem {
     @Override
-    public Integer solve() {
+    public long solve() {
         BigInteger f1 = BigInteger.ONE, f2 = BigInteger.ONE;
         BigInteger res = f1.add(f2);
         final BigInteger min = BigInteger.TEN.pow(999);

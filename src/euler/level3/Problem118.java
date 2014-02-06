@@ -1,10 +1,10 @@
 package euler.level3;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.sequence.LineSequence;
 import euler.sequence.Primes;
 
-public class Problem118 extends Problem<Integer> {
+public class Problem118 extends IntegerProblem {
     private int nrPrimeSets(final byte[] current, final int min, final int startIx) {
         if (startIx >= current.length) {
             return 1;
@@ -25,7 +25,7 @@ public class Problem118 extends Problem<Integer> {
     }
 
     @Override
-    public Integer solve() {
+    public long solve() {
         final LineSequence seq = new LineSequence(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
         int count = 0;
         while (seq.next()) {

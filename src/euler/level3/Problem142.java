@@ -1,8 +1,8 @@
 package euler.level3;
 
-import euler.Problem;
+import euler.IntegerProblem;
 
-public class Problem142 extends Problem<Integer> {
+public class Problem142 extends IntegerProblem {
     private boolean isSquare(int x) {
         int sq = (int) Math.sqrt(x);
         return sq * sq == x;
@@ -24,7 +24,7 @@ public class Problem142 extends Problem<Integer> {
     // y = x - b^2
     // z = c^2 - x
     @Override
-    public Integer solve() {
+    public long solve() {
         for (int a = 1;; a++) {
             int a2 = a * a;
 

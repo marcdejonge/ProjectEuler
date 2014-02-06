@@ -2,9 +2,9 @@ package euler.level3;
 
 import java.util.Arrays;
 
-import euler.Problem;
+import euler.IntegerProblem;
 
-public class Problem124 extends Problem<Integer> {
+public class Problem124 extends IntegerProblem {
     private static class Radical implements Comparable<Radical> {
         final int nr;
         int rad;
@@ -31,7 +31,7 @@ public class Problem124 extends Problem<Integer> {
     private static final int LIMIT = 100000;
 
     @Override
-    public Integer solve() {
+    public long solve() {
         Radical[] radicals = new Radical[LIMIT + 1];
         for (int ix = 0; ix <= LIMIT; ix++) {
             radicals[ix] = new Radical(ix);

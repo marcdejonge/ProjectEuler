@@ -3,21 +3,16 @@ package euler.level3;
 import java.io.IOException;
 import java.util.List;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.input.FileUtils;
 import euler.twoD.Triangle;
 import euler.twoD.Vector;
 
-public class Problem102 extends Problem<Integer> {
+public class Problem102 extends IntegerProblem {
     @Override
-    public Integer solve() {
+    public long solve() throws IOException {
         List<Triangle> ts;
-        try {
-            ts = Triangle.read(FileUtils.findFile(this));
-        } catch (final IOException e) {
-            System.err.println("Could not read input file: Problem102.txt");
-            return null;
-        }
+        ts = Triangle.read(FileUtils.findFile(this));
 
         int total = 0;
         final Vector orig = new Vector(0, 0);

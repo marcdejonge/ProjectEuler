@@ -1,14 +1,14 @@
 package euler.level1;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.sequence.HexagonalNumbers;
 import euler.sequence.LongSequence;
 import euler.sequence.PentagonalNumbers;
 import euler.sequence.TriangleNumbers;
 
-public class Problem045 extends Problem<Long> {
+public class Problem045 extends IntegerProblem {
     @Override
-    public Long solve() {
+    public long solve() {
         final LongSequence tria = new TriangleNumbers();
         final LongSequence pent = new PentagonalNumbers();
         final LongSequence hexa = new HexagonalNumbers();

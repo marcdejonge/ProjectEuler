@@ -3,12 +3,12 @@ package euler.level1;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import euler.Problem;
+import euler.IntegerProblem;
 
-public class Problem029 extends Problem<Integer> {
+public class Problem029 extends IntegerProblem {
 
     @Override
-    public Integer solve() {
+    public long solve() {
         final SortedSet<Integer> set = new TreeSet<Integer>();
         for (int a = 2; a <= 100; a++) {
             boolean found = false;

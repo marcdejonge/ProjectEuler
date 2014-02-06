@@ -1,10 +1,10 @@
 package euler.level2;
 
-import euler.Problem;
+import euler.IntegerProblem;
 
-public class Problem072 extends Problem<Long> {
+public class Problem072 extends IntegerProblem {
     @Override
-    public Long solve() {
+    public long solve() {
         final int MAX = 1000000;
 
         final int[] values = new int[MAX + 1];

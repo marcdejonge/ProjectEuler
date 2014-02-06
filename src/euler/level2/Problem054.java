@@ -5,14 +5,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import euler.IntegerProblem;
 import euler.Pair;
-import euler.Problem;
 import euler.cards.Card;
 import euler.cards.Hand;
 import euler.input.FileUtils;
 
-public class Problem054 extends Problem<Integer> {
-
+public class Problem054 extends IntegerProblem {
     private List<Pair<Hand, Hand>> readHands() throws IOException {
         final List<Pair<Hand, Hand>> result = new ArrayList<Pair<Hand, Hand>>();
 
@@ -39,21 +38,16 @@ public class Problem054 extends Problem<Integer> {
     }
 
     @Override
-    public Integer solve() {
-        try {
-            final List<Pair<Hand, Hand>> hands = readHands();
+    public long solve() throws IOException {
+        final List<Pair<Hand, Hand>> hands = readHands();
 
-            int total = 0;
-            for (final Pair<Hand, Hand> hand : hands) {
-                if (hand.getFirst().compareTo(hand.getSecond()) > 0) {
-                    total++;
-                }
+        int total = 0;
+        for (final Pair<Hand, Hand> hand : hands) {
+            if (hand.getFirst().compareTo(hand.getSecond()) > 0) {
+                total++;
             }
-
-            return total;
-        } catch (final IOException e) {
-            e.printStackTrace();
-            return null;
         }
+
+        return total;
     }
 }

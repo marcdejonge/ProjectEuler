@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import euler.Problem;
+import euler.IntegerProblem;
 
-public class Problem109 extends Problem<Integer> {
+public class Problem109 extends IntegerProblem {
     static class Throw implements Comparable<Throw> {
         private final int nr, multiplier;
 
@@ -73,7 +73,7 @@ public class Problem109 extends Problem<Integer> {
     private static final int MAX = 100;
 
     @Override
-    public Integer solve() {
+    public long solve() {
         List<Throw> possibleThrows = new ArrayList<>();
         for (int nr = 1; nr <= 20; nr++) {
             possibleThrows.add(new Throw(nr, 1));
@@ -84,8 +84,6 @@ public class Problem109 extends Problem<Integer> {
         possibleThrows.add(new Throw(25, 2));
         possibleThrows.add(new Throw(0, 0));
         Collections.sort(possibleThrows);
-
-        System.out.println(possibleThrows);
 
         int count = 0;
         for (int ix1 = 0; ix1 < possibleThrows.size(); ix1++) {

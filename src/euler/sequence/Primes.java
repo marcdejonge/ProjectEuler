@@ -324,6 +324,18 @@ public class Primes extends AbstractSequence {
      * return result; }
      */
 
+    public static long smallestDivisor(long i) {
+        final Primes ps = new Primes();
+        for (long p : ps) {
+            if (i % p == 0) {
+                return p;
+            } else if (p * p > i) {
+                return i;
+            }
+        }
+        throw new AssertionError("There should always be a smallest divisor");
+    }
+
     public final static long sumOfDivisors(long nr) {
         final Primes p = new Primes();
 

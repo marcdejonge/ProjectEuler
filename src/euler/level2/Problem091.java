@@ -1,13 +1,13 @@
 package euler.level2;
 
-import euler.Problem;
+import euler.IntegerProblem;
 import euler.sequence.Primes;
 
-public class Problem091 extends Problem<Integer> {
+public class Problem091 extends IntegerProblem {
     private final int MAX = 50;
 
     @Override
-    public Integer solve() {
+    public long solve() {
         int count = 0;
 
         // First, for the right angle at (0,0), there are 50 * 50 possibilities
