@@ -15,6 +15,7 @@ public abstract class IntegerProblem extends Problem {
             if (ex.getMessage() != null) {
                 System.out.println("Could not solve: " + ex.getMessage());
             }
+            ex.printStackTrace();
             return null;
         }
     }

@@ -26,6 +26,31 @@ public class NumericUtils {
         return array;
     }
 
+    public static long inverseMod(long a, long mod) {
+        long inverse = 0, newInverse = 1;
+        long gcd = mod, newGcd = a;
+
+        while (newGcd != 0) {
+            long q = gcd / newGcd;
+
+            long tempInverse = newInverse;
+            newInverse = inverse - q * newInverse;
+            inverse = tempInverse;
+
+            long tempGcd = newGcd;
+            newGcd = gcd - q * newGcd;
+            gcd = tempGcd;
+        }
+
+        if (gcd > 1) {
+            throw new IllegalArgumentException(a + " is not invertable, not coprime with " + mod);
+        }
+        if (inverse < 0) {
+            inverse += mod;
+        }
+        return inverse;
+    }
+
     public static long pow(int x, int n) {
         long res;
         if (n == 0) {
