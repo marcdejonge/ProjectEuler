@@ -5,7 +5,8 @@ public class Fibionacci extends AbstractSequence {
     private final int ix;
 
     public Fibionacci() {
-        last = current = 1;
+        last = 1;
+        current = 0;
         ix = 0;
     }
 
