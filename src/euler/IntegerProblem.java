@@ -5,7 +5,9 @@ public abstract class IntegerProblem extends Problem {
     public Number execute(Number expected) {
         try {
             long solution = solve();
-            if (expected.longValue() == solution) {
+            if (expected == null) {
+                return solution;
+            } else if (expected.longValue() == solution) {
                 return expected;
             } else {
                 return solution;
