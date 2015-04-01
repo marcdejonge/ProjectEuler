@@ -1,12 +1,16 @@
 package euler.sequence;
 
-import euler.sequence.AbstractSequence.Test;
+import java.util.function.LongPredicate;
+import java.util.function.LongSupplier;
+import java.util.stream.LongStream;
 
-public interface LongSequence {
+public interface LongSequence extends LongSupplier {
 
     long current();
 
-    void dropWhile(Test test);
+    LongSequence dropWhile(LongPredicate predicate);
+
+    LongSequence reset();
 
     long[] head(long until);
 
@@ -14,8 +18,7 @@ public interface LongSequence {
 
     long position();
 
-    void reset();
-
     String toString(int nr);
 
+    LongStream stream();
 }

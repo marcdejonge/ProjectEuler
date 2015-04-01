@@ -37,7 +37,7 @@ public class Primes extends AbstractSequence {
 
     /**
      * A block of primenumbers that is stored as a set of bits between a lowerBound and upperBound.
-     * 
+     *
      * @author Marc de Jonge
      */
     private static class PrimeNumbers {
@@ -52,20 +52,20 @@ public class Primes extends AbstractSequence {
          */
         private PrimeNumbers() {
             bits = new long[] { 0x816d129a64b4cb6eL,
-                               0x2196820d864a4c32L,
-                               0xa48961205a0434c9L,
-                               0x4a2882d129861144L,
-                               0x834992132424030L,
-                               0x148a48844225064bL,
-                               0xb40b4086c304205L,
-                               0x65048928125108a0L };
+                                0x2196820d864a4c32L,
+                                0xa48961205a0434c9L,
+                                0x4a2882d129861144L,
+                                0x834992132424030L,
+                                0x148a48844225064bL,
+                                0xb40b4086c304205L,
+                                0x65048928125108a0L };
             lowerBound = 1;
             upperBound = lowerBound + bits.length * 128;
         }
 
         /**
          * Calculates the next set of prime numbers, based on the previous set.
-         * 
+         *
          * @param last
          *            The previous set of prime numbers to base the next block on
          */
@@ -108,7 +108,7 @@ public class Primes extends AbstractSequence {
                                     // Use bitmasking to disable the composite numbers
                                     int ix = (int) (mult - startNr);
                                     ix >>>= 1;
-                                    bits[ix >>> 6] &= 0xffffffffffffffffL ^ 1L << ix;
+            bits[ix >>> 6] &= 0xffffffffffffffffL ^ 1L << ix;
                                 }
                                 mult += add;
                             }
@@ -151,7 +151,7 @@ public class Primes extends AbstractSequence {
         /**
          * Checks if the given number is prime using the sieve. This should only be called on the first block and will
          * be called recursively on the next linked blocks when this block doesn't have the number.
-         * 
+         *
          * @param nr
          *            The number that needs to be checked for primeness.
          * @return true when the given number is prime, false otherwise.
@@ -173,7 +173,7 @@ public class Primes extends AbstractSequence {
 
         /**
          * Finds the next prime number, given the previous one.
-         * 
+         *
          * @param lastPrime
          *            The previous number from which the search should start.
          * @return The first prime that is bigger that the lastPrime.
@@ -313,14 +313,14 @@ public class Primes extends AbstractSequence {
 
     /*
      * public final static int phi(final int nr) { Primes p = new Primes();
-     * 
+     *
      * int left = nr; int result = nr; for (int prime = (int) p.next(); prime * prime < left; prime = (int) p.next()) {
      * if (left % prime == 0) { result = (result - (result / prime)); left /= prime;
-     * 
+     *
      * while (left % prime == 0) { left /= prime; } } }
-     * 
+     *
      * if (left > 1) { result = result - (result / left); }
-     * 
+     *
      * return result; }
      */
 
@@ -393,7 +393,6 @@ public class Primes extends AbstractSequence {
             if (nr > current.upperBound) {
                 current = current.getNext();
             }
-            pos++;
             nr = current.nextPrime(nr);
         }
 
@@ -407,11 +406,12 @@ public class Primes extends AbstractSequence {
     }
 
     @Override
-    public void reset() {
+    public Primes reset() {
         current = Primes.primeNumbers;
         nr = current.lowerBound;
         pos = 0;
         add = 2;
+        return this;
     }
 
     @Override

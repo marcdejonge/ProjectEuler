@@ -41,7 +41,8 @@ public class IncreasingNumbers extends AbstractSequence implements SortedLongSeq
     }
 
     @Override
-    public void reset() {
+    public IncreasingNumbers reset() {
         position = 0;
+        return this;
     }
 }

@@ -2,10 +2,33 @@ package euler.sequence;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.function.LongPredicate;
+import java.util.function.Supplier;
+import java.util.stream.LongStream;
+import java.util.stream.Stream;
 
-public abstract class AbstractSequence implements Iterable<Long>, LongSequence {
-    public static abstract interface Test {
-        public boolean test(long value);
+public abstract class AbstractSequence implements Iterable<Long>, LongSequence, Supplier<AbstractSequence.Pair> {
+    public static class Pair {
+        private final long position, value;
+
+        public Pair(long position, long value) {
+            super();
+            this.position = position;
+            this.value = value;
+        }
+
+        public long getPosition() {
+            return position;
+        }
+
+        public long getValue() {
+            return value;
+        }
+
+        @Override
+        public String toString() {
+            return "(" + position + "->" + value + ")";
+        }
     }
 
     public AbstractSequence() {
@@ -15,18 +38,29 @@ public abstract class AbstractSequence implements Iterable<Long>, LongSequence {
     public abstract long current();
 
     @Override
-    public void dropWhile(Test test) {
-        reset();
+    public LongSequence dropWhile(LongPredicate predicate) {
         long nr = next();
-        while (test.test(nr)) {
+        while (predicate.test(nr)) {
             nr = next();
         }
+        return this;
+    }
+
+    @Override
+    public Pair get() {
+        long value = next();
+        return new Pair(position(), value);
     }
 
     public long get(int ix) {
-        for (int i = 1; i < ix; i++) {
+        while (position() < ix) {
             next();
         }
+        return current();
+    }
+
+    @Override
+    public synchronized long getAsLong() {
         return next();
     }
 
@@ -82,12 +116,18 @@ public abstract class AbstractSequence implements Iterable<Long>, LongSequence {
     @Override
     public abstract long next();
 
-    @Override
-    public abstract long position();
+    public Stream<Pair> pairStream() {
+        return Stream.generate(this);
+    }
 
     @Override
-    public void reset() {
+    public LongSequence reset() {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public LongStream stream() {
+        return LongStream.generate(this);
     }
 
     @Override

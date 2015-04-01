@@ -31,8 +31,9 @@ public class SumSequence extends AbstractSequence {
     }
 
     @Override
-    public void reset() {
+    public SumSequence reset() {
         seq.reset();
         sum = 0;
+        return this;
     }
 }

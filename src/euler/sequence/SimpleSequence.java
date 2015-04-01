@@ -19,8 +19,9 @@ public abstract class SimpleSequence extends AbstractSequence {
     }
 
     @Override
-    public void reset() {
+    public SimpleSequence reset() {
         n = 0;
+        return this;
     }
 
     protected void setN(long start) {

@@ -40,10 +40,12 @@ public class CombinedSequence extends AbstractSequence implements SortedLongSequ
     }
 
     @Override
-    public void reset() {
+    public CombinedSequence reset() {
         position = 0;
 
         leftSequence.reset();
         rightSequence.reset();
+
+        return this;
     }
 }

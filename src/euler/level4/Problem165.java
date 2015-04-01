@@ -41,10 +41,11 @@ public class Problem165 extends IntegerProblem {
         }
 
         @Override
-        public void reset() {
+        public BlumBlumShub reset() {
             s = START;
             curr = s % MOD;
             pos = 0;
+            return this;
         }
     }
 

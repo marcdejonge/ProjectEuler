@@ -35,7 +35,7 @@ public class InverseSequence extends AbstractSequence implements SortedLongSeque
     }
 
     @Override
-    public void reset() {
+    public InverseSequence reset() {
         otherSequence.reset();
         position = 0;
         current = 0;
@@ -43,5 +43,6 @@ public class InverseSequence extends AbstractSequence implements SortedLongSeque
             current++;
             otherSequence.next();
         }
+        return this;
     }
 }

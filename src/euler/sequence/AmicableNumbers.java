@@ -54,11 +54,12 @@ public class AmicableNumbers extends AbstractSequence {
     }
 
     @Override
-    public void reset() {
+    public AmicableNumbers reset() {
         pos = 0;
         n = 1;
         futureNrs = new long[10];
         filled = 0;
+        return this;
     }
 
     private void saveNumber(long value) {

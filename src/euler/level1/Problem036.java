@@ -53,12 +53,13 @@ class Base2Palindromes extends AbstractSequence {
     }
 
     @Override
-    public void reset() {
+    public Base2Palindromes reset() {
         nr = 0;
         last = 1;
         limit = 2;
         pos = 0;
         odd = true;
+        return this;
     }
 }
 

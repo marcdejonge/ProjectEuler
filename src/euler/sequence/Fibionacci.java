@@ -1,8 +1,7 @@
 package euler.sequence;
 
 public class Fibionacci extends AbstractSequence {
-    private long last, current;
-    private final int ix;
+    private long last, current, ix;
 
     public Fibionacci() {
         last = 1;
@@ -20,6 +19,7 @@ public class Fibionacci extends AbstractSequence {
         final long next = last + current;
         last = current;
         current = next;
+        ix++;
         return current;
     }
 

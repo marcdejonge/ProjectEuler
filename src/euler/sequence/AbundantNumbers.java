@@ -28,8 +28,9 @@ public class AbundantNumbers extends AbstractSequence {
     }
 
     @Override
-    public void reset() {
+    public AbundantNumbers reset() {
         nr = 0;
         pos = 0;
+        return this;
     }
 }

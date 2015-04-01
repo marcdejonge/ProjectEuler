@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package euler.sequence;
 
@@ -52,11 +52,12 @@ public class SquareDigits extends AbstractSequence {
     }
 
     @Override
-    public void reset() {
+    public SquareDigits reset() {
         pos = 0;
         sqN = (int) Math.floor(Math.sqrt(n));
         a = 0;
         num = n;
         den = 0;
+        return this;
     }
 }

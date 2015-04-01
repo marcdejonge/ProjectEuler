@@ -108,10 +108,11 @@ public class DivisorsSequence extends AbstractSequence {
     }
 
     @Override
-    public void reset() {
+    public DivisorsSequence reset() {
         primes = new Primes();
         primes.next();
         last = 0;
         pos = 0;
+        return this;
     }
 }

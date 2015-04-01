@@ -8,19 +8,13 @@ import java.util.TreeSet;
 
 import euler.NumberProblem;
 import euler.numberic.Number;
-import euler.sequence.AbstractSequence.Test;
+import euler.sequence.LongSequence;
 import euler.sequence.Primes;
 
 public class Problem049 extends NumberProblem {
     @Override
     public Number solve() {
-        final Primes primes = new Primes();
-        primes.dropWhile(new Test() {
-            @Override
-            public boolean test(long value) {
-                return value < 1000;
-            }
-        });
+        final LongSequence primes = new Primes().dropWhile(x -> x < 1000);
 
         final SortedMap<Number, SortedSet<Number>> map = new TreeMap<Number, SortedSet<Number>>();
 
