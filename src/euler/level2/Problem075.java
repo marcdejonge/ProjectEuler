@@ -13,7 +13,7 @@ public class Problem075 extends IntegerProblem {
         final PythagoreanTriplets pts = new PythagoreanTriplets();
 
         int lastSum = 0;
-        for (Triplet t = pts.next(); lastSum < t.getSum() || t.getSum() < MAX; t = pts.next()) {
+        for (Triplet t = pts.get(); lastSum < t.getSum() || t.getSum() < MAX; t = pts.get()) {
             final int sum = t.getSum();
             for (int ix = sum; ix <= MAX; ix += sum) {
                 nrs[ix]++;

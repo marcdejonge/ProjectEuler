@@ -1,7 +1,7 @@
 package euler;
 
 public class Triplet {
-    private final int a, b, c;
+    public final int a, b, c;
 
     public Triplet(int a, int b, int c) {
         this.a = a;
