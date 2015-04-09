@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,6 +36,20 @@ public abstract class Problem {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private static boolean debug = false;
+
+    protected static final void printf(String format, Object... objects) {
+        if (debug) {
+            System.out.printf(format, objects);
+        }
+    }
+
+    protected static final void print(String description, int[] nrs) {
+        if (debug) {
+            System.out.println(description + ": " + Arrays.toString(nrs));
         }
     }
 
@@ -106,6 +121,7 @@ public abstract class Problem {
         } else {
             int nr = 1;
             try {
+                debug = true; // Print out any debug info only when running in single mode
                 nr = Integer.parseInt(args[0]);
             } catch (final NumberFormatException ex) {
                 System.out.println("Please give the number of the problem that you want to solve!");

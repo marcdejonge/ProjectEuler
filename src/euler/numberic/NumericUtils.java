@@ -1,8 +1,11 @@
 package euler.numberic;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 
 public class NumericUtils {
+    public static BigInteger _2 = BigInteger.valueOf(2);
+
     public static int fact(int nr) {
         if (nr == 1) {
             return 1;
@@ -64,7 +67,15 @@ public class NumericUtils {
         }
     }
 
-    public static int[] recurringCycle(final int value) {
+    public static int[] recurringCycle(int value) {
+        if (value < 0) {
+            value = -value;
+        } else if (value == 0) {
+            return new int[] { 0 };
+        } else if (value == 1) {
+            return new int[0];
+        }
+
         int[] digits = new int[128];
         int[] remainders = new int[128];
         int filled = 0;
@@ -103,6 +114,19 @@ public class NumericUtils {
             filled++;
             divider = rem * 10;
         }
+    }
+
+    public static BigInteger sqrt(BigInteger x) {
+        if (x.compareTo(BigInteger.ZERO) < 0) {
+            throw new IllegalArgumentException("Can't find the square root of a negvative number: " + x);
+        } else if (x.compareTo(BigInteger.ONE) <= 0) {
+            return x;
+        }
+
+        BigInteger y;
+        for (y = x.divide(_2); y.multiply(y).compareTo(x) > 0; y = x.divide(y).add(y).divide(_2)) {
+        }
+        return y;
     }
 
     public static int sum(int[] array) {
