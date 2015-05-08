@@ -3,6 +3,7 @@ package euler.sequence;
 import java.util.AbstractSet;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.stream.LongStream;
 
 public class LongSortedSet extends AbstractSet<Long> {
     private int filled;
@@ -97,6 +98,10 @@ public class LongSortedSet extends AbstractSet<Long> {
                 throw new UnsupportedOperationException();
             }
         };
+    }
+
+    public LongStream longStream() {
+        return Arrays.stream(array, 0, filled);
     }
 
     public boolean remove(long value) {

@@ -15,7 +15,7 @@ public class GoldenRatioSequence implements LongSupplier {
     }
 
     @Override
-    public long getAsLong() {
+    public synchronized long getAsLong() {
         long result = function.applyAsLong(a, b);
         a += b;
         b += a;

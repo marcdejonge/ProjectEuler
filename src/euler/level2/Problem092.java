@@ -1,9 +1,10 @@
 package euler.level2;
 
-import euler.MultiCoreProblem;
-import euler.sequence.NaturalNumbers;
+import java.util.stream.IntStream;
 
-public class Problem092 extends MultiCoreProblem {
+import euler.IntegerProblem;
+
+public class Problem092 extends IntegerProblem {
 
     private static final int MAX = 10000000;
 
@@ -17,22 +18,16 @@ public class Problem092 extends MultiCoreProblem {
         return result;
     }
 
-    public Problem092() {
-        super(new NaturalNumbers(), MAX / 1000);
-    }
-
     @Override
-    public boolean handleNumber(long nr) {
-        if (nr >= MAX) {
-            return false;
-        }
-        int x = (int) nr;
-        while (x != 1 && x != 89) {
-            x = squareOfDigits(x);
-        }
-        if (x == 89) {
-            result.incrementAndGet();
-        }
-        return true;
+    public long solve() throws Exception {
+        return IntStream.range(1, MAX)
+                        .parallel()
+                        .filter(nr -> {
+                            while (nr != 1 && nr != 89) {
+                                nr = squareOfDigits(nr);
+                            }
+                            return nr == 89;
+                        })
+                        .count();
     }
 }
