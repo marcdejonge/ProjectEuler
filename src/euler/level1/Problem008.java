@@ -15,7 +15,7 @@ public class Problem008 extends IntegerProblem {
             prod *= number.charAt(i + 4) - '0';
             if (prod > max) {
                 max = prod;
-                printf("%s -> %d%n", number.substring(i, i + 5), max);
+                print("%s -> %d%n", number.substring(i, i + 5), max);
             }
         }
         return max;

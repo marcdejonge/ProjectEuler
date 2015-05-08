@@ -41,7 +41,13 @@ public abstract class Problem {
 
     private static boolean debug = false;
 
-    protected static final void printf(String format, Object... objects) {
+    protected static final void println(String line) {
+        if (debug) {
+            System.out.println(line);
+        }
+    }
+
+    protected static final void print(String format, Object... objects) {
         if (debug) {
             System.out.printf(format, objects);
         }

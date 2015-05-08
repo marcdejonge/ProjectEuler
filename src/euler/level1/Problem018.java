@@ -11,10 +11,10 @@ public class Problem018 extends IntegerProblem {
     @Override
     public long solve() throws IOException {
         TriangleNumbers tn = new TriangleNumbers(this);
-        printf("Input: %n%s%n", tn);
+        print("Input: %n%s%n", tn);
 
         Node[] route = tn.findHeaviestRoute();
-        printf("Heaviest route: %s%n", Arrays.toString(route));
+        print("Heaviest route: %s%n", Arrays.toString(route));
 
         return Arrays.stream(route).mapToInt(x -> x.getNr()).sum();
     }
