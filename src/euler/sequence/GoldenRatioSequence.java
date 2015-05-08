@@ -1,37 +1,28 @@
 package euler.sequence;
 
+import java.util.function.LongSupplier;
 import java.util.function.ToLongBiFunction;
+import java.util.stream.LongStream;
 
-public class GoldenRatioSequence extends AbstractSequence {
+public class GoldenRatioSequence implements LongSupplier {
     private final ToLongBiFunction<Long, Long> function;
-    private int position;
-    private long result;
     private long a, b;
 
     public GoldenRatioSequence(ToLongBiFunction<Long, Long> function, long a, long b) {
         this.function = function;
         this.a = a;
         this.b = b;
-        result = 0;
-        position = 0;
     }
 
     @Override
-    public long current() {
-        return result;
-    }
-
-    @Override
-    public long next() {
-        result = function.applyAsLong(a, b);
+    public long getAsLong() {
+        long result = function.applyAsLong(a, b);
         a += b;
         b += a;
-        position++;
         return result;
     }
 
-    @Override
-    public long position() {
-        return position;
+    public LongStream stream() {
+        return LongStream.generate(this);
     }
 }

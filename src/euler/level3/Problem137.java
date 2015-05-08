@@ -27,6 +27,6 @@ public class Problem137 extends IntegerProblem {
     // We can iterate over all solutions of x
     @Override
     public long solve() throws Exception {
-        return new GoldenRatioSequence((Long a, Long b) -> -(a * b) / (a * a + a * b - b * b), 1, 2).get(15);
+        return new GoldenRatioSequence((Long a, Long b) -> -(a * b) / (a * a + a * b - b * b), 1, 2).stream().limit(15).max().getAsLong();
     }
 }
