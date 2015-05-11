@@ -1,10 +1,14 @@
 package euler.sequence;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveAction;
+import java.util.function.LongConsumer;
+import java.util.function.LongSupplier;
+import java.util.stream.LongStream;
 
 public class Primes extends AbstractSequence {
     public static class FactorCalculator {
@@ -52,13 +56,13 @@ public class Primes extends AbstractSequence {
          */
         private PrimeNumbers() {
             bits = new long[] { 0x816d129a64b4cb6eL,
-                                0x2196820d864a4c32L,
-                                0xa48961205a0434c9L,
-                                0x4a2882d129861144L,
-                                0x834992132424030L,
-                                0x148a48844225064bL,
-                                0xb40b4086c304205L,
-                                0x65048928125108a0L };
+                               0x2196820d864a4c32L,
+                               0xa48961205a0434c9L,
+                               0x4a2882d129861144L,
+                               0x834992132424030L,
+                               0x148a48844225064bL,
+                               0xb40b4086c304205L,
+                               0x65048928125108a0L };
             lowerBound = 1;
             upperBound = lowerBound + bits.length * 128;
         }
@@ -108,7 +112,7 @@ public class Primes extends AbstractSequence {
                                     // Use bitmasking to disable the composite numbers
                                     int ix = (int) (mult - startNr);
                                     ix >>>= 1;
-            bits[ix >>> 6] &= 0xffffffffffffffffL ^ 1L << ix;
+                                    bits[ix >>> 6] &= 0xffffffffffffffffL ^ 1L << ix;
                                 }
                                 mult += add;
                             }
@@ -197,6 +201,79 @@ public class Primes extends AbstractSequence {
             }
 
             return lowerBound + ((wordIx << 6) + Long.numberOfTrailingZeros(word)) * 2;
+        }
+    }
+
+    public static class Spliterator implements java.util.Spliterator.OfLong {
+        private volatile long estimatedSize;
+        private final long until;
+        private final Supplier primeSupplier;
+
+        public Spliterator(long until) {
+            this.until = until;
+            primeSupplier = new Supplier();
+            estimatedSize = Long.MAX_VALUE;
+        }
+
+        Spliterator(Spliterator base) {
+            until = base.until;
+            primeSupplier = base.primeSupplier;
+            base.estimatedSize >>= 1;
+            estimatedSize = base.estimatedSize;
+        }
+
+        @Override
+        public int characteristics() {
+            return IMMUTABLE | SUBSIZED;
+        }
+
+        @Override
+        public long estimateSize() {
+            return estimatedSize;
+        }
+
+        @Override
+        public boolean tryAdvance(LongConsumer action) {
+            long nextPrime = primeSupplier.getAsLong();
+            if (nextPrime < until) {
+                action.accept(nextPrime);
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        @Override
+        public Spliterator trySplit() {
+            if (estimatedSize > 1) {
+                return new Spliterator(this);
+            } else {
+                return null;
+            }
+        }
+    }
+
+    public static class Supplier implements LongSupplier {
+        private volatile PrimeNumbers currentBlock;
+        private volatile long lastPrime;
+
+        public Supplier() {
+            currentBlock = primeNumbers;
+            lastPrime = 0;
+        }
+
+        @Override
+        public synchronized long getAsLong() {
+            if (lastPrime == 0) {
+                lastPrime = 2;
+                return lastPrime;
+            }
+
+            lastPrime = currentBlock.nextPrime(lastPrime);
+            if (lastPrime > currentBlock.upperBound) {
+                currentBlock = currentBlock.getNext();
+            }
+            return lastPrime;
         }
     }
 
@@ -334,6 +411,12 @@ public class Primes extends AbstractSequence {
             }
         }
         throw new AssertionError("There should always be a smallest divisor");
+    }
+
+    public static LongStream stream(long until) {
+        return Arrays.stream(new Primes().head(until));
+        // My own spliterator seems to be slower that putting it all in an array :(
+        // return StreamSupport.longStream(new Spliterator(until), true);
     }
 
     public final static long sumOfDivisors(long nr) {

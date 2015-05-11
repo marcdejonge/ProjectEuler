@@ -1,35 +1,27 @@
 package euler.level8;
 
-import euler.MultiCoreProblem;
+import euler.IntegerProblem;
 import euler.sequence.Primes;
 
-public class Problem357 extends MultiCoreProblem {
+public class Problem357 extends IntegerProblem {
 
     public static final long LIMIT = 100000000l;
 
-    public Problem357() {
-        super(new Primes(), 10000);
-    }
-
     @Override
-    public boolean handleNumber(long prime) {
-        if (prime >= LIMIT) {
-            return false;
-        }
-
-        final int n = (int) (prime - 1);
-        int d = 2;
-        boolean stillValid = true;
-        while (stillValid && d * d <= n) {
-            final int div = n / d;
-            if (div * d == n && !Primes.isPrime(d + div)) {
-                stillValid = false;
-            }
-            d++;
-        }
-        if (stillValid) {
-            result.addAndGet(n);
-        }
-        return true;
+    public long solve() throws Exception {
+        return Primes.stream(LIMIT)
+                     .parallel()
+                     .map(prime -> {
+                         final int n = (int) (prime - 1);
+                         int d = 2;
+                         while (d * d <= n) {
+                             final int div = n / d;
+                             if (div * d == n && !Primes.isPrime(d + div)) {
+                                 return 0;
+                             }
+                             d++;
+                         }
+                         return n;
+                     }).sum();
     }
 }

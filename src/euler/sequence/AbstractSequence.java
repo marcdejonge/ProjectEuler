@@ -1,6 +1,7 @@
 package euler.sequence;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.function.LongPredicate;
 import java.util.function.Supplier;
@@ -80,17 +81,17 @@ public abstract class AbstractSequence implements Iterable<Long>, LongSequence, 
 
     @Override
     public long[] head(long until) {
-        final ArrayList<Long> list = new ArrayList<Long>();
+        long[] result = new long[100];
+
+        int ix = 0;
         for (long nr = next(); nr < until; nr = next()) {
-            list.add(nr);
+            if (ix >= result.length) {
+                result = Arrays.copyOf(result, result.length * 2);
+            }
+            result[ix++] = nr;
         }
 
-        final long[] result = new long[list.size()];
-        for (int i = 0; i < result.length; i++) {
-            result[i] = list.get(i).longValue();
-        }
-
-        return result;
+        return Arrays.copyOf(result, ix);
     }
 
     @Override
