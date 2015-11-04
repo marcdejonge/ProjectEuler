@@ -1,13 +1,12 @@
 package euler.level3;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.stream.LongStream;
 
-import euler.MultiCoreProblem;
-import euler.sequence.NaturalNumbers;
+import euler.IntegerProblem;
+import euler.sequence.LongSortedSet;
 
-public class Problem125 extends MultiCoreProblem {
-    private static final Object STONE = new Object();
+public class Problem125 extends IntegerProblem {
+    private static final int LIMIT = 100_000_000;
 
     private static boolean isPalindrome(long x) {
         if (x <= 0) {
@@ -32,39 +31,24 @@ public class Problem125 extends MultiCoreProblem {
         return true;
     }
 
-    public static void main(String[] args) {
-        System.out.println(new Problem125(1000L).solve());
-    }
-
-    private final long limit;
-
-    private final ConcurrentMap<Long, Object> numbers;
-
-    public Problem125() {
-        this(100000000L);
-    }
-
-    public Problem125(long limit) {
-        super(new NaturalNumbers(), 20);
-        this.limit = limit;
-        numbers = new ConcurrentHashMap<Long, Object>();
-    }
-
     @Override
-    public boolean handleNumber(long nr) {
-        if (nr * nr > limit) {
-            return false;
-        }
-        long sum = nr * nr + (nr + 1) * (nr + 1);
-        nr += 2;
-        while (sum < limit) {
-            if (isPalindrome(sum) && numbers.putIfAbsent(sum, STONE) == null) {
-                result.addAndGet(sum);
-            }
-            sum += nr * nr;
-            nr++;
-        }
-        return true;
+    public long solve() throws Exception {
+        return LongStream.range(1, (long) Math.sqrt(LIMIT / 2))
+                         .parallel()
+                         .flatMap(start -> {
+                             LongSortedSet results = new LongSortedSet();
+                             long nr = start;
+                             long sum = nr * nr + (nr + 1) * (nr + 1);
+                             nr += 2;
+                             while (sum < LIMIT) {
+                                 if (isPalindrome(sum)) {
+                                     print("Found sum: %d (%d - %d)%n", sum, start, nr - 1);
+                                     results.add(sum);
+                                 }
+                                 sum += nr * nr;
+                                 nr++;
+                             }
+                             return results.longStream();
+                         }).distinct().sum();
     }
-
 }

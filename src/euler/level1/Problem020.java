@@ -4,7 +4,6 @@ import euler.IntegerProblem;
 import euler.numberic.Number;
 
 public class Problem020 extends IntegerProblem {
-
     @Override
     public long solve() {
         Number fact = Number.ONE;

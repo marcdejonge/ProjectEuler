@@ -16,7 +16,7 @@ public class Problem139 extends IntegerProblem {
         Stream.generate(new PythagoreanTriplets()).mapToInt(tuple -> {
             if (tuple.c % (tuple.b - tuple.a) == 0) {
                 int count = (LIMIT - 1) / tuple.getSum();
-                System.out.printf("%s -> %d%n", tuple, count);
+                print("%s -> %d%n", tuple, count);
                 counter.addAndGet(count);
             }
             return tuple.getSum();

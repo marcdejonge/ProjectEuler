@@ -1,17 +1,15 @@
 package euler.level3;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import euler.MultiCoreProblem;
+import euler.IntegerProblem;
 import euler.input.FileUtils;
 import euler.numberic.BitSet;
-import euler.sequence.NaturalNumbers;
 
-public final class Problem105 extends MultiCoreProblem {
+public final class Problem105 extends IntegerProblem {
     private static int sum(int[] array) {
         int sum = 0;
         for (int x : array) {
@@ -52,12 +50,9 @@ public final class Problem105 extends MultiCoreProblem {
         return verifyProperty2(array) && verifyProperty1(array);
     }
 
-    private final List<int[]> sets;
-
-    public Problem105() throws IOException {
-        super(new NaturalNumbers(0), 1);
-
-        sets = new ArrayList<>();
+    @Override
+    public long solve() throws Exception {
+        final List<int[]> sets = new ArrayList<int[]>();
         try (BufferedReader r = FileUtils.readInput(this)) {
             String line = null;
             while ((line = r.readLine()) != null) {
@@ -70,19 +65,13 @@ public final class Problem105 extends MultiCoreProblem {
                 sets.add(values);
             }
         }
-    }
 
-    @Override
-    public boolean handleNumber(long nr) {
-        if (nr >= sets.size()) {
-            return false;
-        }
-
-        int[] set = sets.get((int) nr);
-        if (verifySpecialSet(set)) {
-            int sum = sum(set);
-            result.addAndGet(sum);
-        }
-        return true;
+        return sets.stream().parallel().mapToInt(set -> {
+            if (verifySpecialSet(set)) {
+                return sum(set);
+            } else {
+                return 0;
+            }
+        }).sum();
     }
 }

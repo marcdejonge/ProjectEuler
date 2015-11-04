@@ -17,7 +17,7 @@ public class Problem038 extends NumberProblem {
                 if (nr.compareTo(max) > 0) {
                     max = nr;
                 }
-                // System.out.println(x + "  " + y);
+                print("x=%d -> nr=%s%n", x, nr);
             }
         }
         return max;
