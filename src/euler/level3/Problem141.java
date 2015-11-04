@@ -37,11 +37,7 @@ public class Problem141 extends IntegerProblem {
                         }
 
                         if (NumericUtils.isSquare(n)) {
-                            //long d = x * a * b;
-                            //long r = x * b * b;
-                            //long q = x * a * a;
-                            //System.out.printf("%d = %d * %d + %d (a=%d, b=%d, x=%d)%n", n, d, q, r, a, b, x);
-
+                            print("%d = %d * %d + %d %n", n, /*d*/ x * a * b, /*q*/ x * a * a, /*r*/x * b * b);
                             sum += n;
                         }
                     }
