@@ -86,4 +86,12 @@ public class LongHashSet {
     public int size() {
         return filled;
     }
+
+    public long sum() {
+        long sum = 0;
+        for (long b : buckets) {
+            sum += b;
+        }
+        return sum;
+    }
 }

@@ -12,11 +12,12 @@ public class NumericUtils {
     }
 
     public static int gcd(int a, int b) {
-        if (b == 0) {
-            return a;
-        } else {
-            return gcd(b, a % b);
+        while (b != 0) {
+            int temp = b;
+            b = a % b;
+            a = temp;
         }
+        return a;
     }
 
     public static int[] initArray(int length, int... values) {
@@ -49,6 +50,11 @@ public class NumericUtils {
             inverse += mod;
         }
         return inverse;
+    }
+
+    public static boolean isSquare(long nr) {
+        long sq = (long) Math.sqrt(nr);
+        return sq * sq == nr;
     }
 
     public static long pow(int x, int n) {
