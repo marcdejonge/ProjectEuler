@@ -6,8 +6,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 
-public class HashSet<E> implements Set<E> {
-    public static <E> HashSet<E> create(Class<E> clazz, int size) {
+public class HashSet<E extends Hashable> implements Set<E> {
+    public static <E extends Hashable> HashSet<E> create(Class<E> clazz, int size) {
         return new HashSet<E>(clazz, size);
     }
 
@@ -91,10 +91,10 @@ public class HashSet<E> implements Set<E> {
 
     @Override
     public boolean contains(Object obj) {
-        if (obj == null) {
+        if (!(obj instanceof Hashable)) {
             return false;
         } else {
-            return buckets[findIx(obj)].equals(obj);
+            return buckets[findIx((Hashable) obj)].equals(obj);
         }
     }
 
@@ -108,11 +108,12 @@ public class HashSet<E> implements Set<E> {
         return true;
     }
 
-    private int findIx(Object element) {
-        final int hashcode = element.hashCode();
-        int ix = hashcode & mask;
+    private int findIx(Hashable element) {
+        final long hashcode = element.longHashcode();
+        int ix = (int)(hashcode & mask);
+        int inc = (int) ((hashcode >> 32) | 1);
         while (buckets[ix] != null && !buckets[ix].equals(element)) {
-            ix = ix + 1 & mask;
+            ix = ix + inc & mask;
         }
         return ix;
     }
