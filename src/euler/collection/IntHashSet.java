@@ -1,8 +1,10 @@
 package euler.collection;
 
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-public class IntHashSet {
+public class IntHashSet implements Iterable<Integer> {
     private int filled, storeSize;
     private int mask;
     private int[] buckets;
@@ -84,6 +86,36 @@ public class IntHashSet {
 
     private boolean isFull() {
         return buckets.length == filled;
+    }
+
+    @Override
+    public Iterator<Integer> iterator() {
+        return new Iterator<Integer>() {
+            private int ix = 0;
+
+            private boolean findNextFilledIx() {
+                while (ix < buckets.length) {
+                    if (buckets[ix] != 0) {
+                        return true;
+                    }
+                    ix++;
+                }
+                return false;
+            }
+
+            @Override
+            public boolean hasNext() {
+                return findNextFilledIx();
+            }
+
+            @Override
+            public Integer next() {
+                if (!findNextFilledIx()) {
+                    throw new NoSuchElementException();
+                }
+                return buckets[ix++];
+            }
+        };
     }
 
     public int size() {

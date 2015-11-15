@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public abstract class Problem {
@@ -39,25 +40,7 @@ public abstract class Problem {
         }
     }
 
-    private static boolean debug = false;
-
-    protected static final void println(String line) {
-        if (debug) {
-            System.out.println(line);
-        }
-    }
-
-    protected static final void print(String format, Object... objects) {
-        if (debug) {
-            System.out.printf(format, objects);
-        }
-    }
-
-    protected static final void print(String description, int[] nrs) {
-        if (debug) {
-            System.out.println(description + ": " + Arrays.toString(nrs));
-        }
-    }
+    protected static boolean debug = false;
 
     private static final long execute(int nr) {
         Problem problem = null;
@@ -135,6 +118,30 @@ public abstract class Problem {
             }
 
             Problem.execute(nr);
+        }
+    }
+
+    protected static final void print(Object object) {
+        if (debug) {
+            System.out.print(object);
+        }
+    }
+
+    protected static final void print(String description, int[] nrs) {
+        if (debug) {
+            System.out.println(description + ": " + Arrays.toString(nrs));
+        }
+    }
+
+    protected static final void print(String format, Object... objects) {
+        if (debug) {
+            System.out.print(String.format(Locale.US, format, objects));
+        }
+    }
+
+    protected static final void println(Object object) {
+        if (debug) {
+            System.out.println(object);
         }
     }
 

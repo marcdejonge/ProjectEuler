@@ -63,7 +63,7 @@ public class Problem067 extends IntegerProblem {
             }
         });
         final List<Node> shortestPath = solver.findShortestPath();
-        // System.out.println(shortestPath);
+        println(shortestPath);
 
         long totalLength = 0;
         for (final Node n : shortestPath) {
