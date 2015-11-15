@@ -1,6 +1,8 @@
 package euler.twoD;
 
-public final class Point {
+import euler.collection.Hashable;
+
+public final class Point implements Hashable {
     final double x, y;
 
     public Point(double x, double y) {
@@ -33,9 +35,15 @@ public final class Point {
 
     @Override
     public int hashCode() {
+        long h = longHashcode();
+        return (int) (h ^ (h >>> 32));
+    }
+
+    @Override
+    public long longHashcode() {
         long tx = Double.doubleToLongBits(x);
         long ty = Double.doubleToLongBits(y);
-        return 31 * (int) (tx ^ tx >>> 32) + (int) (ty ^ ty >>> 32);
+        return PRIME * (PRIME * tx + ty);
     }
 
     @Override
