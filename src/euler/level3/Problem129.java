@@ -15,13 +15,13 @@ public class Problem129 extends IntegerProblem {
 
     @Override
     public long solve() {
-        for (int n = LIMIT | 1;; n += 2) {
-            if (n % 5 == 0) {
-                continue;
-            }
-
-            if (A(n) >= LIMIT) {
-                return n;
+        for (int n = LIMIT + 1;; n += 2) {
+            if (n % 5 != 0) {
+                int k = A(n);
+                print("%d => %d%n", n, k);
+                if (k >= LIMIT) {
+                    return n;
+                }
             }
         }
     }
