@@ -8,6 +8,7 @@ import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveAction;
 import java.util.function.LongConsumer;
 import java.util.function.LongSupplier;
+import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
 public class Primes extends AbstractSequence {
@@ -56,13 +57,13 @@ public class Primes extends AbstractSequence {
          */
         private PrimeNumbers() {
             bits = new long[] { 0x816d129a64b4cb6eL,
-                               0x2196820d864a4c32L,
-                               0xa48961205a0434c9L,
-                               0x4a2882d129861144L,
-                               0x834992132424030L,
-                               0x148a48844225064bL,
-                               0xb40b4086c304205L,
-                               0x65048928125108a0L };
+                                0x2196820d864a4c32L,
+                                0xa48961205a0434c9L,
+                                0x4a2882d129861144L,
+                                0x834992132424030L,
+                                0x148a48844225064bL,
+                                0xb40b4086c304205L,
+                                0x65048928125108a0L };
             lowerBound = 1;
             upperBound = lowerBound + bits.length * 128;
         }
@@ -411,6 +412,10 @@ public class Primes extends AbstractSequence {
             }
         }
         throw new AssertionError("There should always be a smallest divisor");
+    }
+
+    public static IntStream stream(int until) {
+        return Arrays.stream(new Primes().head(until));
     }
 
     public static LongStream stream(long until) {

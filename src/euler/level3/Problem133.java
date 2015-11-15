@@ -22,22 +22,12 @@ public class Problem133 extends IntegerProblem {
         return (nr - 1 & nr) != 0;
     }
 
-    private static long check(long p) {
-        if (p > 5) {
-            int k = A((int) p);
-            if (check(k)) {
-                print("%d -> %d%n", p, k);
-                return k;
-            }
-        }
-        return 0;
-    }
-
     @Override
     public long solve() {
         return Primes.stream(LIMIT)
                      .parallel()
-                     .map(Problem133::check)
-                     .sum();
+                     .filter(p -> p > 5 && check(A(p)))
+                     .sum()
+               + 10; // Since we skip 2, 3 and 5
     }
 }
