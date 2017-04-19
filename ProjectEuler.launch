@@ -10,4 +10,5 @@
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="euler.Problem"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="${string_prompt}"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="ProjectEuler"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx4g"/>
 </launchConfiguration>
