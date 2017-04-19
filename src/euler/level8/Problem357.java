@@ -22,6 +22,7 @@ public class Problem357 extends IntegerProblem {
                              d++;
                          }
                          return n;
-                     }).sum();
+                     })
+                     .sum();
     }
 }

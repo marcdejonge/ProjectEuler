@@ -59,6 +59,8 @@ public class Problem135 extends IntegerProblem {
 
     @Override
     public long solve() throws Exception {
-        return Arrays.stream(generateCounters(1000000)).filter(x -> x == 10).count();
+        return Arrays.stream(generateCounters(1000000))
+                     .filter(x -> x == 10)
+                     .count();
     }
 }
