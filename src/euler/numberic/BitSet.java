@@ -2,6 +2,7 @@ package euler.numberic;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.function.Function;
 
 public class BitSet implements Cloneable, Iterable<Integer> {
     private final static long ONE_LEFT = 1l << 63, ALL_SET = -1l, SHIFT = 6, MASK = 63;
@@ -264,6 +265,22 @@ public class BitSet implements Cloneable, Iterable<Integer> {
             words = new long[newWordLength];
         }
         this.length = length;
+    }
+
+    public BitSet setWithTransform(Function<Integer, Integer> transform) {
+        long[] words = Arrays.copyOf(this.words, this.words.length);
+        long mask = BitSet.ONE_LEFT;
+        for (int ix = 0, wIx = 0; ix < length; ix++) {
+            if ((words[wIx] & mask) != 0) {
+                set(transform.apply(ix));
+            }
+            mask >>>= 1;
+            if (mask == 0) {
+                wIx++;
+                mask = BitSet.ONE_LEFT;
+            }
+        }
+        return this;
     }
 
     public BitSet shiftRight(int count) {

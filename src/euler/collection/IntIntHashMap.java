@@ -308,6 +308,12 @@ public class IntIntHashMap implements Map<Integer, Integer> {
         }
     }
 
+    public void putIfAbsent(int key, int value) {
+        if (!containsKey(key)) {
+            add(new Bucket(key, value));
+        }
+    }
+
     @Override
     public Integer remove(Object key) {
         throw new UnsupportedOperationException();
