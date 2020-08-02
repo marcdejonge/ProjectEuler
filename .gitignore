@@ -1,2 +1,5 @@
 java.hprof.txt
-bin
+
+/.gradle
+/build
+/out
