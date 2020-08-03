@@ -2,7 +2,6 @@ package euler
 
 import java.io.File
 import java.io.IOException
-import kotlin.streams.toList
 
 @Throws(IOException::class)
 fun findFile(problemIndex: Int): File {
@@ -14,5 +13,4 @@ fun findFile(problemIndex: Int): File {
         throw IOException("Can not read file [$filename]")
     }
 }
-
 

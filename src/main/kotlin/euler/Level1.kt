@@ -1,7 +1,9 @@
 package euler
 
 import euler.grid.*
+import euler.numberic.Number
 import euler.sequence.*
+import java.math.*
 import kotlin.streams.*
 
 fun problem1() = (1..999).filter { it % 3 == 0 || it % 5 == 0 }.sum()
@@ -69,14 +71,51 @@ fun problem9(): Int? {
 fun problem10() = Primes().stream().takeWhile { it < 2_000_000 }.sum()
 
 fun problem11() =
-    readIntGrid(11).mapEachLocation { grid, x, y ->
-        (-1..1).flatMap { dx ->
-            (-1..1).map { dy ->
-                if (dx == 0 && dy == 0) 0
-                else grid.coord(x, y) *
-                        grid.coord(x + dx, y + dy) *
-                        grid.coord(x + 2 * dx, y + 2 * dy) *
-                        grid.coord(x + 3 * dx, y + 3 * dy)
+        readIntGrid(11).mapEachLocation { grid, x, y ->
+            (-1..1).flatMap { dx ->
+                (-1..1).map { dy ->
+                    if (dx == 0 && dy == 0) 0
+                    else grid.coord(x, y) *
+                            grid.coord(x + dx, y + dy) *
+                            grid.coord(x + 2 * dx, y + 2 * dy) *
+                            grid.coord(x + 3 * dx, y + 3 * dy)
+                }
+            }.max() ?: 0
+        }.max()
+
+fun problem12() = TriangleNumbers().dropWhile { Primes.nrOfDivisors(it) < 500 }.current()
+
+fun problem13() = findFile(13).readLines().map { BigInteger(it) }
+        .fold(BigInteger.ZERO, BigInteger::add)
+        .toString().substring(0, 10).toLong()
+
+fun problem14() = (1L..1_000_000L).asSequence().map(::collatzSeq).maxBy { it.length }.first
+
+fun problem15(): Long {
+    val size = 21
+
+    val matrix = Array(size) { LongArray(size) { 0 } }
+    matrix[size - 1][size - 1] = 1
+
+    for (cnt in size * 2 - 3 downTo 0) {
+        for (x in cnt downTo 0) {
+            val y = cnt - x
+            if (x < size && y < size) {
+                // Calculate
+                matrix[x][y] = (if (x < size - 1) matrix[x + 1][y] else 0) +
+                        (if (y < size - 1) matrix[x][y + 1] else 0)
             }
-        }.max() ?: 0
-    }.max()
+        }
+    }
+    return matrix[0][0]
+}
+
+fun problem16() = Number.valueOf(2).pow(1000).digitalSum()
+
+fun problem17() = "one".length + "thousand".length +
+        900 * "hundred".length + 100 * "onetwothreefourfivesixseveneightnine".length +
+        891 * "and".length +
+        100 * "twentythirtyfortyfiftysixtyseventyeightyninety".length +
+        80 * "onetwothreefourfivesixseveneightnine".length +
+        10 * "teneleventwelvethirteenfourteenfifteensixteenseventeeneighteennineteen".length +
+        10 * "onetwothreefourfivesixseveneightnine".length
