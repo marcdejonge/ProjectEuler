@@ -1,5 +1,7 @@
 package euler.sequence;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -8,7 +10,7 @@ import java.util.function.Supplier;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-public abstract class AbstractSequence implements Iterable<Long>, LongSequence, Supplier<AbstractSequence.Pair> {
+public abstract class AbstractSequence implements Iterable<Long>, LongSequence, Supplier<AbstractSequence.Pair>, kotlin.sequences.Sequence<Long> {
     public static class Pair {
         private final long position, value;
 
@@ -66,14 +68,14 @@ public abstract class AbstractSequence implements Iterable<Long>, LongSequence, 
     }
 
     public int[] head(int until) {
-        final ArrayList<Integer> list = new ArrayList<Integer>();
+        final ArrayList<Integer> list = new ArrayList<>();
         for (long nr = next(); nr < until; nr = next()) {
             list.add((int) nr);
         }
 
         final int[] result = new int[list.size()];
         for (int i = 0; i < result.length; i++) {
-            result[i] = list.get(i).intValue();
+            result[i] = list.get(i);
         }
 
         return result;
@@ -94,9 +96,10 @@ public abstract class AbstractSequence implements Iterable<Long>, LongSequence, 
         return Arrays.copyOf(result, ix);
     }
 
+    @NotNull
     @Override
     public Iterator<Long> iterator() {
-        return new Iterator<Long>() {
+        return new Iterator<>() {
             @Override
             public boolean hasNext() {
                 return true; // There is always a next
@@ -116,10 +119,6 @@ public abstract class AbstractSequence implements Iterable<Long>, LongSequence, 
 
     @Override
     public abstract long next();
-
-    public Stream<Pair> pairStream() {
-        return Stream.generate(this);
-    }
 
     @Override
     public LongSequence reset() {
