@@ -12,6 +12,13 @@ import java.math.*
 import kotlin.reflect.*
 import euler.numberic.Number as AsciiNumber
 
+private var debugIsEnabled = false
+fun debug(lineProducer: () -> String) {
+    if (debugIsEnabled) {
+        println(lineProducer())
+    }
+}
+
 fun main(args: Array<String>) {
     if (args.isEmpty()) {
         println("Executing all problems...")
@@ -24,7 +31,13 @@ fun main(args: Array<String>) {
                 results.map { it.second }.sum() / 1e9)
     } else {
         try {
-            val problemNumber = args[0].toInt()
+            val problemNumber = if (args[0][0] == 'd') {
+                debugIsEnabled = true
+                args[0].substring(1).toInt()
+            } else {
+                args[0].toInt()
+            }
+
             val problem = problems[problemNumber]
 
             if (problem == null) {
@@ -158,7 +171,7 @@ val problems = listOf(
         ProblemDesc(72, Problem072()::solve, 303_963_552_391),
         ProblemDesc(73, Problem073()::solve, 7_295_372),
         ProblemDesc(74, Problem074()::solve, 402),
-        ProblemDesc(75, Problem075()::solve, 161_667),
+        ProblemDesc(75, ::problem75, 161_667),
         ProblemDesc(76, Problem076()::solve, 190_569_291),
         ProblemDesc(77, Problem077()::solve, 71),
         ProblemDesc(78, Problem078()::solve, 55_374),
@@ -226,6 +239,7 @@ val problems = listOf(
         ProblemDesc(140, Problem140()::solve, 5_673_835_352_990),
         ProblemDesc(141, Problem141()::solve, 878_454_337_159),
         ProblemDesc(142, Problem142()::solve, 1_006_193),
+        ProblemDesc(143, ::problem143, 30_758_397),
         ProblemDesc(144, Problem144()::solve, 354),
         ProblemDesc(145, Problem145()::solve, 608_720),
         ProblemDesc(160, Problem160()::solve, 16_576),
