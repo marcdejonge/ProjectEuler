@@ -25,3 +25,17 @@ fun Long.isSquare() = sqrt().square() == this
 
 infix fun Int.gcd(other: Int): Int = if (other == 0) this else other gcd (this % other)
 infix fun Long.gcd(other: Long): Long = if (other == 0L) this else other gcd (this % other)
+
+fun Long.primeFactors() = sequence {
+    var nr: Long = this@primeFactors
+
+    for (prime in primes()) {
+        if (prime * prime > nr) break
+        while (nr % prime == 0L) {
+            nr /= prime
+            yield(prime)
+        }
+    }
+
+    if (nr > 1) yield(nr)
+}

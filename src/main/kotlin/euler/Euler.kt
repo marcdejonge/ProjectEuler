@@ -12,12 +12,7 @@ import java.math.*
 import kotlin.reflect.*
 import euler.numberic.Number as AsciiNumber
 
-private var debugIsEnabled = false
-fun debug(lineProducer: () -> String) {
-    if (debugIsEnabled) {
-        println(lineProducer())
-    }
-}
+
 
 fun main(args: Array<String>) {
     if (args.isEmpty()) {
@@ -32,7 +27,7 @@ fun main(args: Array<String>) {
     } else {
         try {
             val problemNumber = if (args[0][0] == 'd') {
-                debugIsEnabled = true
+                enableDebugMode()
                 args[0].substring(1).toInt()
             } else {
                 args[0].toInt()
@@ -242,6 +237,7 @@ val problems = listOf(
         ProblemDesc(143, ::problem143, 30_758_397),
         ProblemDesc(144, Problem144()::solve, 354),
         ProblemDesc(145, Problem145()::solve, 608_720),
+        ProblemDesc(146, ::problem146, 676_333_270L),
         ProblemDesc(160, Problem160()::solve, 16_576),
         ProblemDesc(162, Problem162()::solve, BigInteger.valueOf(0x3D58725572C62302)),
         ProblemDesc(164, Problem164()::solve, 378_158_756_814_587),
