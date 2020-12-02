@@ -6,14 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import euler.IntegerProblem;
-import euler.Pair;
+import euler.JavaPair;
 import euler.cards.Card;
 import euler.cards.Hand;
 import euler.input.FileUtils;
 
 public class Problem054 extends IntegerProblem {
-    private List<Pair<Hand, Hand>> readHands() throws IOException {
-        final List<Pair<Hand, Hand>> result = new ArrayList<Pair<Hand, Hand>>();
+    private List<JavaPair<Hand, Hand>> readHands() throws IOException {
+        final List<JavaPair<Hand, Hand>> result = new ArrayList<JavaPair<Hand, Hand>>();
 
         try (final BufferedReader reader = FileUtils.readInput(this)) {
             String line = null;
@@ -29,7 +29,7 @@ public class Problem054 extends IntegerProblem {
                                                 new Card(line.charAt(21), line.charAt(22)),
                                                 new Card(line.charAt(24), line.charAt(25)),
                                                 new Card(line.charAt(27), line.charAt(28)));
-                    result.add(Pair.from(left, right));
+                    result.add(JavaPair.from(left, right));
                 }
             }
         }
@@ -39,10 +39,10 @@ public class Problem054 extends IntegerProblem {
 
     @Override
     public long solve() throws IOException {
-        final List<Pair<Hand, Hand>> hands = readHands();
+        final List<JavaPair<Hand, Hand>> hands = readHands();
 
         int total = 0;
-        for (final Pair<Hand, Hand> hand : hands) {
+        for (final JavaPair<Hand, Hand> hand : hands) {
             if (hand.getFirst().compareTo(hand.getSecond()) > 0) {
                 total++;
             }

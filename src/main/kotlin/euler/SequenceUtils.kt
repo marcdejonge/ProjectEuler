@@ -11,6 +11,8 @@ val Sequence<*>.length: Long
         return count
     }
 
+fun <T1, T2> Iterable<T1>.combine(other: Iterable<T2>): Sequence<Pair<T1, T2>> = this.combine(other) { a, b -> a to b }
+
 inline fun <T1, T2, R> Iterable<T1>.combine(other: Iterable<T2>, crossinline combiner: (T1, T2) -> R): Sequence<R> =
         this.combine({ other }, combiner)
 

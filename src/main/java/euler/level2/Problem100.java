@@ -1,7 +1,7 @@
 package euler.level2;
 
 import euler.IntegerProblem;
-import euler.Pair;
+import euler.JavaPair;
 import euler.combination.PellSolver;
 
 public class Problem100 extends IntegerProblem {
@@ -12,7 +12,7 @@ public class Problem100 extends IntegerProblem {
     public long solve() {
         PellSolver ps = new PellSolver(8);
 
-        Pair<Long, Long> pair = null;
+        JavaPair<Long, Long> pair = null;
         long total = 0, nrBlueBalls = 0;
         while (total < MAX) {
             pair = ps.next();

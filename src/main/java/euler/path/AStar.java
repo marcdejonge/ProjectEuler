@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import euler.Pair;
+import euler.JavaPair;
 
 public class AStar implements ShortestPathSolver {
     public static interface Guide {
@@ -26,15 +26,15 @@ public class AStar implements ShortestPathSolver {
 
     @Override
     public List<Node> findShortestPath() {
-        final Map<Node, Pair<Node, Long>> closed = new HashMap<Node, Pair<Node, Long>>(100);
-        final Map<Node, Pair<Node, Long>> open = new HashMap<Node, Pair<Node, Long>>(100);
+        final Map<Node, JavaPair<Node, Long>> closed = new HashMap<Node, JavaPair<Node, Long>>(100);
+        final Map<Node, JavaPair<Node, Long>> open = new HashMap<Node, JavaPair<Node, Long>>(100);
 
-        open.put(start, Pair.from((Node) null, start.getValue() + guide.estimateDistanceToGoal(start)));
+        open.put(start, JavaPair.from((Node) null, start.getValue() + guide.estimateDistanceToGoal(start)));
 
         while (!open.isEmpty()) {
             long min = Long.MAX_VALUE;
             Node current = null, from = null;
-            for (final Entry<Node, Pair<Node, Long>> entry : open.entrySet()) {
+            for (final Entry<Node, JavaPair<Node, Long>> entry : open.entrySet()) {
                 if (entry.getValue().getSecond() < min) {
                     min = entry.getValue().getSecond();
                     current = entry.getKey();
@@ -44,7 +44,7 @@ public class AStar implements ShortestPathSolver {
 
             open.remove(current);
             final long distanceUntilNow = (from == null ? 0 : closed.get(from).getSecond()) + current.getValue();
-            closed.put(current, Pair.from(from, distanceUntilNow));
+            closed.put(current, JavaPair.from(from, distanceUntilNow));
 
             if (guide.isGoal(current)) {
                 return reconstruct(closed, current);
@@ -58,7 +58,7 @@ public class AStar implements ShortestPathSolver {
                 final long estimatedDistance = distanceUntilNow + neighbor.getValue() + guide.estimateDistanceToGoal(current);
                 if (!open.containsKey(neighbor) || estimatedDistance < open.get(neighbor).getSecond()) {
                     open.remove(neighbor);
-                    open.put(neighbor, Pair.from(current, estimatedDistance));
+                    open.put(neighbor, JavaPair.from(current, estimatedDistance));
                 }
             }
         }
@@ -66,11 +66,11 @@ public class AStar implements ShortestPathSolver {
         return null;
     }
 
-    private List<Node> reconstruct(Map<Node, Pair<Node, Long>> closed, Node current) {
+    private List<Node> reconstruct(Map<Node, JavaPair<Node, Long>> closed, Node current) {
         final List<Node> result = new LinkedList<Node>();
         while (current != null) {
             result.add(0, current);
-            final Pair<Node, Long> pair = closed.get(current);
+            final JavaPair<Node, Long> pair = closed.get(current);
             current = pair == null ? null : pair.getFirst();
         }
         return result;

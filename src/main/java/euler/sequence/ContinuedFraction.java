@@ -1,6 +1,6 @@
 package euler.sequence;
 
-import euler.Pair;
+import euler.JavaPair;
 import euler.numberic.Number;
 
 public class ContinuedFraction {
@@ -13,12 +13,12 @@ public class ContinuedFraction {
         length = 1;
     }
 
-    public Pair<Number, Number> get(int ix) {
+    public JavaPair<Number, Number> get(int ix) {
         length += ix - 1;
         return next();
     }
 
-    public Pair<Number, Number> next() {
+    public JavaPair<Number, Number> next() {
         Number num = Number.ZERO;
         Number den = Number.ONE;
         final long[] xs = new long[length];
@@ -36,6 +36,6 @@ public class ContinuedFraction {
         }
 
         length++;
-        return Pair.from(den, num);
+        return JavaPair.from(den, num);
     }
 }

@@ -14,3 +14,12 @@ fun findFile(problemIndex: Int): File {
     }
 }
 
+fun adventFile(year: Int, day: Int): File {
+    val filename = "input" + File.separator + "advent$year" + File.separator + "$day.txt"
+    val file = File(filename)
+    return if (file.exists() && file.canRead()) {
+        file
+    } else {
+        throw IOException("Can not read file [$filename]")
+    }
+}

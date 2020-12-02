@@ -1,11 +1,12 @@
 package euler
 
 import euler.sequence.*
+import java.util.concurrent.*
 
 fun problem143(): Long {
     val until = 120_000L
 
-    val sumsFound = hashSetOf<Long>()
+    val sumsFound = ConcurrentHashMap<Long, Boolean>().keySet(true)
     val pairLookup = hashMapOf<Long, MutableList<Long>>()
     val allPairs = hashSetOf<kotlin.Pair<Long, Long>>()
 

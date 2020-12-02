@@ -1,15 +1,15 @@
 package euler;
 
-public class Pair<T, V> {
-    public static <T, V> Pair<T, V> from(T first, V second) {
-        return new Pair<T, V>(first, second);
+public class JavaPair<T, V> {
+    public static <T, V> JavaPair<T, V> from(T first, V second) {
+        return new JavaPair<T, V>(first, second);
     }
 
     private final T first;
 
     private final V second;
 
-    public Pair(T first, V second) {
+    public JavaPair(T first, V second) {
         this.first = first;
         this.second = second;
     }
@@ -22,7 +22,7 @@ public class Pair<T, V> {
             return false;
         }
 
-        final Pair<?, ?> other = (Pair<?, ?>) obj;
+        final JavaPair<?, ?> other = (JavaPair<?, ?>) obj;
 
         if (first == null) {
             if (other.first != null) {

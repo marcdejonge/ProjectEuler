@@ -3,12 +3,12 @@ package euler.combination;
 import java.util.HashMap;
 import java.util.Map;
 
-import euler.Pair;
+import euler.JavaPair;
 
 public class BinaryCombinationsWithLimit {
     private final int totalLength, maxRun;
 
-    private final Map<Pair<Integer, Integer>, Long> solutions = new HashMap<Pair<Integer, Integer>, Long>();
+    private final Map<JavaPair<Integer, Integer>, Long> solutions = new HashMap<JavaPair<Integer, Integer>, Long>();
 
     public BinaryCombinationsWithLimit(int totalLength, int maxRun) {
         this.totalLength = totalLength;
@@ -23,7 +23,7 @@ public class BinaryCombinationsWithLimit {
         if (depth == totalLength) {
             return nrReds == 0 || nrReds >= maxRun ? 1 : 0;
         } else {
-            Pair<Integer, Integer> key = Pair.from(nrReds, depth);
+            JavaPair<Integer, Integer> key = JavaPair.from(nrReds, depth);
             if (solutions.containsKey(key)) {
                 return solutions.get(key);
             } else {

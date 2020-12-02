@@ -58,7 +58,7 @@ data class ProblemDesc<T : Number>(
         val function: KFunction<T?>?,
         val solution: T? = null
 ) {
-    fun execute(): kotlin.Pair<ProblemResult, Long> {
+    fun execute(): Pair<ProblemResult, Long> {
         if (function == null) {
             return ProblemResult.NotFound to 0L
         }

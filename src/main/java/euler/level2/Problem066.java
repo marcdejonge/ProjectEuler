@@ -1,7 +1,7 @@
 package euler.level2;
 
 import euler.IntegerProblem;
-import euler.Pair;
+import euler.JavaPair;
 import euler.numberic.Number;
 import euler.sequence.ContinuedFraction;
 import euler.sequence.SquareDigits;
@@ -20,7 +20,7 @@ public class Problem066 extends IntegerProblem {
                 final Number _d = Number.valueOf(d);
                 final ContinuedFraction est = new ContinuedFraction(new SquareDigits(d));
 
-                Pair<Number, Number> pair = est.next();
+                JavaPair<Number, Number> pair = est.next();
                 while (true) {
                     final Number diff = pair.getFirst().pow(2).subtract(_d.multiply(pair.getSecond().pow(2)));
                     if (diff.equals(Number.ONE)) {

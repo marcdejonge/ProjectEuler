@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import euler.IntegerProblem;
-import euler.Pair;
+import euler.JavaPair;
 import euler.SolutionNotFoundException;
 import euler.sequence.HeptagonalNumbers;
 import euler.sequence.HexagonalNumbers;
@@ -22,17 +22,17 @@ public class Problem061 extends IntegerProblem {
     private static final int MIN = 1000;
     private static final int MAX = 10000;
 
-    private List<Pair<Integer, SimpleSequence>> calcNrs(SimpleSequence seq) {
-        final List<Pair<Integer, SimpleSequence>> result = new ArrayList<Pair<Integer, SimpleSequence>>();
+    private List<JavaPair<Integer, SimpleSequence>> calcNrs(SimpleSequence seq) {
+        final List<JavaPair<Integer, SimpleSequence>> result = new ArrayList<JavaPair<Integer, SimpleSequence>>();
         for (int nr = (int) seq.next(); nr < MAX; nr = (int) seq.next()) {
             if (nr > MIN && nr % 100 >= 10) {
-                result.add(Pair.from(nr, seq));
+                result.add(JavaPair.from(nr, seq));
             }
         }
         return result;
     }
 
-    private boolean find(final List<Pair<Integer, SimpleSequence>> nrs,
+    private boolean find(final List<JavaPair<Integer, SimpleSequence>> nrs,
                          int left,
                          int first,
                          int previous,
@@ -41,7 +41,7 @@ public class Problem061 extends IntegerProblem {
             final int min = previous <= 0 ? 0 : previous % 100 * 100;
             final int max = previous <= 0 ? Integer.MAX_VALUE : min + 100;
 
-            for (final Pair<Integer, SimpleSequence> nr : nrs) {
+            for (final JavaPair<Integer, SimpleSequence> nr : nrs) {
                 final int n = nr.getFirst();
                 if (n >= max) {
                     return false;
@@ -62,7 +62,7 @@ public class Problem061 extends IntegerProblem {
 
     @Override
     public long solve() throws SolutionNotFoundException {
-        final List<Pair<Integer, SimpleSequence>> nrs = new ArrayList<Pair<Integer, SimpleSequence>>();
+        final List<JavaPair<Integer, SimpleSequence>> nrs = new ArrayList<JavaPair<Integer, SimpleSequence>>();
         for (final SimpleSequence seq : new SimpleSequence[] { new TriangleNumbers(),
                                                               new SquareNumbers(),
                                                               new PentagonalNumbers(),
@@ -71,9 +71,9 @@ public class Problem061 extends IntegerProblem {
                                                               new OctagonelNumbers() }) {
             nrs.addAll(calcNrs(seq));
         }
-        Collections.sort(nrs, new Comparator<Pair<Integer, SimpleSequence>>() {
+        Collections.sort(nrs, new Comparator<JavaPair<Integer, SimpleSequence>>() {
             @Override
-            public int compare(Pair<Integer, SimpleSequence> o1, Pair<Integer, SimpleSequence> o2) {
+            public int compare(JavaPair<Integer, SimpleSequence> o1, JavaPair<Integer, SimpleSequence> o2) {
                 return o1.getFirst() - o2.getFirst();
             }
         });

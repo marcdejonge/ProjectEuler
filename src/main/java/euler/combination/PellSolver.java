@@ -4,7 +4,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
-import euler.Pair;
+import euler.JavaPair;
 
 public class PellSolver {
     private static final BigInteger MAX = BigInteger.valueOf(Long.MAX_VALUE);
@@ -12,7 +12,7 @@ public class PellSolver {
     public static void main(String[] args) {
         PellSolver ps = new PellSolver(2);
 
-        Pair<Long, Long> solution = ps.next();
+        JavaPair<Long, Long> solution = ps.next();
         while (solution != null) {
             System.out.println(solution);
             solution = ps.next();
@@ -23,14 +23,14 @@ public class PellSolver {
 
     private int position;
 
-    private final List<Pair<Long, Long>> solutions;
+    private final List<JavaPair<Long, Long>> solutions;
 
     public PellSolver(int n) {
         this.n = n;
-        solutions = new ArrayList<Pair<Long, Long>>();
+        solutions = new ArrayList<JavaPair<Long, Long>>();
     }
 
-    private Pair<Long, Long> combine(long x1, long y1, long x2, long y2) {
+    private JavaPair<Long, Long> combine(long x1, long y1, long x2, long y2) {
         BigInteger bx1 = BigInteger.valueOf(x1);
         BigInteger by1 = BigInteger.valueOf(y1);
         BigInteger bx2 = BigInteger.valueOf(x2);
@@ -41,14 +41,14 @@ public class PellSolver {
         if (x.compareTo(MAX) > 0 && y.compareTo(MAX) > 0) {
             return null;
         }
-        return new Pair<Long, Long>(x.longValue(), y.longValue());
+        return new JavaPair<Long, Long>(x.longValue(), y.longValue());
     }
 
     public int getN() {
         return n;
     }
 
-    public Pair<Long, Long> next() {
+    public JavaPair<Long, Long> next() {
         if (position >= solutions.size()) {
             // Create new solutions
             if (solutions.size() == 0) {
@@ -61,7 +61,7 @@ public class PellSolver {
                     for (int jx = ix; jx < nrGenerated; jx++) {
                         long x2 = solutions.get(jx).getFirst();
                         long y2 = solutions.get(jx).getSecond();
-                        Pair<Long, Long> newSolution = combine(x1, y1, x2, y2);
+                        JavaPair<Long, Long> newSolution = combine(x1, y1, x2, y2);
                         if (newSolution != null && !solutions.contains(newSolution)) {
                             solutions.add(newSolution);
                         }
@@ -77,9 +77,9 @@ public class PellSolver {
     }
 
     // For solving, see http://en.wikipedia.org/wiki/Pell's_equation
-    private Pair<Long, Long> solve(long a, long b, long k) {
+    private JavaPair<Long, Long> solve(long a, long b, long k) {
         if (k == 1) {
-            return new Pair<Long, Long>(a, b);
+            return new JavaPair<Long, Long>(a, b);
         } else if (k == -1) {
             return combine(a, b, a, b);
         } else {
