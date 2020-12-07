@@ -136,6 +136,10 @@ public class BitSet implements Cloneable, Iterable<Integer> {
         return true;
     }
 
+    public boolean get(int index) {
+        return isSet(index);
+    }
+
     public boolean isSet(int index) {
         if (index < 0 || index >= length) {
             return false;

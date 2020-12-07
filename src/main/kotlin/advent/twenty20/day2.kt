@@ -1,26 +1,22 @@
 package advent.twenty20
 
-import euler.*
-import java.util.*
+fun main() = Day2().execute()
 
-fun main() {
-    val lines = adventFile(2020, 2).readLines().map(::parseLine)
-    println(lines.count { (spec, password) -> spec.isValid1(password) })
-    println(lines.count { (spec, password) -> spec.isValid2(password) })
+class Day2 : Advent(2020, 2) {
+    private val passwords = parseLines(" -:") {
+        PasswordSpec(nextToken().toInt(), nextToken().toInt(), nextToken().first(), nextToken())
+    }
+
+    override fun part1() = passwords.count(PasswordSpec::isValid1)
+    override fun part2() = passwords.count(PasswordSpec::isValid2)
 }
-
-private fun parseLine(line: String): Pair<PasswordSpec, String> =
-        with(StringTokenizer(line, " -:")) {
-            PasswordSpec(nextToken().toInt(), nextToken().toInt(), nextToken().first()) to nextToken()
-        }
 
 data class PasswordSpec(
         val a: Int,
         val b: Int,
-        val c: Char
+        val c: Char,
+        val password: String
 ) {
-    fun isValid1(password: String) = password.count { it == c } in a..b
-
-    fun isValid2(password: String) =
-            (password.getOrNull(a - 1) == c) xor (password.getOrNull(b - 1) == c)
+    val isValid1 get() = password.count { it == c } in a..b
+    val isValid2 get() = (password.getOrNull(a - 1) == c) xor (password.getOrNull(b - 1) == c)
 }

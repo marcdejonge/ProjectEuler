@@ -1,16 +1,13 @@
 package advent.twenty20
 
-import euler.*
-import java.lang.Integer.*
+fun main() = Day1().execute()
 
-const val SUM = 2020
+class Day1 : Advent(2020, 1) {
+    val nrs = parseLines(Integer::parseInt).toSortedSet()
 
-fun main() {
-    val nrs = adventFile(2020, 1).readLines().map(::parseInt).toSortedSet()
+    override fun part1() = nrs.first { nrs.contains(year - it) }.let { it * (year - it) }
 
-    nrs.first { nrs.contains(SUM - it) }.let { println(it * (SUM - it)) }
-
-    nrs.combine(nrs).first { (x, y) -> nrs.contains(SUM - x - y) }.let { (x, y) ->
-        println(x * y * (SUM - x - y))
-    }
+    override fun part2() = nrs.flatMap { x -> nrs.map { y -> x to y } }
+            .first { (x, y) -> nrs.contains(year - x - y) }
+            .let { (x, y) -> x * y * (year - x - y) }
 }
